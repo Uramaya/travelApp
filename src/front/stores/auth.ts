@@ -1,15 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { InitialState } from "@/types"
 
-type initialState = {
-    value: AuthState;
-}
-
-type AuthState = {
-    isAuth: boolean
-    username: string
-    uid: string
-}
-const initialState: initialState = {
+const initialState: InitialState = {
     value: {
         isAuth: false,
         username: "",
@@ -21,10 +13,10 @@ export const auth = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logOut: ():initialState => {
+        logOut: ():InitialState => {
             return initialState;
         },
-        logIn: (state, action: PayloadAction<string>): initialState => {
+        logIn: (state, action: PayloadAction<string>): InitialState => {
             return {
                 value: {
                     isAuth: true,

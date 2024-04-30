@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReducer from './auth/auth'
+import authReducer from '@/stores/auth'
+import entitiesReducer from '@/stores/entities'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
 
 export const store = configureStore({
     reducer: {
-        authReducer
+        authReducer,
+        entitiesReducer
     }
 })
 

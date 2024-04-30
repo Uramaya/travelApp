@@ -1,5 +1,5 @@
 "use client"
-import Login from "@/features/page/Login/components/Login"
+import Login from "@/features/page/Login/Login"
 
 const LoginPage = () => {
     return (
