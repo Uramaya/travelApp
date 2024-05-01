@@ -19,7 +19,7 @@ const Login = () => {
     return (
         <>
             {/* Ths is an example code */}
-            <div>login page</div>
+            <div>my page page</div>
             <input type="text" onChange={(e) => setUsername(e.target.value)}/>
             <Button onClick={onClickLogIn}>Log in </Button>
             <Button onClick={onClickLogOut}>Log out </Button>

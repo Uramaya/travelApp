@@ -35,7 +35,7 @@ const Entities = () => {
   return (
     <div>
       <h1>Entity List</h1>
-      {entities.map((entity) => (
+      {entities.map((entity: Entity) => (
         <div key={entity.id}>
           <span>{entity.name}</span>
           <button onClick={() => handleUpdateEntity(entity.id, entity.name)}>Update</button>
