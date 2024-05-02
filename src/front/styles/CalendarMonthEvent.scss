@@ -10,6 +10,7 @@ $CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     background-color: $CALENDAR_MONTH_EVENT_BG_COLOR;
     box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
     padding: 0;
+    border-radius: 10px;
     &:hover {
         background-color: $CALENDAR_MONTH_EVENT_HOVER_BG_COLOR;
         cursor: pointer;
