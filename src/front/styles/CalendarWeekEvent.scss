@@ -1,22 +1,22 @@
 // variables------------------
-$CALENDAR_MONTH_EVENT_BG_COLOR: #E9F5F5;
-$CALENDAR_MONTH_EVENT_FONT_COLOR: #39635E;
-$CALENDAR_MONTH_EVENT_HOVER_BG_COLOR: #d4f0f0;
-$CALENDAR_MONTH_EVENT_ICON_WRAPPER_COLOR: #FFFFFF;
-$CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_COLOR: #D84949;
-$CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
+$CALENDAR_WEEK_EVENT_BG_COLOR: #E9F5F5;
+$CALENDAR_WEEK_EVENT_FONT_COLOR: #39635E;
+$CALENDAR_WEEK_EVENT_HOVER_BG_COLOR: #d4f0f0;
+$CALENDAR_WEEK_EVENT_ICON_WRAPPER_COLOR: #FFFFFF;
+$CALENDAR_WEEK_EVENT_ICON_LOCATION_PIN_COLOR: #D84949;
+$CALENDAR_WEEK_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
 // ---------------------------
 .rbc-event, .rbc-day-slot .rbc-background-event {
-    background-color: $CALENDAR_MONTH_EVENT_BG_COLOR;
+    background-color: $CALENDAR_WEEK_EVENT_BG_COLOR;
     box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
     padding: 0;
     border-radius: 10px;
     &:hover {
-        background-color: $CALENDAR_MONTH_EVENT_HOVER_BG_COLOR;
+        background-color: $CALENDAR_WEEK_EVENT_HOVER_BG_COLOR;
         cursor: pointer;
     }
 }
-.calendar-month-event {
+.calendar-week-event {
     display: flex;
     align-items: center;
     width: 100%;
@@ -24,12 +24,12 @@ $CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
         display: flex;
         border-radius: 6px;
         padding: 1px;
-        color: $CALENDAR_MONTH_EVENT_FONT_COLOR;
+        color: $CALENDAR_WEEK_EVENT_FONT_COLOR;
         align-items: center;
         width: 100%;
     }
     & .icon-wrapper {
-        background: $CALENDAR_MONTH_EVENT_ICON_WRAPPER_COLOR;
+        background: $CALENDAR_WEEK_EVENT_ICON_WRAPPER_COLOR;
         border-radius: 100%;
         width: 22px;
         height: 22px;
@@ -62,7 +62,7 @@ $CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     }
 
     & .icon-location-pin {
-        color: $CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_COLOR;
+        color: $CALENDAR_WEEK_EVENT_ICON_LOCATION_PIN_COLOR;
         width: 24px;
         height: 24px;
         position: relative;
@@ -84,7 +84,7 @@ $CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     & .event-number {
         font-size: 12px;
         z-index: 200;
-        color: $CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_FONT_COLOR;
+        color: $CALENDAR_WEEK_EVENT_ICON_LOCATION_PIN_FONT_COLOR;
         font-weight: 500;
         position: relative;
         bottom: 1px;
@@ -103,6 +103,20 @@ $CALENDAR_MONTH_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
             font-size: 7px;
         } 
     }
+}
+
+.rbc-day-slot .rbc-event-label {
+    color: $CALENDAR_WEEK_EVENT_FONT_COLOR;
+    font-weight: 500;
+    display: none;
+}
+
+.rbc-day-slot .rbc-event, .rbc-day-slot .rbc-background-event {
+    border: 0;
+}
+
+.rbc-day-slot .rbc-event-content {
+    padding: 2px 3px;
 }
 // PC-------------------------
 // ---------------------------

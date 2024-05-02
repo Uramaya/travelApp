@@ -1,6 +1,6 @@
 'use client'
 import { useMemo, useCallback, useEffect, useState } from 'react'
-import { Calendar as BigCalendar, momentLocalizer, EventProps, Views, SlotInfo } from 'react-big-calendar'
+import { Calendar as BigCalendar, momentLocalizer, EventProps, Views, SlotInfo, Navigate } from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
@@ -11,6 +11,7 @@ import '@/styles/Calendar.scss'
 
 import { CalendarView, EventInfo } from '@/types'
 
+import CalendarToolBar from '@/components/common/CalendarToolBar'
 import CalendarEvent from '@/components/common/CalendarEvent'
 import CalendarDayHeader from '@/components/common/CalendarDayHeader'
 import CalendarDayEvent from '@/components/common/CalendarDayEvent'
@@ -30,6 +31,27 @@ const Calendar = () => {
     // event: ({ event }: EventProps<EventInfo>) => {
     //   return <CalendarEvent eventInfo={event} />
     // },
+    toolbar: ({ date, label, view }: { date: Date, label: string, view: CalendarView, onNavigate: void }) => {
+      // click today button
+      const onTodayClick = () => {
+        if (view === Views.DAY) onNavigate(new Date())
+      }
+
+      // click next button
+      const onNextClick = () => {
+        if (view === Views.DAY) onNavigate(moment(date).add(1, 'd').toDate())
+        if (view === Views.WEEK) onNavigate(moment(date).add(1, 'w').toDate())
+        if (view === Views.MONTH) onNavigate(moment(date).add(1, 'M').toDate())
+      }
+
+      // click prev button
+      const onPrevClick = () => {
+        if (view === Views.DAY) setDate(moment(date).subtract(1, 'd').toDate())
+        if (view === Views.WEEK) setDate(moment(date).subtract(1, 'w').toDate())
+        if (view === Views.MONTH) setDate(moment(date).subtract(1, 'M').toDate())
+      }
+      return <CalendarToolBar date={date} label={label} view={view} onNextClick={onNextClick} onPrevClick={onPrevClick} />
+    },
     day: {
       header: ({ event }: EventProps<EventInfo>) => {
         return <CalendarDayHeader eventInfo={event} />
@@ -39,7 +61,7 @@ const Calendar = () => {
       },
     },
     week: {
-      header: ({ date }: { date: Date}) => {
+      header: ({ date }: { date: Date }) => {
         console.log('week date', date)
         return <CalendarWeekHeader date={date} />
       },
@@ -86,41 +108,21 @@ const Calendar = () => {
   // when select the event, toggle the popup
   const onSelectEvent = useCallback((eventInfo: EventInfo) => {
     const id = eventInfo.id
-    if(typeof id !== 'number') return
+    if (typeof id !== 'number') return
     const changeEvents = events.map((event) => {
-      if(event.id === id) {
+      if (event.id === id) {
         return {
-          ... event,
+          ...event,
           isShowPopup: !event.isShowPopup
         }
-      }else return event
+      } else return event
     })
     setEvents(changeEvents)
   }, [events])
 
-  // click today button
-  const onTodayClick = useCallback(() => {
-    if (view === Views.DAY) setDate(new Date())
-  }, [view])
-
-  // click next button
-  const onNextClick = useCallback(() => {
-    if (view === Views.DAY) setDate(moment(date).add(1, 'd').toDate())
-    if (view === Views.WEEK) setDate(moment(date).add(1, 'w').toDate())
-    if (view === Views.MONTH) setDate(moment(date).add(1, 'M').toDate())
-  }, [view, date])
-
-  // click prev button
-  const onPrevClick = useCallback(() => {
-    if (view === Views.DAY) setDate(moment(date).subtract(1, 'd').toDate())
-    if (view === Views.WEEK) setDate(moment(date).subtract(1, 'w').toDate())
-    if (view === Views.MONTH) setDate(moment(date).subtract(1, 'M').toDate())
-  }, [view, date])
-
 
   return (
     <>
-      <div>Calendar</div>
       <BigCalendar
         localizer={localizer}
         date={date}

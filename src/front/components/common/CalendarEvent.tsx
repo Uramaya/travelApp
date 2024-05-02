@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react'
 
-import Popover from '@mui/material/Popover';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Popover from '@mui/material/Popover'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 
 import '@/styles/CalendarEvent.scss'
 
