@@ -5,7 +5,9 @@ import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 
-import { VIEW_OPTIONS } from '@/const'
+import { VIEW_OPTIONS, TEST_EVENTS } from '@/const'
+
+import '@/styles/Calendar.scss'
 
 import { CalendarView, EventInfo } from '@/types'
 
@@ -21,66 +23,13 @@ import CalendarMonthEvent from '@/components/common/CalendarMonthEvent'
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
 const localizer = momentLocalizer(moment)
-// test event sample --------------------
-const events: EventInfo[] = [
-  {
-    title: 'Long Event',
-    start: new Date(),
-    end: new Date(),
-    allDay: true,
-    isShowPopup: false,
-  },
-  {
-    title: 'Long Event2',
-    start: new Date(),
-    end: new Date(),
-    allDay: true,
-    isShowPopup: false,
-  },
-  {
-    title: 'Long Event2',
-    start: new Date(),
-    end: new Date(),
-    allDay: true,
-    isShowPopup: false,
-  },
-  {
-    title: 'Long Event2',
-    start: new Date(),
-    end: new Date(),
-    allDay: true,
-    isShowPopup: false,
-  },
-  {
-    title: 'Long Event2',
-    start: new Date(),
-    end: new Date(),
-    allDay: true,
-    isShowPopup: false,
-  },
-  {
-    title: 'Long Event3',
-    start: new Date('2 May 2024 00:00:00 +0900'), // UTCの2019/5/28 0時0分
-    end: new Date('2 May 2024 10:00:00 +0900'),
-    isShowPopup: false,
-  },
-]
-// --------------------------------------
-
-const eventInfo =
-{
-  title: 'Long Event3',
-  start: new Date('2 May 2024 00:00:00 +0900'), // UTCの2019/5/28 0時0分
-  end: new Date('2 May 2024 10:00:00 +0900'),
-  isShowPopup: false,
-}
 
 const Calendar = () => {
   // customize event component
   const components = useMemo(() => ({
-    event: ({ event }: EventProps<EventInfo>) => {
-      return <CalendarEvent eventInfo={event} />
-    },
+    // event: ({ event }: EventProps<EventInfo>) => {
+    //   return <CalendarEvent eventInfo={event} />
+    // },
     day: {
       header: ({ event }: EventProps<EventInfo>) => {
         return <CalendarDayHeader eventInfo={event} />
@@ -90,20 +39,21 @@ const Calendar = () => {
       },
     },
     week: {
-      header: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarWeekHeader eventInfo={event} />
+      header: ({ date }: { date: Date}) => {
+        console.log('week date', date)
+        return <CalendarWeekHeader date={date} />
       },
       event: ({ event }: EventProps<EventInfo>) => {
         return <CalendarWeekEvent eventInfo={event} />
       },
     },
     month: {
-      header: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarMonthHeader eventInfo={event} />
-      },
-      dateHeader: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarMonthDateHeader eventInfo={event} />
-      },
+      // header: ({ event }: EventProps<EventInfo>) => {
+      //   return <CalendarMonthHeader eventInfo={event} />
+      // },
+      // dateHeader: ({ event }: EventProps<EventInfo>) => {
+      //   return <CalendarMonthDateHeader eventInfo={event} />
+      // },
       event: ({ event }: EventProps<EventInfo>) => {
         return <CalendarMonthEvent eventInfo={event} />
       },
@@ -112,6 +62,7 @@ const Calendar = () => {
 
   const [date, setDate] = useState(new Date())
   const [view, setView] = useState(Views.MONTH as CalendarView)
+  const [events, setEvents] = useState(TEST_EVENTS)
 
   const onNavigate = useCallback((newDate: Date) => setDate(newDate), [setDate])
   const onView = useCallback((newView: CalendarView) => setView(newView), [setView])
@@ -131,10 +82,21 @@ const Calendar = () => {
     // }
   }
 
-  // select event
-  const onSelectEvent = (eventInfo: EventInfo) => {
-    console.log('onSelectEvent eventInfo', eventInfo)
-  }
+  // select calendar event
+  // when select the event, toggle the popup
+  const onSelectEvent = useCallback((eventInfo: EventInfo) => {
+    const id = eventInfo.id
+    if(typeof id !== 'number') return
+    const changeEvents = events.map((event) => {
+      if(event.id === id) {
+        return {
+          ... event,
+          isShowPopup: !event.isShowPopup
+        }
+      }else return event
+    })
+    setEvents(changeEvents)
+  }, [events])
 
   // click today button
   const onTodayClick = useCallback(() => {
@@ -170,11 +132,12 @@ const Calendar = () => {
         defaultView={Views.MONTH}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: '500px' }}
+        style={{ height: '90vh' }}
         toolbar={true}
         selectable
         onSelectSlot={onSelectSlot}
         onSelectEvent={onSelectEvent}
+        showAllEvents
       />
     </>
   )
