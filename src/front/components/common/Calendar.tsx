@@ -5,11 +5,12 @@ import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 
-import { VIEW_OPTIONS, TEST_EVENTS } from '@/const'
+import { VIEW_OPTIONS, TEST_EVENTS, INIT_CALENDAR } from '@/const'
+// import uerCalendar from '@/hooks/calendarHook'
 
 import '@/styles/Calendar.scss'
 
-import { CalendarView, EventInfo } from '@/types'
+import { CalendarView, EventInfo, CalendarProps } from '@/types'
 
 import CalendarToolBar from '@/components/common/CalendarToolBar'
 import CalendarEvent from '@/components/common/CalendarEvent'
@@ -25,33 +26,23 @@ import CalendarMonthEvent from '@/components/common/CalendarMonthEvent'
 // to the correct localizer.
 const localizer = momentLocalizer(moment)
 
-const Calendar = () => {
+const Calendar = ({
+    date,
+    view,
+    events,
+    height,
+    width,
+    setDate,
+    setView,
+    onNavigate,
+    onView,
+    onTodayClick,
+    onNextClick,
+    onPrevClick
+}: CalendarProps) => {
+
   // customize event component
   const components = useMemo(() => ({
-    // event: ({ event }: EventProps<EventInfo>) => {
-    //   return <CalendarEvent eventInfo={event} />
-    // },
-    toolbar: ({ date, label, view }: { date: Date, label: string, view: CalendarView, onNavigate: void }) => {
-      // click today button
-      const onTodayClick = () => {
-        if (view === Views.DAY) onNavigate(new Date())
-      }
-
-      // click next button
-      const onNextClick = () => {
-        if (view === Views.DAY) onNavigate(moment(date).add(1, 'd').toDate())
-        if (view === Views.WEEK) onNavigate(moment(date).add(1, 'w').toDate())
-        if (view === Views.MONTH) onNavigate(moment(date).add(1, 'M').toDate())
-      }
-
-      // click prev button
-      const onPrevClick = () => {
-        if (view === Views.DAY) setDate(moment(date).subtract(1, 'd').toDate())
-        if (view === Views.WEEK) setDate(moment(date).subtract(1, 'w').toDate())
-        if (view === Views.MONTH) setDate(moment(date).subtract(1, 'M').toDate())
-      }
-      return <CalendarToolBar date={date} label={label} view={view} onNextClick={onNextClick} onPrevClick={onPrevClick} />
-    },
     day: {
       header: ({ event }: EventProps<EventInfo>) => {
         return <CalendarDayHeader eventInfo={event} />
@@ -70,24 +61,11 @@ const Calendar = () => {
       },
     },
     month: {
-      // header: ({ event }: EventProps<EventInfo>) => {
-      //   return <CalendarMonthHeader eventInfo={event} />
-      // },
-      // dateHeader: ({ event }: EventProps<EventInfo>) => {
-      //   return <CalendarMonthDateHeader eventInfo={event} />
-      // },
       event: ({ event }: EventProps<EventInfo>) => {
         return <CalendarMonthEvent eventInfo={event} />
       },
     }
   }), [])
-
-  const [date, setDate] = useState(new Date())
-  const [view, setView] = useState(Views.MONTH as CalendarView)
-  const [events, setEvents] = useState(TEST_EVENTS)
-
-  const onNavigate = useCallback((newDate: Date) => setDate(newDate), [setDate])
-  const onView = useCallback((newView: CalendarView) => setView(newView), [setView])
 
   // select calendar slot(cell)
   const onSelectSlot = (eventInfo: SlotInfo) => {
@@ -107,22 +85,19 @@ const Calendar = () => {
   // select calendar event
   // when select the event, toggle the popup
   const onSelectEvent = useCallback((eventInfo: EventInfo) => {
-    const id = eventInfo.id
-    if (typeof id !== 'number') return
-    const changeEvents = events.map((event) => {
-      if (event.id === id) {
-        return {
-          ...event,
-          isShowPopup: !event.isShowPopup
-        }
-      } else return event
-    })
-    setEvents(changeEvents)
-  }, [events])
+  }, [])
 
 
   return (
     <>
+      <CalendarToolBar
+        date={date}
+        view={view}
+        onNextClick={onNextClick}
+        onPrevClick={onPrevClick}
+        style={{ width: width }}
+      />
+
       <BigCalendar
         localizer={localizer}
         date={date}
@@ -134,8 +109,8 @@ const Calendar = () => {
         defaultView={Views.MONTH}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: '90vh' }}
-        toolbar={true}
+        style={{ height: height, width: width }}
+        toolbar={false}
         selectable
         onSelectSlot={onSelectSlot}
         onSelectEvent={onSelectEvent}

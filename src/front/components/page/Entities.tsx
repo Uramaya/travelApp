@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, useAppSelector } from "@/stores/store"
 import { setEntities, addEntity, updateEntity, deleteEntity } from "@/stores/entities";
-import { getEntities, createEntity, updateEntityById, deleteEntityById } from "@/hooks/entities";
+import { getEntities, createEntity, updateEntityById, deleteEntityById } from "@/app/api/entities";
 import { Entity } from '@/types'
 
 // This is the sample code

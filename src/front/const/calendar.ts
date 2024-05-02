@@ -4,3 +4,8 @@ export const VIEW_OPTIONS = [
     { id: Views.WEEK },
     { id: Views.DAY },
 ]
+
+export const INIT_CALENDAR = {
+    date: new Date(),
+    view: Views.MONTH,
+}
