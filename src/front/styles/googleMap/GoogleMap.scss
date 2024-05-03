@@ -1,0 +1,17 @@
+.google-map-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-left: 10px;
+}
+
+.google-map {
+    background-color: #F6F5F5;
+    border-radius: 16px;
+    height: 92%;
+    min-width: 300px;
+    p {
+        color: #d2d2d2;
+    }
+}

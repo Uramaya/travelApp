@@ -1,0 +1,118 @@
+// variables------------------
+$CALENDAR_BORDER_COLOR: #e8e8e8;
+$CALENDAR_MONTH_HEADER_COLOR: #777777;
+$TODAY_BG_COLOR: #fcfefe;
+$OFF_RANGE_BG_COLOR: #F6F5F5;
+$TIME_GUTTER_FONT_COLOR: #777777;
+// ---------------------------
+
+
+// month calendar-------------
+.rbc-month-view {
+    border: 1px solid $CALENDAR_BORDER_COLOR;
+    border-radius: 10px;
+}
+
+.rbc-month-header {
+    border-bottom: 1px solid $CALENDAR_BORDER_COLOR;
+}
+
+.rbc-header + .rbc-header {
+    border-left: 0;
+}
+
+.rbc-header {
+    color: $CALENDAR_MONTH_HEADER_COLOR;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 14px;
+}
+
+.rbc-button-link {
+    font-weight: 600;
+}
+
+.rbc-today {
+    background-color: $TODAY_BG_COLOR;
+}
+
+.rbc-off-range-bg {
+    background-color: $OFF_RANGE_BG_COLOR;
+}
+
+.rbc-time-view {
+    border: 0;
+}
+
+.rbc-time-header.rbc-overflowing {
+    border-right: 1px solid transparent;
+}
+
+.rbc-time-header-content {
+    border-left: 1px solid transparent;
+}
+
+.rbc-header {
+    border: 0;
+}
+
+.rbc-time-content > * + * > * {
+    border-left: 1px solid $CALENDAR_BORDER_COLOR;
+}
+.rbc-timeslot-group {
+    border-bottom: 1px solid $CALENDAR_BORDER_COLOR;
+}
+
+.rbc-time-content {
+    border-top: 0;
+}
+
+.rbc-day-bg + .rbc-day-bg {
+    border-left: 1px solid $CALENDAR_BORDER_COLOR;
+}
+
+.rbc-label {
+    color: $TIME_GUTTER_FONT_COLOR;
+    font-size: 12px;
+    width: 63.55px !important;
+    min-width: 63.55px !important;
+    position: relative;
+    bottom: 5px;
+}
+
+.rbc-time-gutter .rbc-timeslot-group {
+    border: 0 !important;
+    & .rbc-time-slot {
+        border: 0 !important;
+    }
+}
+
+.rbc-events-container {
+    border-top: 1px solid $CALENDAR_BORDER_COLOR;
+}
+
+.rbc-day-slot .rbc-events-container {
+    margin-right: 0px !important;
+}
+
+.rbc-time-view .rbc-row {
+    min-height: auto;
+}
+
+.rbc-row:hover, .rbc-row-content-scrollable .rbc-row-content-scroll-container:hover {
+    cursor: pointer;
+}
+
+.rbc-row-segment {
+    padding: 4px;
+}
+
+.rbc-day-slot .rbc-event-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 5px;
+}
+
+// ---------------------------

@@ -1,0 +1,104 @@
+// variables------------------
+// ---------------------------
+.calendar-week-event {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    & .content {
+        display: flex;
+        border-radius: 6px;
+        padding: 1px;
+        align-items: center;
+        width: 100%;
+    }
+    & .icon-wrapper {
+        border-radius: 100%;
+        width: 22px;
+        height: 22px;
+        margin: 0 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 23px;
+        min-width: 23px;
+    }
+    & .icon {
+        font-size: 12px;
+    }
+    & .title {
+        font-size: 12px;
+        font-weight: 600;
+        padding-left: 4px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        flex-basis: calc(100% - 50px);
+        text-align: left;
+    }
+    & .icon-wrapper-location-pin {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        right: 15px;
+    }
+
+    & .icon-location-pin {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        &.none {
+            color: transparent;
+            left: 24px;
+        }
+        &.digit1 {
+            left: 24px;
+        }
+        &.digit2 {
+            left: 32px;
+        }
+        &.digit3 {
+            left: 30px;
+        } 
+    }
+
+    & .event-number {
+        font-size: 12px;
+        z-index: 200;
+        font-weight: 500;
+        position: relative;
+        bottom: 1px;
+        &.none {
+            left: 8.5px;
+            visibility: hidden;
+        }
+        &.digit1 {
+            left: 8.5px;
+        }
+        &.digit2 {
+            left: 12.5px;
+        }
+        &.digit3 {
+            left: 12px;
+            font-size: 7px;
+        } 
+    }
+}
+
+.rbc-day-slot .rbc-event-label {
+    font-weight: 500;
+    display: none;
+}
+
+.rbc-day-slot .rbc-event, .rbc-day-slot .rbc-background-event {
+    border: 0;
+}
+
+.rbc-day-slot .rbc-event-content {
+    padding: 2px 3px;
+}
+// PC-------------------------
+// ---------------------------
+
+// Smart Phone----------------
+// ---------------------------

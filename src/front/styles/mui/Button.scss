@@ -1,0 +1,28 @@
+// variables------------------
+$BUTTON_DEFAULT_BG_COLOR: #F6F5F5;
+$BUTTON_DEFAULT_BORDER_COLOR: #C8C8C8;
+$BUTTON_DEFAULT_FONT_COLOR: #676565;
+
+$BUTTON_PRIMARY_BG_COLOR: #E8FAFF;
+$BUTTON_PRIMARY_BORDER_COLOR: #69B6E5;
+$BUTTON_PRIMARY_FONT_COLOR: #3E9DD6;
+// ---------------------------
+
+
+// mui button customize------
+.mui-customize {
+    &.MuiButtonBase-root.MuiButton-root {
+        background-color: $BUTTON_DEFAULT_BG_COLOR;
+        border: 2px solid $BUTTON_DEFAULT_BORDER_COLOR;
+        border-radius: 20px;
+        box-shadow: none;
+        color: $BUTTON_DEFAULT_FONT_COLOR;
+        text-transform: none;
+        &.color-primary {
+            color: $BUTTON_PRIMARY_FONT_COLOR;
+            background-color: $BUTTON_PRIMARY_BG_COLOR;
+            border-color: $BUTTON_PRIMARY_BORDER_COLOR;
+        }
+    }
+}
+// ---------------------------
