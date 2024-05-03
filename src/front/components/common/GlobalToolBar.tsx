@@ -11,7 +11,7 @@ import Button from '@mui/material/Button'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import IconChevronDownForMuiSelect from '@/components/icon/IconChevronDownForMuiSelect'
-import '@/styles/CalendarToolBar.scss'
+import '@/styles/calendar/CalendarToolBar.scss'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import moment from 'moment'
 
@@ -57,7 +57,7 @@ const GlobalToolBar = ({ view, setView, onTodayClick }: { view: CalendarView, se
                     <TextField id="outlined-basic" label="Search Plan" size="small" className="mui-customize"/>
                 </FormControl>
                 <FormControl sx={{ m: 1, width: '10%', maxWidth: '90px', minWidth: '60px' }}>
-                    <Button variant="contained" size="small" className="mui-customize" onClick={onTodayClick}>
+                    <Button variant="contained" size="small" className="mui-customize color-primary" onClick={onTodayClick}>
                         Today
                     </Button>
                 </FormControl>
@@ -98,7 +98,7 @@ const GlobalToolBar = ({ view, setView, onTodayClick }: { view: CalendarView, se
                 </FormControl>
                 <FormControl sx={{ m: 1, width: '10%', maxWidth: '90px', minWidth: '60px' }}>
                     <Button variant="contained" size="small" className="mui-customize" onClick={onTodayClick}>
-                        Today
+                        Share
                     </Button>
                 </FormControl>
             </Box>

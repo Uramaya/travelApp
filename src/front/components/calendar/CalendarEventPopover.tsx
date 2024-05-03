@@ -1,6 +1,6 @@
 import { useCallback } from "react"
 
-import '@/styles/CalendarEventPopover.scss'
+import '@/styles/calendar/CalendarEventPopover.scss'
 
 const CalendarEventPopover = ({ className }: { className: string }) => {
   const Popover = useCallback((): JSX.Element => {

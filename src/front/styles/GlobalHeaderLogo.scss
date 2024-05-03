@@ -1,0 +1,25 @@
+// variables------------------
+$GLOBAL_HEADER_USER_ICON_WRAPPER_COLOR: #FFFFFF;
+// ---------------------------
+.global-header-user {
+    & .icon-wrapper {
+        border-radius: 100%;
+        width: 22px;
+        height: 22px;
+        margin: 0 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 23px;
+        min-width: 23px;
+    }
+    & .icon {
+        font-size: 12px;
+    }
+}
+
+// PC-------------------------
+// ---------------------------
+
+// Smart Phone----------------
+// ---------------------------

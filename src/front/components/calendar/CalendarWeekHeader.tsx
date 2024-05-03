@@ -1,6 +1,6 @@
 import moment from 'moment'
 
-import '@/styles/CalendarWeekHeader.scss'
+import '@/styles/calendar/CalendarWeekHeader.scss'
 
 const CalendarWeekHeader = ({ date }: { date: Date }) => {
     // label example: 29 Mon

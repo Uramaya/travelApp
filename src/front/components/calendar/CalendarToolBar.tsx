@@ -3,7 +3,7 @@ import { Views } from 'react-big-calendar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
-import '@/styles/CalendarToolBar.scss'
+import '@/styles/calendar/CalendarToolBar.scss'
 import moment from 'moment'
 
 import { CalendarView } from '@/types'

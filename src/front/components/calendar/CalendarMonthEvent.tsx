@@ -2,13 +2,13 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHotel } from "@fortawesome/free-solid-svg-icons";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
-import '@/styles/CalendarMonthEvent.scss'
+import '@/styles/calendar/CalendarMonthEvent.scss'
 import { numDigits } from '@/utils/utils'
 
 import { EventInfo } from '@/types'
 
-import CalendarEvent from '@/components/common/CalendarEvent'
-import CalendarEventPopover from '@/components/common/CalendarEventPopover'
+import CalendarEvent from '@/components/calendar/CalendarEvent'
+import CalendarEventPopover from '@/components/calendar/CalendarEventPopover'
 
 const CalendarMonthEvent = ({ eventInfo }: { eventInfo: EventInfo }) => {
 

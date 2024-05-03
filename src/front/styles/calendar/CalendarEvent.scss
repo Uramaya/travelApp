@@ -40,7 +40,7 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
 }
 
 .rbc-event.rbc-selected, .rbc-day-slot .rbc-selected.rbc-background-event {
-    background-color: $CALENDAR_EVENT_FONT_COLOR;
+    background-color: $CALENDAR_EVENT_HOVER_BG_COLOR;
 }
 
 button.calendar-event-btn {

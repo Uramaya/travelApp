@@ -5,12 +5,13 @@ import { AppDispatch, useAppSelector } from "@/stores/store"
 import { setCalendarEvents, addCalendarEvents, updateCalendarEvents, deleteCalendarEvents } from "@/stores/calendar";
 import { getCalenderEvents, createCalenderEvents, updateCalenderEventsById, deleteCalenderEventsById } from "@/app/api/calendarEvents";
 
-import Calendar from "@/components/common/Calendar"
+import Calendar from "@/components/calendar/Calendar"
 import GlobalToolBar from "@/components/common/GlobalToolBar"
+import GoogleMap from "@/components/googleMap/GoogleMap"
 import Button from '@mui/material/Button'
 import uerCalendar from '@/hooks/calendarHook'
 import { VIEW_OPTIONS, TEST_EVENTS, INIT_CALENDAR } from '@/const'
-
+import Box from '@mui/material/Box'
 
 const MyPage = () => {
     const {
@@ -30,7 +31,7 @@ const MyPage = () => {
     useEffect(() => {
         // Fetch entities on component mount
         getCalenderEvents().then((events) => dispatch(setCalendarEvents(events)))
-      }, [dispatch])
+    }, [dispatch])
 
     return (
         <>
@@ -38,21 +39,29 @@ const MyPage = () => {
                 view={view}
                 setView={setView}
                 onTodayClick={onTodayClick}
-             />
-            <Calendar
-                date={date}
-                view={view}
-                events={calendarEvents}
-                height='90vh'
-                width='60%'
-                setDate={setDate}
-                setView={setView}
-                onNavigate={onNavigate}
-                onView={onView}
-                onTodayClick={onTodayClick}
-                onNextClick={onNextClick}
-                onPrevClick={onPrevClick}
             />
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '65%' }}>
+                    <Calendar
+                        date={date}
+                        view={view}
+                        events={calendarEvents}
+                        height='90vh'
+                        width='100%'
+                        setDate={setDate}
+                        setView={setView}
+                        onNavigate={onNavigate}
+                        onView={onView}
+                        onTodayClick={onTodayClick}
+                        onNextClick={onNextClick}
+                        onPrevClick={onPrevClick}
+                    />
+                </Box>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '35%' }}>
+                    <GoogleMap />
+                </Box>
+            </Box>
+
         </>
     )
 }

@@ -8,19 +8,19 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import { VIEW_OPTIONS, TEST_EVENTS, INIT_CALENDAR } from '@/const'
 // import uerCalendar from '@/hooks/calendarHook'
 
-import '@/styles/Calendar.scss'
+import '@/styles/calendar/Calendar.scss'
 
 import { CalendarView, EventInfo, CalendarProps } from '@/types'
 
-import CalendarToolBar from '@/components/common/CalendarToolBar'
-import CalendarEvent from '@/components/common/CalendarEvent'
-import CalendarDayHeader from '@/components/common/CalendarDayHeader'
-import CalendarDayEvent from '@/components/common/CalendarDayEvent'
-import CalendarWeekHeader from '@/components/common/CalendarWeekHeader'
-import CalendarWeekEvent from '@/components/common/CalendarWeekEvent'
-import CalendarMonthHeader from '@/components/common/CalendarMonthHeader'
-import CalendarMonthDateHeader from '@/components/common/CalendarMonthDateHeader'
-import CalendarMonthEvent from '@/components/common/CalendarMonthEvent'
+import CalendarToolBar from '@/components/calendar/CalendarToolBar'
+import CalendarEvent from '@/components/calendar/CalendarEvent'
+import CalendarDayHeader from '@/components/calendar/CalendarDayHeader'
+import CalendarDayEvent from '@/components/calendar/CalendarDayEvent'
+import CalendarWeekHeader from '@/components/calendar/CalendarWeekHeader'
+import CalendarWeekEvent from '@/components/calendar/CalendarWeekEvent'
+import CalendarMonthHeader from '@/components/calendar/CalendarMonthHeader'
+import CalendarMonthDateHeader from '@/components/calendar/CalendarMonthDateHeader'
+import CalendarMonthEvent from '@/components/calendar/CalendarMonthEvent'
 
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.

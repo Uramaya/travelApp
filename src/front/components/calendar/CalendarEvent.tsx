@@ -4,7 +4,7 @@ import Popover from '@mui/material/Popover'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-import '@/styles/CalendarEvent.scss'
+import '@/styles/calendar/CalendarEvent.scss'
 
 const CalendarEvent = ({button, popover}: {button: JSX.Element | Element , popover: JSX.Element | Element}) => {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)

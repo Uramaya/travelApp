@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import "@/styles/mui/index.scss"
 import "@/styles/icon/index.scss"
 
+import GlobalHeader from "@/components/common/GlobalHeader"
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <GlobalHeader />
         <ReduxProvider>
           {children}
         </ReduxProvider>
