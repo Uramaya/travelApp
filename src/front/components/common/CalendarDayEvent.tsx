@@ -30,7 +30,7 @@ const CalendarDayEvent = ({ eventInfo }: { eventInfo: EventInfo }) => {
     }
 
     const button = (): JSX.Element => {
-        return <div className='calendar-week-event'>
+        return <div className='calendar-week-event calendar-event'>
             <div className='content'>
                 <div className='icon-wrapper'>
                     <FontAwesomeIcon icon={faHotel} className="icon" color="#39635E" />

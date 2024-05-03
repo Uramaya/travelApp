@@ -1,15 +1,22 @@
 // variables------------------
-$CALENDAR_BORDER_COLOR: #D9D9D9;
-$CALENDAR_MONTH_HEADER_COLOR: #777777;
-$TODAY_BG_COLOR: #fcfefe;
-$OFF_RANGE_BG_COLOR: #F6F5F5;
-$TIME_GUTTER_FONT_COLOR: #777777;
+$BUTTON_DEFAULT_BG_COLOR: #F6F5F5;
+$BUTTON_DEFAULT_BORDER_COLOR: #C8C8C8;
+$BUTTON_DEFAULT_FONT_COLOR: #676565;
+
+$BUTTON_PRIMARY_BG_COLOR: #E8FAFF;
+$BUTTON_PRIMARY_BORDER_COLOR: #69B6E5;
+$BUTTON_PRIMARY_FONT_COLOR: #3E9DD6;
 // ---------------------------
 
 
-// calendar event-------------
-.rbc-event-content {
-    
+// mui button customize------
+.mui-customize {
+    &.MuiButtonBase-root.MuiButton-root {
+        background-color: $BUTTON_DEFAULT_BG_COLOR;
+        border: 1px solid $BUTTON_DEFAULT_BORDER_COLOR;
+        border-radius: 20px;
+        box-shadow: none;
+        color: $BUTTON_DEFAULT_FONT_COLOR;
+    }
 }
-
 // ---------------------------

@@ -1,0 +1,45 @@
+// variables------------------
+$FILLED_INPUT_BG_COLOR: #F6F5F5;
+$FILLED_INPUT_LABEL_COLOR: #B4B3B3;
+$FILLED_INPUT_LABEL_SHRINK_COLOR: #B4B3B3;
+// ---------------------------
+
+
+// mui filled input customize--
+.mui-customize {
+    fieldset.MuiOutlinedInput-notchedOutline {
+        border: 0;
+    }
+
+    .MuiInputBase-input {
+        background-color: $FILLED_INPUT_BG_COLOR;
+        border-radius: 16px;
+    }
+
+    .MuiInputBase-input[aria-expanded="true"] {
+        +svg.icon-chevron-down {
+            transform: rotate(180deg);
+        }
+    }
+
+    label.MuiFormLabel-root {
+        color: $FILLED_INPUT_LABEL_COLOR;
+        font-size: 0.9rem;
+    }
+
+    label.MuiFormLabel-root.Mui-focused,
+    label.MuiFormLabel-root.MuiInputLabel-root.Mui-focused {
+        color: $FILLED_INPUT_LABEL_SHRINK_COLOR;
+    }
+
+    .icon-chevron-down {
+        transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+        font-size: 1.5rem;
+        position: absolute;
+        right: 7px;
+        top: calc(50% - 0.5em);
+        pointer-events: none;
+    }
+}
+
+// ---------------------------

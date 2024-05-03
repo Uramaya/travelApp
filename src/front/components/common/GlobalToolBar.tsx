@@ -3,12 +3,14 @@ import { Views } from 'react-big-calendar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem'
+import IconChevronDownForMuiSelect from '@/components/icon/IconChevronDownForMuiSelect'
 import '@/styles/CalendarToolBar.scss'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import moment from 'moment'
@@ -40,29 +42,35 @@ const GlobalToolBar = ({ view, setView, onTodayClick }: { view: CalendarView, se
     //     </div>
     // }, [view, label, weekDay])
 
-    const onChangeView = useCallback((view: CalendarView): void => {
-        setView(view)
-    }, [setView])
-
+    // const onChangeView = useCallback((view: CalendarView): void => {
+    //     setView(view)
+    // }, [setView])
+    const [age, setAge] = useState('');
+    const onChangeView = (event: SelectChangeEvent) => {
+        setAge(event.target.value);
+      };
 
     return (
         <div className='global-tool-bar'>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }}>
                 <FormControl sx={{ m: 1, width: '25%' }}>
-                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                    <TextField id="outlined-basic" label="Search Plan" size="small" className="mui-customize"/>
                 </FormControl>
-                <FormControl sx={{ m: 1, width: '10%' }}>
-                    <Button variant="contained" size="small" className="" onClick={onTodayClick}>
+                <FormControl sx={{ m: 1, width: '10%', maxWidth: '90px', minWidth: '60px' }}>
+                    <Button variant="contained" size="small" className="mui-customize" onClick={onTodayClick}>
                         Today
                     </Button>
                 </FormControl>
-                <FormControl sx={{ m: 1, width: '10%' }}>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <FormControl sx={{ m: 1, width: '10%', maxWidth: '130px', minWidth: '60px' }}>
+                    <InputLabel id="demo-simple-select-label" className="mui-customize"></InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
+                        className="mui-customize"
                         value={view}
                         label="Age"
+                        size="small"
+                        IconComponent={(props) => (<IconChevronDownForMuiSelect props={props}/>)}
                         // onChange={onChangeView}
                     >
                         <MenuItem value={10}>Ten</MenuItem>
@@ -70,22 +78,26 @@ const GlobalToolBar = ({ view, setView, onTodayClick }: { view: CalendarView, se
                         <MenuItem value={30}>Thirty</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ m: 1, width: '10%' }}>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <FormControl sx={{ m: 1, width: '10%', maxWidth: '130px', minWidth: '60px' }}>
+                    <InputLabel id="demo-simple-select-label" className="mui-customize"></InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={view}
+                        className="mui-customize"
+                        value={age}
                         label="Age"
-                        // onChange={onChangeView}
+                        size="small"
+                        IconComponent={(props) => (<IconChevronDownForMuiSelect props={props}/>)}
+                        classes={{ focused: "test" }}
+                        onChange={onChangeView}
                     >
                         <MenuItem value={10}>Ten</MenuItem>
                         <MenuItem value={20}>Twenty</MenuItem>
                         <MenuItem value={30}>Thirty</MenuItem>
                     </Select>
                 </FormControl>
-                <FormControl sx={{ m: 1, width: '10%' }}>
-                    <Button variant="contained" size="small" className="" onClick={onTodayClick}>
+                <FormControl sx={{ m: 1, width: '10%', maxWidth: '90px', minWidth: '60px' }}>
+                    <Button variant="contained" size="small" className="mui-customize" onClick={onTodayClick}>
                         Today
                     </Button>
                 </FormControl>

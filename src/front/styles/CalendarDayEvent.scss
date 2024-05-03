@@ -1,21 +1,6 @@
 // variables------------------
-$CALENDAR_DAY_EVENT_BG_COLOR: #E9F5F5;
-$CALENDAR_DAY_EVENT_FONT_COLOR: #39635E;
-$CALENDAR_DAY_EVENT_HOVER_BG_COLOR: #d4f0f0;
-$CALENDAR_DAY_EVENT_ICON_WRAPPER_COLOR: #FFFFFF;
-$CALENDAR_DAY_EVENT_ICON_LOCATION_PIN_COLOR: #D84949;
-$CALENDAR_DAY_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
+
 // ---------------------------
-.rbc-event, .rbc-day-slot .rbc-background-event {
-    background-color: $CALENDAR_DAY_EVENT_BG_COLOR;
-    box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
-    padding: 0;
-    border-radius: 10px;
-    &:hover {
-        background-color: $CALENDAR_DAY_EVENT_HOVER_BG_COLOR;
-        cursor: pointer;
-    }
-}
 .calendar-day-event {
     display: flex;
     align-items: center;
@@ -24,12 +9,10 @@ $CALENDAR_DAY_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
         display: flex;
         border-radius: 6px;
         padding: 1px;
-        color: $CALENDAR_DAY_EVENT_FONT_COLOR;
         align-items: center;
         width: 100%;
     }
     & .icon-wrapper {
-        background: $CALENDAR_DAY_EVENT_ICON_WRAPPER_COLOR;
         border-radius: 100%;
         width: 22px;
         height: 22px;
@@ -62,7 +45,6 @@ $CALENDAR_DAY_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     }
 
     & .icon-location-pin {
-        color: $CALENDAR_DAY_EVENT_ICON_LOCATION_PIN_COLOR;
         width: 24px;
         height: 24px;
         position: relative;
@@ -84,7 +66,6 @@ $CALENDAR_DAY_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     & .event-number {
         font-size: 12px;
         z-index: 200;
-        color: $CALENDAR_DAY_EVENT_ICON_LOCATION_PIN_FONT_COLOR;
         font-weight: 500;
         position: relative;
         bottom: 1px;
@@ -106,7 +87,6 @@ $CALENDAR_DAY_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
 }
 
 .rbc-day-slot .rbc-event-label {
-    color: $CALENDAR_DAY_EVENT_FONT_COLOR;
     font-weight: 500;
     display: none;
 }

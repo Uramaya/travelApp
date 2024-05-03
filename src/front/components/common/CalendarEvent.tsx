@@ -20,7 +20,7 @@ const CalendarEvent = ({button, popover}: {button: JSX.Element | Element , popov
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
     return (
-        <div>
+        <div className="calendar-event">
             <Button aria-describedby={id} variant="text" size="small" className="calendar-event-btn" onClick={onClick}>
                 { button }
             </Button>
