@@ -46,7 +46,7 @@ $FILLED_INPUT_FONT_COLOR: #676565;
         top: calc(50% - 0.5em);
         pointer-events: none;
     }
-    .svg-inline--fa {
+    &.select-box .svg-inline--fa {
         height: 0.8em;
     }
 }

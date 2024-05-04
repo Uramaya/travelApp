@@ -17,13 +17,15 @@ const MyPage = () => {
     const {
         date,
         view,
+        timeZoneName,
         setDate,
         setView,
         onNavigate,
         onView,
         onTodayClick,
         onNextClick,
-        onPrevClick
+        onPrevClick,
+        setTimeZoneName,
     } = uerCalendar(INIT_CALENDAR)
 
     const dispatch = useDispatch<AppDispatch>()
@@ -37,8 +39,10 @@ const MyPage = () => {
         <>
             <GlobalToolBar
                 view={view}
+                timeZoneName={timeZoneName}
                 setView={setView}
                 onTodayClick={onTodayClick}
+                setTimeZoneName={setTimeZoneName}
             />
             <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '65%' }}>

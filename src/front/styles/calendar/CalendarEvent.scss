@@ -7,6 +7,136 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_COLOR: #D84949;
 $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
 // ---------------------------
 
+@mixin title-wrap() {
+    & .title {
+        text-overflow: unset;
+        overflow: auto;
+        white-space: unset;
+        text-wrap: wrap;
+    }
+}
+
+@mixin extra-small-size-common-style-event() {
+    & .icon-wrapper {
+        display: none;
+    }
+    & .title {
+        flex-basis: 100%;
+        font-size: 10px;
+    }
+    & .icon-wrapper-location-pin {
+        display: none;
+    }
+}
+
+@mixin small-size-common-style-event() {
+    & .icon-wrapper {
+        display: none;
+    }
+    & .title {
+        flex-basis: 100%;
+        font-size: 10px;
+    }
+    & .icon-wrapper-location-pin {
+        width: 18px;
+        height: 18px;
+        display: flex;
+    }
+    & .icon-location-pin {
+        width: 18px;
+        height: 18px;
+        position: relative;
+        display: flex;
+        &.none {
+            color: transparent;
+            left: 16px;
+        }
+        &.digit1 {
+            left: 16px;
+        }
+        &.digit2 {
+            left: 18px;
+        }
+        &.digit3 {
+            left: 19px;
+        } 
+    }
+
+    & .event-number {
+        font-size: 10px;
+        font-weight: 500;
+        position: relative;
+        bottom: 1px;
+        &.none {
+            left: 6px;
+            visibility: hidden;
+        }
+        &.digit1 {
+            left: 6px;
+        }
+        &.digit2 {
+            left: 5.5px;
+        }
+        &.digit3 {
+            left: 5px;
+            font-size: 7px;
+        } 
+    }
+}
+
+@mixin medium-size-common-style-event() {
+    & .icon-wrapper {
+        display: flex;
+    }
+    & .title {
+        flex-basis: 100%;
+        font-size: 12px;
+    }
+    & .icon-wrapper-location-pin {
+        display: flex;
+    }
+    & .icon-location-pin {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        &.none {
+            color: transparent;
+            left: 24px;
+        }
+        &.digit1 {
+            left: 24px;
+        }
+        &.digit2 {
+            left: 32px;
+        }
+        &.digit3 {
+            left: 30px;
+        } 
+    }
+
+    & .event-number {
+        font-size: 12px;
+        font-weight: 500;
+        position: relative;
+        bottom: 1px;
+        &.none {
+            left: 8.5px;
+            visibility: hidden;
+        }
+        &.digit1 {
+            left: 8.5px;
+        }
+        &.digit2 {
+            left: 12.5px;
+        }
+        &.digit3 {
+            left: 12px;
+            font-size: 7px;
+        } 
+    }
+}
+
+
 .rbc-event, .rbc-day-slot .rbc-background-event {
     background-color: $CALENDAR_EVENT_BG_COLOR;
     box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
@@ -19,11 +149,13 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
 }
 
 .calendar-event {
+    height: 100%;
     & .content {
         color: $CALENDAR_EVENT_FONT_COLOR;
     }
     & .icon-wrapper {
         background: $CALENDAR_EVENT_ICON_WRAPPER_COLOR;
+        box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
     }
     & .icon-location-pin {
         color: $CALENDAR_EVENT_ICON_LOCATION_PIN_COLOR;
@@ -31,6 +163,73 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     & .event-number {
         color: $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR;
     }
+    & .time-label {
+        color: $CALENDAR_EVENT_FONT_COLOR;
+        text-align: left;
+        padding: 0 5px;
+    }
+
+    button.calendar-event-btn {
+        width: 100%;
+        height: 100%;
+        padding: 2px 3px;
+        border-radius: 6px;
+        display: flex;
+        align-items: flex-start;
+    }
+
+
+    // dynamic calendar event style----
+    // all day month/week event
+    &.extra-small-size-all-day-event, & .extra-small-size-all-day-event.re-render {
+        @include extra-small-size-common-style-event;
+    }
+
+    &.small-size-all-day-event, & .small-size-all-day-event.re-render {
+        @include small-size-common-style-event;
+    }
+
+    &.medium-size-all-day-event, & .medium-size-all-day-event.re-render {
+        @include medium-size-common-style-event;
+    }
+
+    // none-all day month event
+    &.extra-small-size-month-event, & .extra-small-size-month-event.re-render {
+        @include extra-small-size-common-style-event;
+    }
+    &.small-size-month-event, & .small-size-month-event.re-render{
+        @include small-size-common-style-event;
+    }
+
+    &.medium-size-month-event, & .medium-size-month-event.re-render {
+        @include medium-size-common-style-event;
+    }
+
+    // none-all day week event
+    &.extra-small-size-week-event, & .extra-small-size-week-event.re-render {
+        @include extra-small-size-common-style-event;
+        @include title-wrap;
+    }
+    &.small-size-week-event, & .small-size-week-event.re-render{
+        @include small-size-common-style-event;
+        @include title-wrap;
+    }
+
+    &.medium-size-week-event, & .medium-size-week-event.re-render {
+        @include medium-size-common-style-event;
+        @include title-wrap;
+    }
+
+    // all day day event
+    &.large-size-all-day-day-event, & .large-size-all-day-day-event.re-render{
+
+    }
+    // none-all day day event
+    &.large-size-day-event, & .large-size-day-event.re-render {
+        @include title-wrap;
+    }
+
+    // --------------------------------
 }
 
 .rbc-day-slot .rbc-event-label {
@@ -41,12 +240,6 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
 
 .rbc-event.rbc-selected, .rbc-day-slot .rbc-selected.rbc-background-event {
     background-color: $CALENDAR_EVENT_HOVER_BG_COLOR;
-}
-
-button.calendar-event-btn {
-    width: 100%;
-    padding: 2px 3px;
-    border-radius: 6px;
 }
 
 .calendar-event-popover {

@@ -1,16 +1,16 @@
-// import { JSXElementConstructor, useCallback, useEffect } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHotel } from "@fortawesome/free-solid-svg-icons";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import '@/styles/calendar/CalendarMonthEvent.scss'
 import { numDigits } from '@/utils/utils'
 
-import { EventInfo } from '@/types'
+import { EventInfo, CalendarView } from '@/types'
 
 import CalendarEvent from '@/components/calendar/CalendarEvent'
 import CalendarEventPopover from '@/components/calendar/CalendarEventPopover'
 
-const CalendarMonthEvent = ({ eventInfo }: { eventInfo: EventInfo }) => {
+const CalendarMonthEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view:CalendarView }) => {
 
     // dynamic class name of the event-number
     const iconLocationClass = (): string => {
@@ -22,14 +22,14 @@ const CalendarMonthEvent = ({ eventInfo }: { eventInfo: EventInfo }) => {
     }
 
     // create dynamic location pic icon jsx element
-    const iconLocationPin = (): JSX.Element => {
+    const iconLocationPin = useCallback((): JSX.Element => {
         return <div className='icon-wrapper-location-pin'>
             <FontAwesomeIcon icon={faLocationPin} className={`icon-location-pin ${iconLocationClass()}`} color="#39635E" />
             <div className={`event-number ${iconLocationClass()}`}>{eventInfo.index}</div>
         </div>
-    }
+    }, [eventInfo])
 
-    const button = (): JSX.Element => {
+    const button = useCallback((): JSX.Element => {
         return <div className='calendar-month-event calendar-event'>
             <div className='content'>
                 <div className='icon-wrapper'>
@@ -39,14 +39,15 @@ const CalendarMonthEvent = ({ eventInfo }: { eventInfo: EventInfo }) => {
                 {iconLocationPin()}
             </div>
         </div>
-    }
+    }, [eventInfo])
 
-    const popover = (): JSX.Element => {
-        return <CalendarEventPopover className='calendar-month-event-popover'/>
-    }
+    const popover = useCallback((): JSX.Element => {
+        return <CalendarEventPopover className='calendar-month-event-popover' />
+    }, [eventInfo])
+
     return (
         <>
-            <CalendarEvent button={ button() } popover={ popover() } />
+            <CalendarEvent button={button()} popover={popover()} eventInfo={eventInfo} view={view} />
         </>
     )
 }

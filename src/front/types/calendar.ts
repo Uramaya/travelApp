@@ -17,17 +17,18 @@ export type EventInfo =  {
 export type CalendarInfo =  {
     date: Date
     view: CalendarView
+    timeZoneName: string
 }
 
-type dispatchSetDate = {
-    type: Date
-}
 export type CalendarProps =  {
     date: Date
     view: CalendarView
     events: EventInfo[]
     height: string
     width: string
+    screenWidth: number
+    screenHeight: number
+    timeZoneName: string
     setDate: React.Dispatch<React.SetStateAction<Date>>
     setView: React.Dispatch<React.SetStateAction<CalendarView>>
     onNavigate: (newDate: Date) => void
@@ -35,5 +36,6 @@ export type CalendarProps =  {
     onTodayClick: () => void
     onNextClick: () => void
     onPrevClick: () => void
+    setTimeZoneName: React.Dispatch<React.SetStateAction<string>>
 }
 

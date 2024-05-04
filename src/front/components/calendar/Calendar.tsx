@@ -32,6 +32,8 @@ const Calendar = ({
     events,
     height,
     width,
+    screenWidth,
+    screenHeight,
     setDate,
     setView,
     onNavigate,
@@ -40,7 +42,17 @@ const Calendar = ({
     onNextClick,
     onPrevClick
 }: CalendarProps) => {
-
+  const { formats } = useMemo(
+    () => ({
+      formats: {
+        dateFormat: (date, culture, localizer) =>
+          localizer.format(date, 'D', culture),
+        timeGutterFormat: (date, culture, localizer) =>
+          localizer.format(date, 'H:mm', culture),
+      },
+    }),
+    []
+  )
   // customize event component
   const components = useMemo(() => ({
     day: {
@@ -48,21 +60,20 @@ const Calendar = ({
         return <CalendarDayHeader eventInfo={event} />
       },
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarDayEvent eventInfo={event} />
+        return <CalendarDayEvent eventInfo={event} view={view} />
       },
     },
     week: {
       header: ({ date }: { date: Date }) => {
-        console.log('week date', date)
         return <CalendarWeekHeader date={date} />
       },
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarWeekEvent eventInfo={event} />
+        return <CalendarWeekEvent eventInfo={event} view={view} />
       },
     },
     month: {
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarMonthEvent eventInfo={event} />
+        return <CalendarMonthEvent eventInfo={event} view={view} />
       },
     }
   }), [])
@@ -111,6 +122,7 @@ const Calendar = ({
         endAccessor="end"
         style={{ height: height, width: width }}
         toolbar={false}
+        formats={formats}
         selectable
         onSelectSlot={onSelectSlot}
         onSelectEvent={onSelectEvent}

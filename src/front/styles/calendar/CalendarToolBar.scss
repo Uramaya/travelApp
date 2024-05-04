@@ -16,6 +16,7 @@ $CALENDAR_TOOLBAR_LABEL_WEEK_FONT_COLOR: #868686;
         display: flex;
         justify-items: center;
         align-items: center;
+        flex-direction: column;
     }
     & .label-week {
         color: $CALENDAR_TOOLBAR_LABEL_WEEK_FONT_COLOR;

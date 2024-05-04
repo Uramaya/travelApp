@@ -1,33 +1,18 @@
 // variables------------------
-$CALENDAR_TOOLBAR_LABEL_FONT_COLOR: #000000;
-$CALENDAR_TOOLBAR_LABEL_WEEK_FONT_COLOR: #868686;
+$GLOBAL_TOOLBAR_SHARE_ICON_COLOR: #8B8989;
+
 // ---------------------------
-.calendar-tool-bar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 10px;
-    column-gap: 20px;
-    & .label {
-        font-weight: 600;
-        font-size: 16px;
+.global-tool-bar {
+    & .icon-share.svg-inline--fa {
+        height: 1.45em;
+        color: $GLOBAL_TOOLBAR_SHARE_ICON_COLOR;
     }
-    & .label-day {
-        display: flex;
-        justify-items: center;
-        align-items: center;
-    }
-    & .label-week {
-        color: $CALENDAR_TOOLBAR_LABEL_WEEK_FONT_COLOR;
-        font-size: 12px;
+    & .icon-box {
+        column-gap: 5px;
     }
     & .icon-btn {
         width: 30px;
         height: 30px;
-    }
-    & .icon {
-        width: 12px;
-        height: 12px;
     }
 }
 

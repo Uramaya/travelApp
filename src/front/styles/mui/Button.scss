@@ -18,6 +18,7 @@ $BUTTON_PRIMARY_FONT_COLOR: #3E9DD6;
         box-shadow: none;
         color: $BUTTON_DEFAULT_FONT_COLOR;
         text-transform: none;
+        min-width: 86px;
         &.color-primary {
             color: $BUTTON_PRIMARY_FONT_COLOR;
             background-color: $BUTTON_PRIMARY_BG_COLOR;

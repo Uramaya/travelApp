@@ -8,6 +8,7 @@ const useCalendar = (initCalendarInfo: CalendarInfo) => {
   // basic calendar setting
   const [date, setDate] = useState(initCalendarInfo.date)
   const [view, setView] = useState(initCalendarInfo.view)
+  const [timeZoneName, setTimeZoneName] = useState(initCalendarInfo.timeZoneName)
 
   const onNavigate = useCallback((newDate: Date) => setDate(newDate), [setDate])
   const onView = useCallback((newView: CalendarView) => setView(newView), [setView])
@@ -33,6 +34,7 @@ const useCalendar = (initCalendarInfo: CalendarInfo) => {
   return {
     date,
     view,
+    timeZoneName,
     setDate,
     setView,
     onNavigate,
@@ -40,6 +42,7 @@ const useCalendar = (initCalendarInfo: CalendarInfo) => {
     onTodayClick,
     onNextClick,
     onPrevClick,
+    setTimeZoneName,
   }
 }
 

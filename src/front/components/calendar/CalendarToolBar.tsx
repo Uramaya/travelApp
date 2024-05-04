@@ -1,4 +1,4 @@
-import { JSXElementConstructor, useEffect, useCallback, useState } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { Views } from 'react-big-calendar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
@@ -11,9 +11,16 @@ import { CalendarView } from '@/types'
 import IconButton from '@mui/material/IconButton'
 
 
-const CalendarToolBar = ({ date, view, onNextClick, onPrevClick, style }: { date: Date, view: CalendarView, onNextClick: any,  onPrevClick: any, style: React.CSSProperties}) => {
+const CalendarToolBar = ({ date, view, onNextClick, onPrevClick, style }: { 
+    date: Date,
+    view: CalendarView,
+    onNextClick: () => void, 
+    onPrevClick: () => void,
+    style: React.CSSProperties
+}) => {
     const [weekDay, setWeekDay] = useState<string>('')
     const [label, setLabel] = useState(moment(date).format('MM YYYY'))
+    const [labelDay, setLabelDay] = useState(moment(date).format('D MM YYYY'))
     // set label 
     useEffect(() => {
         const weekDay = moment(date).format('ddd')
@@ -26,10 +33,16 @@ const CalendarToolBar = ({ date, view, onNextClick, onPrevClick, style }: { date
         setLabel(label)
     }, [date, setLabel])
 
+    // set weekday 
+    useEffect(() => {
+        const label = moment(date).format('D MMM YYYY')
+        setLabelDay(label)
+    }, [date, setLabelDay])
+
     const calendarLabel = useCallback((): JSX.Element => {
         if (view === Views.DAY) return <div className='label-day'>
             <div className='label-week'>{weekDay}</div>
-            <div className='label'>{label}</div>
+            <div className='label'>{labelDay}</div>
         </div>
         else return <div className='label'>
             {label}

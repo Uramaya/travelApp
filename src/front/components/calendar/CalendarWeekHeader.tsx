@@ -5,9 +5,7 @@ import '@/styles/calendar/CalendarWeekHeader.scss'
 const CalendarWeekHeader = ({ date }: { date: Date }) => {
     // label example: 29 Mon
     const weekday = moment(date).format('ddd')
-    const day = moment(date).format('DD')
-    console.log('weekday', weekday)
-    console.log('day', day)
+    const day = moment(date).format('D')
     return (
         <>
             <div className='calendar-week-weekday'>{weekday}</div>
