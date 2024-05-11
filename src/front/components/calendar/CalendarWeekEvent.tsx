@@ -21,13 +21,13 @@ const CalendarWeekEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view: Ca
         else return 'none'
     }
 
-    useEffect(() => {
-        setLabel(getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end }))
-    }, [eventInfo])
+    // useEffect(() => {
+    //     setLabel(getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end }))
+    // }, [eventInfo])
 
     // create dynamic time label jsx element(hh:mm A - hh:mm A)
     const timeLabel = useCallback((): JSX.Element => {
-        if (label && !eventInfo.allDay) return <div className='time-label'>{label}</div>
+        if (label && !eventInfo.allDay) return <div className='time-label'>{getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end })}</div>
     }, [eventInfo])
 
     // create dynamic location pic icon jsx element
@@ -54,7 +54,7 @@ const CalendarWeekEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view: Ca
     }
 
     const popover = (): JSX.Element => {
-        return <CalendarEventPopover className='calendar-week-event-popover' />
+        return <CalendarEventPopover className='calendar-week-event-popover' eventInfo={ eventInfo } />
     }
     return (
         <>

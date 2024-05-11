@@ -1,5 +1,5 @@
 'use client'
-import { useMemo, useCallback, useEffect, useState } from 'react'
+import { useMemo, useCallback, useEffect, useState, useRef } from 'react'
 import { Calendar as BigCalendar, momentLocalizer, EventProps, Views, SlotInfo, Navigate } from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
@@ -21,26 +21,29 @@ import CalendarWeekEvent from '@/components/calendar/CalendarWeekEvent'
 import CalendarMonthHeader from '@/components/calendar/CalendarMonthHeader'
 import CalendarMonthDateHeader from '@/components/calendar/CalendarMonthDateHeader'
 import CalendarMonthEvent from '@/components/calendar/CalendarMonthEvent'
+import CalendarDateCellWrapper from '@/components/calendar/CalendarDateCellWrapper'
+import CalendarTimeSlotWrapper from '@/components/calendar/CalendarTimeSlotWrapper'
+import CalendarEventAdd from '@/components/calendar/CalendarEventAdd'
 
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
 const localizer = momentLocalizer(moment)
 
 const Calendar = ({
-    date,
-    view,
-    events,
-    height,
-    width,
-    screenWidth,
-    screenHeight,
-    setDate,
-    setView,
-    onNavigate,
-    onView,
-    onTodayClick,
-    onNextClick,
-    onPrevClick
+  date,
+  view,
+  events,
+  height,
+  width,
+  screenWidth,
+  screenHeight,
+  setDate,
+  setView,
+  onNavigate,
+  onView,
+  onTodayClick,
+  onNextClick,
+  onPrevClick
 }: CalendarProps) => {
   const { formats } = useMemo(
     () => ({
@@ -53,6 +56,10 @@ const Calendar = ({
     }),
     []
   )
+  const popoverDom = useRef(null)
+  const [open, setOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
+  const [slotEventInfo, setSlotEventInfo] = useState()
   // customize event component
   const components = useMemo(() => ({
     day: {
@@ -60,7 +67,7 @@ const Calendar = ({
         return <CalendarDayHeader eventInfo={event} />
       },
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarDayEvent eventInfo={event} view={view} />
+        return <CalendarDayEvent eventInfo={event} view="day" />
       },
     },
     week: {
@@ -68,12 +75,12 @@ const Calendar = ({
         return <CalendarWeekHeader date={date} />
       },
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarWeekEvent eventInfo={event} view={view} />
+        return <CalendarWeekEvent eventInfo={event} view="week" />
       },
     },
     month: {
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarMonthEvent eventInfo={event} view={view} />
+        return <CalendarMonthEvent eventInfo={event} view="month" />
       },
     }
   }), [])
@@ -91,12 +98,22 @@ const Calendar = ({
     //   setView(Views.DAY)
     //   setDate(eventInfo.start)
     // }
+    // const getBoundingClientRect = () => {
+    //   return popoverDom.current.getBoundingClientRect()
+    // };
+    // setSlotEventInfo(eventInfo)
+    // setAnchorEl({ getBoundingClientRect, nodeType: 1 })
+    // setOpen(true)
   }
 
   // select calendar event
   // when select the event, toggle the popup
   const onSelectEvent = useCallback((eventInfo: EventInfo) => {
   }, [])
+
+  const onClose = () => {
+    setOpen(false)
+  }
 
 
   return (
@@ -128,6 +145,9 @@ const Calendar = ({
         onSelectEvent={onSelectEvent}
         showAllEvents
       />
+      <div ref={popoverDom} >
+        <CalendarEventAdd open={open} eventInfo={slotEventInfo} anchorEl={anchorEl} onClose={onClose} />
+      </div>
     </>
   )
 }

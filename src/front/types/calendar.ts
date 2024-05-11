@@ -9,9 +9,32 @@ export type EventInfo =  {
     title: string
     start: Date
     end: Date
-    allDay?: boolean
-    isShowPopup: boolean
+    allDay: boolean | null
     index: number | null
+    users: UserInfo[]
+    eventType: EventTypeInfo
+    location: string
+    commute: CommuteInfo | null
+    googleMapUrl: string | null
+}
+
+export type UserInfo =  {
+    id: number
+    name: string
+    mail: string | null
+    language: string | null
+    icon: string | null
+    timeZone: string | null
+}
+
+export type CommuteInfo =  {
+    from: string
+    to: string
+}
+
+export type EventTypeInfo =  {
+    type: 'stay' | 'commute' | 'activity' | 'eat' | 'other'
+    name: string
 }
 
 export type CalendarInfo =  {

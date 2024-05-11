@@ -1,18 +1,205 @@
+@use '../globals.scss';
+
 // variables------------------
-$CALENDAR_EVENT_POPOVER_BG_COLOR: #ffffff;
+$CALENDAR_EVENT_Popover_BG_COLOR: #E9F5F5;
+$CALENDAR_EVENT_Popover_FONT_COLOR: #39635E;
+$CALENDAR_EVENT_Popover_HOVER_BG_COLOR: #d4f0f0;
+$CALENDAR_EVENT_Popover_ICON_WRAPPER_COLOR: #FFFFFF;
+$CALENDAR_EVENT_Popover_ICON_LOCATION_PIN_COLOR: #D84949;
+$CALENDAR_EVENT_Popover_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
+$CALENDAR_EVENT_Popover_BORDER_COLOR: #39635E;
+$CALENDAR_EVENT_Popover_X_MARK_FONT_COLOR: #A2A2A2;
+$CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
 // ---------------------------
 
 .calendar-event-popover {
-    // background-color: $CALENDAR_EVENT_POPOVER_BG_COLOR;
-    // position: relative;
-    // padding: 10px;
-    // border-radius: 10px;
-    // box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
+    & .MuiPopover-paper {
+        overflow: visible;
+    }
+    & .content {
+        border-radius: 6px;
+        padding: 10px 4px 1px;
+        max-width: 400px;
+        min-width: 250px;
+    }
+    & .content-outer-wrapper {
+        padding: 15px 5px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+    }
+    & .title-icon-wrapper {
+        border-radius: 100%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 40px;
+        min-width: 40px;
+        background: $CALENDAR_EVENT_Popover_ICON_WRAPPER_COLOR;
+        box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
+        border: 1px solid $CALENDAR_EVENT_Popover_BORDER_COLOR;
+    }
+    & .icon {
+        font-size: 18px;
+    }
+    & .title-wrapper {
+        display: flex;
+        border-radius: 6px;
+        padding: 1px;
+        align-items: center;
+        width: 100%;
+        color: $CALENDAR_EVENT_Popover_FONT_COLOR;
+    }
+    & .title {
+        font-size: 20px;
+        font-weight: 600;
+        padding: 0 0 0 10px;
+        flex-basis: calc(100% - 50px);
+        text-align: left;
+        text-wrap: wrap;
+    }
+    & .time-label {
+        color: $CALENDAR_EVENT_Popover_FONT_COLOR;
+        text-align: left;
+        padding: 0 5px;
+    }
+    & .icon-wrapper-location-pin {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 3px;
+        top: -8px;
+    }
 
-    // popup of the calendar month event
-    // &.calendar-month-event-popover {
+    & .icon-location-pin {
+        width: 38px;
+        height: 38px;
+        position: absolute;
+        color: $CALENDAR_EVENT_Popover_ICON_LOCATION_PIN_COLOR;
+        &.none {
+            color: transparent;
+            // left: 24px;
+        }
+        &.digit1 {
+            // left: 24px;
+        }
+        &.digit2 {
+            // left: 2px;
+        }
+        &.digit3 {
+            // left: 33px;
+        } 
+    }
 
-    // }
+    & .event-number {
+        font-size: 14px;
+        font-weight: 500;
+        position: relative;
+        bottom: 1px;
+        color: $CALENDAR_EVENT_Popover_ICON_LOCATION_PIN_FONT_COLOR;
+        &.none {
+            // left: 6px;
+            visibility: hidden;
+        }
+        &.digit1 {
+            // left: 6px;
+        }
+        &.digit2 {
+            // left: 9.5px;
+        }
+        &.digit3 {
+            // left: 1px;
+            font-size: 10px;
+        } 
+    }
+    & .icon-wrapper-x-mark {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        right: 15px;
+        top: 15px;
+    }
+    & .icon-x-mark {
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        color: $CALENDAR_EVENT_Popover_X_MARK_FONT_COLOR;
+    }
+
+    & .content-wrapper {
+        display: flex;
+        align-items: start;
+    }
+    & .icon-wrapper-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    & .icon-content {
+        width: 19px;
+        height: 19px;
+    }
+
+    & .title-content-wrapper {
+        padding: 1px;
+        width: 100%;
+        padding-left: 10px;
+    }
+    & .title-content-wrapper.title-user-content-wrapper {
+        padding-left: 5px;
+    }
+    & .title-content {
+        font-size: 14px;
+        font-weight: 400;
+        padding: 0 0 0 10px;
+        text-align: left;
+        color: $CALENDAR_EVENT_CONTENT_FONT_COLOR;
+        text-wrap: wrap;
+        
+    }
+    & .title-content.title-user-content {
+        padding: 0 0 0 7px;
+    }
+    & .tool-bar-wrapper {
+        display: flex;
+        column-gap: 3px;
+        justify-content: end;
+    }
+    & .tool-bar-icon-btn {
+        width: 40px;
+        height: 40px;
+    }
+    & .icon-tool-bar {
+        width: 18px;
+        height: 18px;
+    }
+    & .title-map-location {
+        margin-left: 7px;
+    }
+    & .content-user {
+        row-gap: 10px;
+    }
+    & .icon-x-mark-btn {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.rbc-day-slot .rbc-event-label {
+    font-weight: 500;
+    display: none;
+}
+
+.rbc-day-slot .rbc-event, .rbc-day-slot .rbc-background-event {
+    border: 0;
+}
+
+.rbc-day-slot .rbc-event-content {
+    padding: 2px 3px;
 }
 // PC-------------------------
 // ---------------------------

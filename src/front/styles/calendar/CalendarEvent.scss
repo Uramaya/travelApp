@@ -34,7 +34,6 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
         display: none;
     }
     & .title {
-        flex-basis: 100%;
         font-size: 10px;
     }
     & .icon-wrapper-location-pin {
@@ -89,12 +88,97 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
         display: flex;
     }
     & .title {
-        flex-basis: 100%;
         font-size: 12px;
     }
     & .icon-wrapper-location-pin {
         display: flex;
+        width: 24px;
+        height: 24px;
     }
+    & .icon-location-pin {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        &.none {
+            color: transparent;
+            left: 24px;
+        }
+        &.digit1 {
+            left: 24px;
+        }
+        &.digit2 {
+            left: 26px;
+        }
+        &.digit3 {
+            left: 26px;
+        } 
+    }
+
+    & .event-number {
+        font-size: 12px;
+        font-weight: 500;
+        position: relative;
+        bottom: 1px;
+        &.none {
+            left: 11px;
+            visibility: hidden;
+        }
+        &.digit1 {
+            left: 11px;
+        }
+        &.digit2 {
+            left: 10px;
+        }
+        &.digit3 {
+            left: 10px;
+            font-size: 7px;
+        } 
+    }
+}
+
+@mixin medium-size-day-style-event() {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    & .content {
+        display: flex;
+        border-radius: 6px;
+        padding: 1px;
+        align-items: center;
+        width: 100%;
+    }
+    & .icon-wrapper {
+        border-radius: 100%;
+        width: 18px;
+        height: 18px;
+        margin: 0 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 18px;
+        min-width: 18px;
+    }
+    & .icon {
+        font-size: 10px;
+    }
+    & .title {
+        font-size: 12px;
+        font-weight: 600;
+        padding-left: 4px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        flex-basis: calc(100% - 50px);
+        text-align: left;
+    }
+    & .icon-wrapper-location-pin {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        right: 15px;
+    }
+
     & .icon-location-pin {
         width: 24px;
         height: 24px;
@@ -167,6 +251,7 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
         color: $CALENDAR_EVENT_FONT_COLOR;
         text-align: left;
         padding: 0 5px;
+        font-weight: 400;
     }
 
     button.calendar-event-btn {
@@ -183,10 +268,16 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     // all day month/week event
     &.extra-small-size-all-day-event, & .extra-small-size-all-day-event.re-render {
         @include extra-small-size-common-style-event;
+        & .title {
+            flex-basis: 100%;
+        }
     }
 
     &.small-size-all-day-event, & .small-size-all-day-event.re-render {
         @include small-size-common-style-event;
+        & .title {
+            flex-basis: 100%;
+        }
     }
 
     &.medium-size-all-day-event, & .medium-size-all-day-event.re-render {
@@ -196,9 +287,15 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     // none-all day month event
     &.extra-small-size-month-event, & .extra-small-size-month-event.re-render {
         @include extra-small-size-common-style-event;
+        & .title {
+            flex-basis: 100%;
+        }
     }
     &.small-size-month-event, & .small-size-month-event.re-render{
         @include small-size-common-style-event;
+        & .title {
+            flex-basis: 100%;
+        }
     }
 
     &.medium-size-month-event, & .medium-size-month-event.re-render {
@@ -209,10 +306,16 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     &.extra-small-size-week-event, & .extra-small-size-week-event.re-render {
         @include extra-small-size-common-style-event;
         @include title-wrap;
+        & .title {
+            flex-basis: 100%;
+        }
     }
     &.small-size-week-event, & .small-size-week-event.re-render{
         @include small-size-common-style-event;
         @include title-wrap;
+        & .title {
+            flex-basis: 100%;
+        }
     }
 
     &.medium-size-week-event, & .medium-size-week-event.re-render {
@@ -227,6 +330,11 @@ $CALENDAR_EVENT_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
     // none-all day day event
     &.large-size-day-event, & .large-size-day-event.re-render {
         @include title-wrap;
+    }
+
+    &.medium-size-day-event, & .medium-size-day-event.re-render {
+        @include title-wrap;
+        @include medium-size-day-style-event;
     }
 
     // --------------------------------

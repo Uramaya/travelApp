@@ -1,16 +1,19 @@
-import { useCallback, useEffect } from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHotel } from "@fortawesome/free-solid-svg-icons";
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import { useCallback, useEffect, useState } from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faHotel } from "@fortawesome/free-solid-svg-icons"
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
 import '@/styles/calendar/CalendarDayEvent.scss'
-import { numDigits } from '@/utils/utils'
+import { numDigits, getCalendarEventTimeLabel } from '@/utils/utils'
 
 import { EventInfo, CalendarView } from '@/types'
 
 import CalendarEvent from '@/components/calendar/CalendarEvent'
 import CalendarEventPopover from '@/components/calendar/CalendarEventPopover'
 
-const CalendarDayEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view:CalendarView }) => {
+const CalendarDayEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view: CalendarView }) => {
+    const [label, setLabel] = useState<string>('')
+
+
 
     // dynamic class name of the event-number
     const iconLocationClass = (): string => {
@@ -29,24 +32,36 @@ const CalendarDayEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view:Cale
         </div>
     }, [eventInfo])
 
+    // create dynamic time label jsx element(hh:mm A - hh:mm A)
+    const timeLabel = useCallback((): JSX.Element => {
+        if (!eventInfo.allDay) return <div className='time-label'>{getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end })}</div>
+    }, [eventInfo])
+
+
     const button = useCallback((): JSX.Element => {
-        return <div className='calendar-day-event calendar-event'>
-            <div className='content'>
-                <div className='icon-wrapper'>
-                    <FontAwesomeIcon icon={faHotel} className="icon" color="#39635E" />
+        return <div className='calendar-day-event-wrapper'>
+            <div className='calendar-day-event calendar-event'>
+                <div className='content'>
+                    <div className='icon-wrapper'>
+                        <FontAwesomeIcon icon={faHotel} className="icon" color="#39635E" />
+                    </div>
+                    <div className='title'>
+                        {eventInfo.title}
+                        {timeLabel()}
+                    </div>
+                    {iconLocationPin()}
                 </div>
-                <div className='title'>{eventInfo.title}</div>
-                {iconLocationPin()}
             </div>
         </div>
+
     }, [eventInfo])
 
     const popover = useCallback((): JSX.Element => {
-        return <CalendarEventPopover className='calendar-day-event-popover'/>
+        return <CalendarEventPopover className='calendar-day-event-popover' eventInfo={eventInfo} />
     }, [eventInfo])
     return (
         <>
-            <CalendarEvent button={ button() } popover={ popover()} eventInfo={eventInfo} view={view} />
+            <CalendarEvent button={button()} popover={popover()} eventInfo={eventInfo} view={view} />
         </>
     )
 }

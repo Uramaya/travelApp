@@ -43,13 +43,26 @@ export const getCountryFlagSVGByTimeZoneName = (timeZoneName: string | null | un
  
 
  /**
-* Returns the country flag svg by time zone name
-* @param { string | null | undefined } timeZoneName
-* @returns { string }
+* Returns the time label shown on the week event card
+* @param { Date | null | undefined } start // start date time
+* @param { Date | null | undefined } end // end date time
+* @returns { string } // H:mm -H:mm
 */
 export const getCalendarEventTimeLabel = ({start, end}: 
     {start: Date | null | undefined, end: Date | null | undefined}
 ): string => {
     if(!start || !end) return ''
     return `${moment(start).format('H:mm')}- ${moment(end).format('H:mm')}`
+ }
+
+  /**
+* Returns the time label shown on the popover
+* @param { Date | null | undefined } date // date time
+* @param { boolean | null | undefined } allDay // allDay flag
+* @returns { string } // if allDay=true => D MMM YYYY(ddd) ; if allDay=false => D MMM YYYY(ddd) H:mm
+*/
+export const getCalendarEventPopoverTimeLabel = (date: Date | null | undefined, allDay: boolean | null | undefined ): string => {
+    if(!date) return ''
+    if(allDay)  return `${moment(date).format('D MMM YYYY(ddd)')}`
+    else return `${moment(date).format('D MMM YYYY(ddd) H:mm')}`
  }

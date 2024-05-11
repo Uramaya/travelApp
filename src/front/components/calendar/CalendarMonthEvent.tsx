@@ -42,7 +42,7 @@ const CalendarMonthEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view:Ca
     }, [eventInfo])
 
     const popover = useCallback((): JSX.Element => {
-        return <CalendarEventPopover className='calendar-month-event-popover' />
+        return <CalendarEventPopover className='calendar-month-event-popover' eventInfo={ eventInfo } />
     }, [eventInfo])
 
     return (

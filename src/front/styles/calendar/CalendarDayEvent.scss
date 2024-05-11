@@ -2,6 +2,13 @@
 
 // variables------------------
 // ---------------------------
+.calendar-day-event-wrapper {
+    width: 100%;
+    & .calendar-event .time-label {
+        padding-left: 0px;
+        margin-top: -4px;
+    }
+}
 .calendar-day-event {
     display: flex;
     align-items: flex-start;
@@ -10,7 +17,6 @@
         display: flex;
         border-radius: 6px;
         padding: 1px;
-        align-items: center;
         width: 100%;
     }
     & .icon-wrapper {
@@ -60,7 +66,7 @@
             left: 32px;
         }
         &.digit3 {
-            left: 30px;
+            left: 33px;
         } 
     }
 
@@ -77,11 +83,11 @@
             left: 6px;
         }
         &.digit2 {
-            left: 12.5px;
+            left: 9.5px;
         }
         &.digit3 {
-            left: 12px;
-            font-size: 7px;
+            left: 10px;
+            font-size: 9px;
         } 
     }
 }
