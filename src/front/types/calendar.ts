@@ -16,6 +16,7 @@ export type EventInfo =  {
     location: string
     commute: CommuteInfo | null
     googleMapUrl: string | null
+    images: string[]
 }
 
 export type UserInfo =  {
@@ -32,9 +33,15 @@ export type CommuteInfo =  {
     to: string
 }
 
+export type EventType = 'main' | 'stay' | 'commute' | 'activity' | 'eat' | 'other'
+
 export type EventTypeInfo =  {
-    type: 'stay' | 'commute' | 'activity' | 'eat' | 'other'
-    name: string
+    id: number
+    title: string
+    icon: any
+    type: EventType
+    color: string
+    childMenus?: EventTypeInfo[]
 }
 
 export type CalendarInfo =  {
@@ -60,5 +67,16 @@ export type CalendarProps =  {
     onNextClick: () => void
     onPrevClick: () => void
     setTimeZoneName: React.Dispatch<React.SetStateAction<string>>
+    openCalendarEventModal: boolean
+    setOpenCalendarEventModal: React.Dispatch<React.SetStateAction<boolean>>
+    modalEventInfo: EventInfo | null
+    setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>
+    onOpenModal: () => void
+    onClickAddPhoto: () => void
+    onUploadPhoto: () => void
+    onSave: () => void
+    modalEventTimeZoneName: string
+    setModalEventTimeZoneName: React.Dispatch<React.SetStateAction<string>>
 }
+
 

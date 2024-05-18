@@ -1,0 +1,12 @@
+// variables------------------
+$SWITCH_LABEL_FONT_COLOR: #676565;
+// ---------------------------
+
+
+// mui button customize------
+.mui-customize {
+    & .MuiFormControlLabel-label {
+        color: $SWITCH_LABEL_FONT_COLOR;
+    }
+}
+// ---------------------------

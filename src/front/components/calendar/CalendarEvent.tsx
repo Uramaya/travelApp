@@ -2,7 +2,6 @@ import { useState, useCallback, ReactNode, useRef, useEffect } from 'react'
 
 import Popover from '@mui/material/Popover'
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 
 import '@/styles/calendar/CalendarEvent.scss'
 import { EventInfo, CalendarView } from '@/types'
@@ -103,7 +102,7 @@ const CalendarEvent = ({button, popover, eventInfo, view}: {button: ReactNode , 
                 }}
                 className="calendar-event-popover"
             >
-                <Typography sx={{ p: 2 }}>{ popover }</Typography>
+                { popover }
             </Popover>
     </div>
     )

@@ -42,6 +42,7 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
       {
         id: 2,
@@ -83,6 +84,7 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
       {
         id: 3,
@@ -124,6 +126,7 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
       {
         id: 4,
@@ -165,6 +168,7 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
       {
         id: 5,
@@ -206,6 +210,7 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
       {
         id: 6,
@@ -247,6 +252,7 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
       {
         id: 65,
@@ -288,6 +294,7 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
       {
         id: 157,
@@ -329,6 +336,7 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
       {
         id: 0,
@@ -378,5 +386,6 @@ export const TEST_EVENTS: EventInfo[] = [
         location: 'Tokyo Hotel xxxx',
         commute: null,
         googleMapUrl: null,
+        images: [],
       },
 ]

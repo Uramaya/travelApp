@@ -9,9 +9,11 @@ import Calendar from "@/components/calendar/Calendar"
 import GlobalToolBar from "@/components/common/GlobalToolBar"
 import GoogleMap from "@/components/googleMap/GoogleMap"
 import Button from '@mui/material/Button'
-import uerCalendar from '@/hooks/calendarHook'
+import useCalendar from '@/hooks/calendarHook'
+import useCalendarEventModal from '@/hooks/calendarEventModalHook'
 import { VIEW_OPTIONS, TEST_EVENTS, INIT_CALENDAR } from '@/const'
 import Box from '@mui/material/Box'
+
 
 const MyPage = () => {
     const {
@@ -26,7 +28,20 @@ const MyPage = () => {
         onNextClick,
         onPrevClick,
         setTimeZoneName,
-    } = uerCalendar(INIT_CALENDAR)
+    } = useCalendar(INIT_CALENDAR)
+
+    const {
+        openCalendarEventModal,
+        setOpenCalendarEventModal,
+        modalEventInfo,
+        setModalEventInfo,
+        onOpenModal,
+        onClickAddPhoto,
+        onUploadPhoto,
+        onSave,
+        modalEventTimeZoneName,
+        setModalEventTimeZoneName,
+    } = useCalendarEventModal(INIT_CALENDAR)
 
     const dispatch = useDispatch<AppDispatch>()
     const calendarEvents = useAppSelector((state) => state.calendarEventsReducer)
@@ -45,7 +60,7 @@ const MyPage = () => {
                 setTimeZoneName={setTimeZoneName}
             />
             <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '65%' }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '60%' }}>
                     <Calendar
                         date={date}
                         view={view}
@@ -59,13 +74,22 @@ const MyPage = () => {
                         onTodayClick={onTodayClick}
                         onNextClick={onNextClick}
                         onPrevClick={onPrevClick}
+                        openCalendarEventModal={openCalendarEventModal}
+                        setOpenCalendarEventModal={setOpenCalendarEventModal}
+                        modalEventInfo={modalEventInfo}
+                        setModalEventInfo={setModalEventInfo}
+                        onOpenModal={onOpenModal}
+                        onClickAddPhoto={onClickAddPhoto}
+                        onUploadPhoto={onUploadPhoto}
+                        onSave={onSave}
+                        modalEventTimeZoneName={modalEventTimeZoneName}
+                        setModalEventTimeZoneName={setModalEventTimeZoneName}
                     />
                 </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '35%' }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '40%' }}>
                     <GoogleMap />
                 </Box>
             </Box>
-
         </>
     )
 }

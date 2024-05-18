@@ -1,14 +1,12 @@
 @use '../globals.scss';
 
 // variables------------------
-$CALENDAR_EVENT_Popover_BG_COLOR: #E9F5F5;
-$CALENDAR_EVENT_Popover_FONT_COLOR: #39635E;
-$CALENDAR_EVENT_Popover_HOVER_BG_COLOR: #d4f0f0;
-$CALENDAR_EVENT_Popover_ICON_WRAPPER_COLOR: #FFFFFF;
-$CALENDAR_EVENT_Popover_ICON_LOCATION_PIN_COLOR: #D84949;
-$CALENDAR_EVENT_Popover_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
-$CALENDAR_EVENT_Popover_BORDER_COLOR: #39635E;
-$CALENDAR_EVENT_Popover_X_MARK_FONT_COLOR: #A2A2A2;
+$CALENDAR_EVENT_POPOVER_FONT_COLOR: #39635E;
+$CALENDAR_EVENT_POPOVER_ICON_WRAPPER_COLOR: #FFFFFF;
+$CALENDAR_EVENT_POPOVER_ICON_LOCATION_PIN_COLOR: #D84949;
+$CALENDAR_EVENT_POPOVER_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
+$CALENDAR_EVENT_POPOVER_BORDER_COLOR: #39635E;
+$CALENDAR_EVENT_POPOVER_X_MARK_FONT_COLOR: #A2A2A2;
 $CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
 // ---------------------------
 
@@ -37,9 +35,9 @@ $CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
         align-items: center;
         flex-basis: 40px;
         min-width: 40px;
-        background: $CALENDAR_EVENT_Popover_ICON_WRAPPER_COLOR;
+        background: $CALENDAR_EVENT_POPOVER_ICON_WRAPPER_COLOR;
         box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
-        border: 1px solid $CALENDAR_EVENT_Popover_BORDER_COLOR;
+        border: 1px solid $CALENDAR_EVENT_POPOVER_BORDER_COLOR;
     }
     & .icon {
         font-size: 18px;
@@ -50,7 +48,7 @@ $CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
         padding: 1px;
         align-items: center;
         width: 100%;
-        color: $CALENDAR_EVENT_Popover_FONT_COLOR;
+        color: $CALENDAR_EVENT_POPOVER_FONT_COLOR;
     }
     & .title {
         font-size: 20px;
@@ -61,7 +59,7 @@ $CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
         text-wrap: wrap;
     }
     & .time-label {
-        color: $CALENDAR_EVENT_Popover_FONT_COLOR;
+        color: $CALENDAR_EVENT_POPOVER_FONT_COLOR;
         text-align: left;
         padding: 0 5px;
     }
@@ -78,7 +76,7 @@ $CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
         width: 38px;
         height: 38px;
         position: absolute;
-        color: $CALENDAR_EVENT_Popover_ICON_LOCATION_PIN_COLOR;
+        color: $CALENDAR_EVENT_POPOVER_ICON_LOCATION_PIN_COLOR;
         &.none {
             color: transparent;
             // left: 24px;
@@ -99,7 +97,7 @@ $CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
         font-weight: 500;
         position: relative;
         bottom: 1px;
-        color: $CALENDAR_EVENT_Popover_ICON_LOCATION_PIN_FONT_COLOR;
+        color: $CALENDAR_EVENT_POPOVER_ICON_LOCATION_PIN_FONT_COLOR;
         &.none {
             // left: 6px;
             visibility: hidden;
@@ -127,7 +125,7 @@ $CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
         width: 18px;
         height: 18px;
         position: absolute;
-        color: $CALENDAR_EVENT_Popover_X_MARK_FONT_COLOR;
+        color: $CALENDAR_EVENT_POPOVER_X_MARK_FONT_COLOR;
     }
 
     & .content-wrapper {

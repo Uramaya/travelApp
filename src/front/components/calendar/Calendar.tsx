@@ -5,25 +5,16 @@ import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 
-import { VIEW_OPTIONS, TEST_EVENTS, INIT_CALENDAR } from '@/const'
-// import uerCalendar from '@/hooks/calendarHook'
-
 import '@/styles/calendar/Calendar.scss'
 
 import { CalendarView, EventInfo, CalendarProps } from '@/types'
 
 import CalendarToolBar from '@/components/calendar/CalendarToolBar'
-import CalendarEvent from '@/components/calendar/CalendarEvent'
-import CalendarDayHeader from '@/components/calendar/CalendarDayHeader'
 import CalendarDayEvent from '@/components/calendar/CalendarDayEvent'
 import CalendarWeekHeader from '@/components/calendar/CalendarWeekHeader'
 import CalendarWeekEvent from '@/components/calendar/CalendarWeekEvent'
-import CalendarMonthHeader from '@/components/calendar/CalendarMonthHeader'
-import CalendarMonthDateHeader from '@/components/calendar/CalendarMonthDateHeader'
 import CalendarMonthEvent from '@/components/calendar/CalendarMonthEvent'
-import CalendarDateCellWrapper from '@/components/calendar/CalendarDateCellWrapper'
-import CalendarTimeSlotWrapper from '@/components/calendar/CalendarTimeSlotWrapper'
-import CalendarEventAdd from '@/components/calendar/CalendarEventAdd'
+import CalendarEventModal from '@/components/calendar/CalendarEventModal'
 
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
@@ -43,7 +34,17 @@ const Calendar = ({
   onView,
   onTodayClick,
   onNextClick,
-  onPrevClick
+  onPrevClick,
+  openCalendarEventModal,
+  setOpenCalendarEventModal,
+  modalEventInfo,
+  setModalEventInfo,
+  onOpenModal,
+  onClickAddPhoto,
+  onUploadPhoto,
+  onSave,
+  modalEventTimeZoneName,
+  setModalEventTimeZoneName,
 }: CalendarProps) => {
   const { formats } = useMemo(
     () => ({
@@ -56,16 +57,9 @@ const Calendar = ({
     }),
     []
   )
-  const popoverDom = useRef(null)
-  const [open, setOpen] = useState(false)
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
-  const [slotEventInfo, setSlotEventInfo] = useState()
   // customize event component
   const components = useMemo(() => ({
     day: {
-      header: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarDayHeader eventInfo={event} />
-      },
       event: ({ event }: EventProps<EventInfo>) => {
         return <CalendarDayEvent eventInfo={event} view="day" />
       },
@@ -85,9 +79,17 @@ const Calendar = ({
     }
   }), [])
 
+  const onOpenCalendarEventModal = (eventInfo: SlotInfo | null = null) => {
+    // open the calendar event modal
+    setOpenCalendarEventModal(true)
+    setModalEventInfo(eventInfo)
+  }
+
   // select calendar slot(cell)
   const onSelectSlot = (eventInfo: SlotInfo) => {
     console.log('onSelectSlot eventInfo', eventInfo)
+    onOpenCalendarEventModal()
+
     // click slot on month view
     // if (view === Views.MONTH) {
     //   setView(Views.WEEK)
@@ -98,22 +100,12 @@ const Calendar = ({
     //   setView(Views.DAY)
     //   setDate(eventInfo.start)
     // }
-    // const getBoundingClientRect = () => {
-    //   return popoverDom.current.getBoundingClientRect()
-    // };
-    // setSlotEventInfo(eventInfo)
-    // setAnchorEl({ getBoundingClientRect, nodeType: 1 })
-    // setOpen(true)
   }
 
   // select calendar event
   // when select the event, toggle the popup
   const onSelectEvent = useCallback((eventInfo: EventInfo) => {
   }, [])
-
-  const onClose = () => {
-    setOpen(false)
-  }
 
 
   return (
@@ -145,9 +137,14 @@ const Calendar = ({
         onSelectEvent={onSelectEvent}
         showAllEvents
       />
-      <div ref={popoverDom} >
-        <CalendarEventAdd open={open} eventInfo={slotEventInfo} anchorEl={anchorEl} onClose={onClose} />
-      </div>
+      <CalendarEventModal
+        eventInfo={modalEventInfo}
+        openCalendarEventModal={openCalendarEventModal}
+        setOpenCalendarEventModal={setOpenCalendarEventModal}
+        modalEventTimeZoneName={modalEventTimeZoneName}
+        setModalEventTimeZoneName={setModalEventTimeZoneName}
+        setModalEventInfo={setModalEventInfo}
+      />
     </>
   )
 }

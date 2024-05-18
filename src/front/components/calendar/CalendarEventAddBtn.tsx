@@ -2,12 +2,11 @@ import { useState, useCallback, ReactNode, useRef, useEffect } from 'react'
 
 import Popover from '@mui/material/Popover'
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import CalendarEventAddPopover from '@/components/calendar/CalendarEventPopover'
 import '@/styles/calendar/CalendarEvent.scss'
 import { EventInfo, CalendarView } from '@/types'
 
-const CalendarEventAdd = ({ open, eventInfo, anchorEl, onClose }: { open: boolean, eventInfo: EventInfo | null, anchorEl: HTMLElement | null, onClose: () => void }) => {
+const CalendarEventAddBtn = ({ open, eventInfo, anchorEl, onClose }: { open: boolean, eventInfo: EventInfo | null, anchorEl: HTMLElement | null, onClose: () => void }) => {
     // const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
     // const onClick = () => {
     //     setOpen(true)
@@ -36,4 +35,4 @@ const CalendarEventAdd = ({ open, eventInfo, anchorEl, onClose }: { open: boolea
     )
 }
 
-export default CalendarEventAdd
+export default CalendarEventAddBtn
