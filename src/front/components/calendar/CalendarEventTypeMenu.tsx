@@ -85,7 +85,7 @@ const CalendarEventTypeMenu = ({
 
   const onClickAway = useCallback(() => {
     setOpenEventTypeMenu(false);
-  }, [openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu])
+  }, [onClickMainMenuItem, eventInfo, openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu, setSelectedMainEventId])
 
   const MainMenu = useCallback((): JSX.Element => {
     if (openEventTypeMenu) return <ClickAwayListener onClickAway={onClickAway}>
@@ -110,7 +110,7 @@ const CalendarEventTypeMenu = ({
       </Box>
     </ClickAwayListener>
 
-  }, [onClickMainMenuItem, eventInfo, openEventTypeMenu, selectedMainEventId])
+  }, [onClickMainMenuItem, eventInfo, openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu])
   return (
     <MainMenu />
   )

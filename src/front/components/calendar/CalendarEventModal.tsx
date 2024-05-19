@@ -336,7 +336,7 @@ const CalendarEventModal = ({
       </Modal>
     </>
 
-  }, [openCalendarEventModal, handleClose])
+  }, [eventInfo, openCalendarEventModal, handleClose, openEventTypeMenu])
   return (
     <EventModal />
   )
