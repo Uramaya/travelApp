@@ -11,13 +11,18 @@ export type EventInfo =  {
     end: Date
     allDay: boolean | null
     index: number | null
-    users: UserInfo[]
+    userIds: number[]
     eventType: EventTypeInfo
     location: string
     commute: CommuteInfo | null
     googleMapUrl: string | null
     images: string[]
+    timeZoneName: string
+    description: string
+    mail: string
 }
+
+export type EventInfoKeys = keyof EventInfo;
 
 export type UserInfo =  {
     id: number
@@ -25,7 +30,7 @@ export type UserInfo =  {
     mail: string | null
     language: string | null
     icon: string | null
-    timeZone: string | null
+    timeZoneName: string | null
 }
 
 export type CommuteInfo =  {
@@ -75,8 +80,7 @@ export type CalendarProps =  {
     onClickAddPhoto: () => void
     onUploadPhoto: () => void
     onSave: () => void
-    modalEventTimeZoneName: string
-    setModalEventTimeZoneName: React.Dispatch<React.SetStateAction<string>>
+    allUsers: UserInfo[]
 }
 
 

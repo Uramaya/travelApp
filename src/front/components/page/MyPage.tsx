@@ -11,8 +11,10 @@ import GoogleMap from "@/components/googleMap/GoogleMap"
 import Button from '@mui/material/Button'
 import useCalendar from '@/hooks/calendarHook'
 import useCalendarEventModal from '@/hooks/calendarEventModalHook'
-import { VIEW_OPTIONS, TEST_EVENTS, INIT_CALENDAR } from '@/const'
+import { INIT_CALENDAR_MODAL_EVENT_INFO, INIT_CALENDAR, All_USERS } from '@/const'
 import Box from '@mui/material/Box'
+import Grid from '@mui/material/Grid'
+import '@/styles/MyPage.scss'
 
 
 const MyPage = () => {
@@ -39,9 +41,7 @@ const MyPage = () => {
         onClickAddPhoto,
         onUploadPhoto,
         onSave,
-        modalEventTimeZoneName,
-        setModalEventTimeZoneName,
-    } = useCalendarEventModal(INIT_CALENDAR)
+    } = useCalendarEventModal(INIT_CALENDAR_MODAL_EVENT_INFO)
 
     const dispatch = useDispatch<AppDispatch>()
     const calendarEvents = useAppSelector((state) => state.calendarEventsReducer)
@@ -59,13 +59,12 @@ const MyPage = () => {
                 onTodayClick={onTodayClick}
                 setTimeZoneName={setTimeZoneName}
             />
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '60%' }}>
+            <Box sx={{ width: '100%', height: '85vh', marginTop: '0px'}} className='mypage-container'>
+                <Box sx={{ overflow: 'auto', resize: 'both' }} className='calendar-area'>
                     <Calendar
                         date={date}
                         view={view}
                         events={calendarEvents}
-                        height='90vh'
                         width='100%'
                         setDate={setDate}
                         setView={setView}
@@ -82,11 +81,10 @@ const MyPage = () => {
                         onClickAddPhoto={onClickAddPhoto}
                         onUploadPhoto={onUploadPhoto}
                         onSave={onSave}
-                        modalEventTimeZoneName={modalEventTimeZoneName}
-                        setModalEventTimeZoneName={setModalEventTimeZoneName}
+                        allUsers={All_USERS}
                     />
                 </Box>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '40%' }}>
+                <Box sx={{ overflow: 'auto', resize: 'both' }} className='google-map-area'>
                     <GoogleMap />
                 </Box>
             </Box>

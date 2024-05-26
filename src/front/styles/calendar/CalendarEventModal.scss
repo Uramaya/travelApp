@@ -11,9 +11,19 @@ $CALENDAR_EVENT_PHOTO_BG_COLOR: #F6F5F5;
 $CALENDAR_EVENT_PHOTO_HOVER_FONT_COLOR: #69B6E5;
 $CALENDAR_EVENT_PHOTO_HOVER_BG_COLOR: #eef8fb;
 $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
+$CALENDAR_EVENT_MODAL_BLACK_BG_COLOR: rgba(0, 0, 0, 0.6);
+$CALENDAR_EVENT_MODAL_USER_SELECT_FONT_COLOR: #676565;
+$CALENDAR_EVENT_MODAL_USER_SELECT_ITEM_BG_COLOR: #FFFFFF;
 // ---------------------------
 
 .calendar-event-modal {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    background: $CALENDAR_EVENT_MODAL_BLACK_BG_COLOR;
+    margin-left: -8px;
     & .calendar-event-modal-content {
         background-color: $CALENDAR_EVENT_MODAL_BG_COLOR;
         border-radius: 20px;
@@ -46,6 +56,7 @@ $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
     & .title-icon-outer-wrapper {
         border-radius: 30px;
         margin-right: -15px;
+        margin-left: -15px;
         &:hover {
             background-color: $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR;
             cursor: pointer;
@@ -63,7 +74,6 @@ $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
         min-width: 42px;
         background: $CALENDAR_EVENT_MODAL_ICON_WRAPPER_COLOR;
         box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
-        border: 1.5px solid $CALENDAR_EVENT_MODAL_BORDER_COLOR;
     }
 
     & .icon {
@@ -134,20 +144,20 @@ $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
         color: $CALENDAR_EVENT_MODAL_ICON_LOCATION_PIN_FONT_COLOR;
 
         &.none {
-            // left: 6px;
+            right: 22px;
             visibility: hidden;
         }
 
         &.digit1 {
-            // left: 6px;
+            right: 22px;
         }
 
         &.digit2 {
-            // left: 9.5px;
+            right: 26px;
         }
 
         &.digit3 {
-            // left: 1px;
+            right: 27px;
             font-size: 10px;
         }
     }
@@ -206,17 +216,12 @@ $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
         text-align: left;
         color: $CALENDAR_EVENT_CONTENT_FONT_COLOR;
         text-wrap: wrap;
-
-    }
-
-    & .title-content.title-user-content {
-        padding: 0 0 0 7px;
     }
 
     & .tool-bar-wrapper {
         display: flex;
         column-gap: 3px;
-        justify-content: end;
+        justify-content: flex-end;
     }
 
     & .tool-bar-icon-btn {
@@ -231,6 +236,9 @@ $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
 
     & .title-map-location {
         margin-left: 7px;
+    }
+
+    & .content-time-label {
     }
 
     & .content-user {
@@ -329,5 +337,26 @@ $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
         color: $CALENDAR_EVENT_CONTENT_FONT_COLOR;
         text-wrap: wrap;
     }
+    .user-select-box {
+        padding: 5px 0;
+    }
 
+    .photo {
+        margin-bottom: 30px;
+    }
+
+}
+
+.title-content.title-user-content {
+    padding: 0 0 0 15px;
+    color: $CALENDAR_EVENT_MODAL_USER_SELECT_FONT_COLOR;
+    font-size: 14px;
+}
+
+#modal-users-select {
+    .title-content-wrapper.title-user-content-wrapper {
+        background-color: $CALENDAR_EVENT_MODAL_USER_SELECT_ITEM_BG_COLOR;
+        border-radius: 20px;
+        padding: 5px 10px;
+    }
 }

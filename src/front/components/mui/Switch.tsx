@@ -59,11 +59,11 @@ const IOSSwitch = styled((props: SwitchProps) => (
     },
 }))
 
-const MuiSwitch = ({label}: {label: string}) => {
+const MuiSwitch = ({label, name, value, onChangeForm}: {label: string, name: string, value: boolean, onChangeForm: any}) => {
 
     return (
         <FormControlLabel
-            control={<IOSSwitch sx={{ m: 1 }} />}
+            control={<IOSSwitch sx={{ m: 1 }} value={value} onChange={(e) => { onChangeForm(e, name) }} />}
             label={label}
             className='mui-customize'
         />

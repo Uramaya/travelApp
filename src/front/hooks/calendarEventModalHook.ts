@@ -3,11 +3,11 @@ import { EventInfo, CalendarView, CalendarInfo } from '@/types'
 import moment from 'moment'
 
 // the calendar event modal control hook
-const calendarEventModal = (initCalendarInfo: CalendarInfo) => {
+const calendarEventModal = (initEventInfo: EventInfo) => {
+
   // basic calendar event add modal setting
   const [openCalendarEventModal, setOpenCalendarEventModal] = useState<boolean>(false)
-  const [modalEventInfo, setModalEventInfo] = useState<EventInfo | null>(null)
-  const [modalEventTimeZoneName, setModalEventTimeZoneName] = useState(initCalendarInfo.timeZoneName)
+  const [modalEventInfo, setModalEventInfo] = useState<EventInfo | null>(initEventInfo)
 
   // click today button
   const onOpenModal = (eventInfo: EventInfo | null = null) => {
@@ -26,6 +26,7 @@ const calendarEventModal = (initCalendarInfo: CalendarInfo) => {
 
   // click next button
   const onSave = () => {
+    console.log('onSave', modalEventInfo)
     // to call the save event info api
 
     // to call the save photo api
@@ -39,8 +40,6 @@ const calendarEventModal = (initCalendarInfo: CalendarInfo) => {
     onClickAddPhoto,
     onUploadPhoto,
     onSave,
-    modalEventTimeZoneName,
-    setModalEventTimeZoneName,
   }
 }
 

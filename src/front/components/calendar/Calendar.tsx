@@ -43,8 +43,8 @@ const Calendar = ({
   onClickAddPhoto,
   onUploadPhoto,
   onSave,
-  modalEventTimeZoneName,
-  setModalEventTimeZoneName,
+  allUsers,
+
 }: CalendarProps) => {
   const { formats } = useMemo(
     () => ({
@@ -79,16 +79,21 @@ const Calendar = ({
     }
   }), [])
 
-  const onOpenCalendarEventModal = (eventInfo: SlotInfo | null = null) => {
+  const onOpenCalendarEventModal = (slotInfo: SlotInfo | null = null) => {
     // open the calendar event modal
+    setModalEventInfo({
+      ...modalEventInfo,
+      start: slotInfo.start,
+      end: slotInfo.end,
+    })
     setOpenCalendarEventModal(true)
-    setModalEventInfo(eventInfo)
+    console.log('openCalendarEventModal calendar', openCalendarEventModal)
   }
 
   // select calendar slot(cell)
-  const onSelectSlot = (eventInfo: SlotInfo) => {
-    console.log('onSelectSlot eventInfo', eventInfo)
-    onOpenCalendarEventModal()
+  const onSelectSlot = (slotInfo: SlotInfo) => {
+    console.log('onSelectSlot slotInfo', slotInfo)
+    onOpenCalendarEventModal(slotInfo)
 
     // click slot on month view
     // if (view === Views.MONTH) {
@@ -138,12 +143,12 @@ const Calendar = ({
         showAllEvents
       />
       <CalendarEventModal
-        eventInfo={modalEventInfo}
+        modalEventInfo={modalEventInfo}
         openCalendarEventModal={openCalendarEventModal}
         setOpenCalendarEventModal={setOpenCalendarEventModal}
-        modalEventTimeZoneName={modalEventTimeZoneName}
-        setModalEventTimeZoneName={setModalEventTimeZoneName}
         setModalEventInfo={setModalEventInfo}
+        onSave={onSave}
+        allUsers={allUsers}
       />
     </>
   )

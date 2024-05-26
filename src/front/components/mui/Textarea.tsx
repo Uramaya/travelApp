@@ -6,7 +6,7 @@ import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAuto
 const TEXTAREA_FONT_COLOR = '#676565'
 const TEXTAREA_BG_COLOR = '#F6F5F5'
 const TEXTAREA_PLACEHOLDER_BG_COLOR = '#B4B3B3'
-const MuiTextarea = ({label, placeholder}: { label: string, placeholder: string}) => {
+const MuiTextarea = ({label, placeholder, formName, onChangeForm}: { label: string, placeholder: string, formName: string, onChangeForm: any }) => {
   
     const Textarea = styled(BaseTextareaAutosize)(
       ({ theme }) => `
@@ -30,7 +30,7 @@ const MuiTextarea = ({label, placeholder}: { label: string, placeholder: string}
     `,
     )
   
-    return <Textarea aria-label={label} placeholder={placeholder} minRows={4}/>
+    return <Textarea aria-label={label} placeholder={placeholder} minRows={4} onChange={(e) => { onChangeForm(e, formName) }}/>
   }
 
 export default MuiTextarea

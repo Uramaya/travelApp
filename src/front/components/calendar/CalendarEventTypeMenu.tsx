@@ -13,12 +13,12 @@ import { ClickAwayListener } from '@mui/base/ClickAwayListener'
 
 
 const CalendarEventTypeMenu = ({
-  eventInfo,
+  modalEventInfo,
   setModalEventInfo,
   openEventTypeMenu,
   setOpenEventTypeMenu,
 }: {
-  eventInfo: EventInfo,
+  modalEventInfo: EventInfo,
   setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>,
   openEventTypeMenu: boolean,
   setOpenEventTypeMenu: React.Dispatch<React.SetStateAction<boolean>>,
@@ -33,7 +33,7 @@ const CalendarEventTypeMenu = ({
     // open child event type menu
     setOpenChildEventTypeMenu(true)
   }, [CALENDAR_EVENT_TYPE_MENU,
-    eventInfo,
+    modalEventInfo,
     openEventTypeMenu,
     selectedMainEventId,
     setSelectedMainEventId,
@@ -43,7 +43,7 @@ const CalendarEventTypeMenu = ({
 
   const onClickChildMenuItem = useCallback((eventTypeItem: EventTypeInfo) => {
     const updateInfo = {
-      ...eventInfo,
+      ...modalEventInfo,
       eventType: eventTypeItem
     }
     // update event info
@@ -53,7 +53,7 @@ const CalendarEventTypeMenu = ({
     setOpenEventTypeMenu(false)
     setOpenChildEventTypeMenu(false)
   }, [CALENDAR_EVENT_TYPE_MENU,
-    eventInfo,
+    modalEventInfo,
     openEventTypeMenu,
     setModalEventInfo,
     setOpenEventTypeMenu,
@@ -81,11 +81,11 @@ const CalendarEventTypeMenu = ({
       })}
     </Box>
 
-  }, [onClickMainMenuItem, eventInfo, openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu, setSelectedMainEventId])
+  }, [onClickMainMenuItem, modalEventInfo, openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu, setSelectedMainEventId])
 
   const onClickAway = useCallback(() => {
     setOpenEventTypeMenu(false);
-  }, [onClickMainMenuItem, eventInfo, openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu, setSelectedMainEventId])
+  }, [onClickMainMenuItem, modalEventInfo, openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu, setSelectedMainEventId])
 
   const MainMenu = useCallback((): JSX.Element => {
     if (openEventTypeMenu) return <ClickAwayListener onClickAway={onClickAway}>
@@ -110,7 +110,7 @@ const CalendarEventTypeMenu = ({
       </Box>
     </ClickAwayListener>
 
-  }, [onClickMainMenuItem, eventInfo, openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu])
+  }, [onClickMainMenuItem, modalEventInfo, openEventTypeMenu, selectedMainEventId, setOpenEventTypeMenu])
   return (
     <MainMenu />
   )

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/styles/mui/index.scss"
 import "@/styles/icon/index.scss"
+import '@/styles/page.scss'
 
 import GlobalHeader from "@/components/common/GlobalHeader"
 
