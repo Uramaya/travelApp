@@ -295,9 +295,33 @@ const CalendarEventModal = ({
     })
   }, [modalEventInfo])
 
-  const userInfo = (userId: number): UserInfo | undefined => {
+  const getModalUserInfo = (userId: number): UserInfo | undefined => {
     return getUSerInfoById(userId, All_USERS)
   }
+
+  const userChip = useCallback((userId: number): JSX.Element => {
+    const userInfo = getModalUserInfo(userId)
+    if(!userInfo) return
+    const userIcon = userInfo?.icon
+    if (!userIcon) return <Chip
+      className="mui-customize"
+      key={userId}
+      label={userInfo?.name}
+      icon={<IconDefaultUser width="25px" height="25px" iconSize="14px" />}
+      onDelete={() => { onDeleteFormUsers(userId) }}
+      onMouseDown={(e) => e.stopPropagation()}
+    /> 
+    else return <Chip
+      className="mui-customize"
+      key={userId}
+      label={userInfo?.name}
+      avatar={<Avatar alt={userInfo?.name}
+        src={userInfo?.icon}
+      />}
+      onDelete={() => { onDeleteFormUsers(userId) }}
+      onMouseDown={(e) => e.stopPropagation()}
+    />
+  }, [modalEventInfo])
 
   const users = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="content-user" >
@@ -316,16 +340,7 @@ const CalendarEventModal = ({
             renderValue={(selected) => (
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                 {selected.map((userId) => (
-                  <Chip
-                    className="mui-customize"
-                    key={userId}
-                    label={userInfo(userId)?.name}
-                    avatar={<Avatar alt={userInfo(userId)?.name}
-                      src={userInfo(userId)?.icon}
-                    />}
-                    onDelete={() => { onDeleteFormUsers(userId) }}
-                    onMouseDown={(e) => e.stopPropagation()}
-                  />
+                  userChip(userId)
                 ))}
               </Box>
             )}
@@ -347,7 +362,7 @@ const CalendarEventModal = ({
       <h3 className="photo-title">Photo</h3>
       <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: '10px' }} className="" >
         <FontAwesomeIcon icon={faLightbulb} className="icon-content" color="#A2A2A2" size="6x" />
-        <div className="text-explain">You upload Maximum 5 photos</div>
+        <div className="text-explain">You can upload Maximum 5 photos</div>
       </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', justifyContent: 'space-between' }} className="photo-list" >
         <Box

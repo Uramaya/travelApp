@@ -46,6 +46,7 @@ export type EventTypeInfo =  {
     icon: any
     type: EventType
     color: string
+    backgroundColor: string
     childMenus?: EventTypeInfo[]
 }
 
@@ -81,6 +82,12 @@ export type CalendarProps =  {
     onUploadPhoto: () => void
     onSave: () => void
     allUsers: UserInfo[]
+    popoverId: string | null
+    popoverAnchorEl: HTMLButtonElement | null
+    setPopoverAnchorEl: React.Dispatch<React.SetStateAction<HTMLButtonElement | null>>
+    popoverOpen: boolean
+    onClickPopoverBtn: any
+    onClosePopover: () => void
 }
 
 

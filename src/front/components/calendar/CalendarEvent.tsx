@@ -5,19 +5,34 @@ import Button from '@mui/material/Button'
 
 import '@/styles/calendar/CalendarEvent.scss'
 import { EventInfo, CalendarView } from '@/types'
+import CalendarEventPopover from '@/components/calendar/CalendarEventPopover'
 
-const CalendarEvent = ({button, popover, eventInfo, view}: {button: ReactNode , popover: ReactNode, eventInfo: EventInfo, view: CalendarView}) => {
-    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+const CalendarEvent = ({
+    button,
+    eventInfo,
+    view,
+    onEditPopover,
+    onCopyPopover,
+    onDeletePopover,
+}: {button: ReactNode,
+    eventInfo: EventInfo,
+    view: CalendarView,
+    onEditPopover: any,
+    onCopyPopover: any,
+    onDeletePopover: any,
+}) => {
+    const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLButtonElement | null>(null)
     const buttonDom = useRef(null)
     const [calendarClass, setCalendarClass] = useState<string>('')
 
     const onClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget)
-      }, [setAnchorEl])
+        setPopoverAnchorEl(event.currentTarget)
+      }, [popoverAnchorEl])
 
-    const onClose = useCallback(() => {
-        setAnchorEl(null)
-    }, [setAnchorEl])
+    const onClosePopover = useCallback(() => {
+        console.log('onClosePopover')
+        setPopoverAnchorEl(null)
+    }, [popoverAnchorEl])
 
     // dynamic class name of the event-number
     const getCalendarClass = () => {
@@ -84,25 +99,39 @@ const CalendarEvent = ({button, popover, eventInfo, view}: {button: ReactNode , 
         return `${getCalendarClass()} re-render`
     }
     
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
+    const open = Boolean(popoverAnchorEl);
+    const id = open ? `calendar-popover-${eventInfo.id}` : undefined;
     return (
         <div className={`calendar-event ${calendarClass}`}>
-            <Button ref={buttonDom} aria-describedby={id} variant="text" size="small" className={`calendar-event-btn ${reGetCalendarClass()}`} onClick={onClick}>
+            <Button
+                ref={buttonDom}
+                aria-describedby={id}
+                variant="text"
+                size="small"
+                style={{ background: `${eventInfo.eventType.backgroundColor}` }}
+                className={`calendar-event-btn ${reGetCalendarClass()}`}
+                onClick={onClick}
+            >
                 { button }
             </Button>
             <Popover
                 id={id}
                 open={open}
-                anchorEl={anchorEl}
-                onClose={onClose}
+                anchorEl={popoverAnchorEl}
+                onClose={onClosePopover}
                 anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
                 }}
                 className="calendar-event-popover"
             >
-                { popover }
+                <CalendarEventPopover
+                    eventInfo={eventInfo}
+                    onClosePopover={onClosePopover}
+                    onEditPopover={onEditPopover}
+                    onCopyPopover={onCopyPopover}
+                    onDeletePopover={onDeletePopover}
+                 />
             </Popover>
     </div>
     )

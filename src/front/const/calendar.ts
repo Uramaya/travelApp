@@ -25,6 +25,7 @@ export const INIT_CALENDAR_MODAL_EVENT_INFO: EventInfo = {
     icon: 'hotel',
     type: 'stay',
     color: '#39635E',
+    backgroundColor: 'E9F5F5',
   },
   location: '',
   commute: null,

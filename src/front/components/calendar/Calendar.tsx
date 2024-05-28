@@ -16,6 +16,8 @@ import CalendarWeekEvent from '@/components/calendar/CalendarWeekEvent'
 import CalendarMonthEvent from '@/components/calendar/CalendarMonthEvent'
 import CalendarEventModal from '@/components/calendar/CalendarEventModal'
 
+import { INIT_CALENDAR_MODAL_EVENT_INFO } from '@/const'
+
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.
 const localizer = momentLocalizer(moment)
@@ -44,6 +46,12 @@ const Calendar = ({
   onUploadPhoto,
   onSave,
   allUsers,
+  popoverId,
+  popoverAnchorEl,
+  setPopoverAnchorEl,
+  popoverOpen,
+  onClickPopoverBtn,
+  onClosePopover,
 
 }: CalendarProps) => {
   const { formats } = useMemo(
@@ -61,7 +69,19 @@ const Calendar = ({
   const components = useMemo(() => ({
     day: {
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarDayEvent eventInfo={event} view="day" />
+        return <CalendarDayEvent
+          eventInfo={event}
+          view="day"
+          onEditPopover={onEditPopover}
+          onCopyPopover={onCopyPopover}
+          onDeletePopover={onDeletePopover}
+          popoverId={popoverId}
+          popoverAnchorEl={popoverAnchorEl}
+          setPopoverAnchorEl={setPopoverAnchorEl}
+          popoverOpen={popoverOpen}
+          onClickPopoverBtn={onClickPopoverBtn}
+          onClosePopover={onClosePopover}
+        />
       },
     },
     week: {
@@ -69,31 +89,74 @@ const Calendar = ({
         return <CalendarWeekHeader date={date} />
       },
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarWeekEvent eventInfo={event} view="week" />
+        return <CalendarWeekEvent
+                  eventInfo={event}
+                  view="week"
+                  onEditPopover={onEditPopover}
+                  onCopyPopover={onCopyPopover}
+                  onDeletePopover={onDeletePopover}
+                  popoverId={popoverId}
+                  popoverAnchorEl={popoverAnchorEl}
+                  setPopoverAnchorEl={setPopoverAnchorEl}
+                  popoverOpen={popoverOpen}
+                  onClickPopoverBtn={onClickPopoverBtn}
+                  onClosePopover={onClosePopover}
+                />
       },
     },
     month: {
       event: ({ event }: EventProps<EventInfo>) => {
-        return <CalendarMonthEvent eventInfo={event} view="month" />
+        return <CalendarMonthEvent
+          eventInfo={event}
+          view="month"
+          onEditPopover={onEditPopover}
+          onCopyPopover={onCopyPopover}
+          onDeletePopover={onDeletePopover}
+          popoverId={popoverId}
+          popoverAnchorEl={popoverAnchorEl}
+          setPopoverAnchorEl={setPopoverAnchorEl}
+          popoverOpen={popoverOpen}
+          onClickPopoverBtn={onClickPopoverBtn}
+          onClosePopover={onClosePopover}
+        />
       },
     }
   }), [])
 
-  const onOpenCalendarEventModal = (slotInfo: SlotInfo | null = null) => {
+
+  const onDeletePopover = (eventInfo: EventInfo | null = null) => {
+
+  }
+
+  const onEditPopover = (eventInfo: EventInfo | null = null) => {
+    // open the calendar event modal
+    console.log('onEditPopover', eventInfo)
+    setModalEventInfo({
+      ...eventInfo,
+    })
+    onClosePopover()
+    setOpenCalendarEventModal(true)
+  }
+
+  const onCopyPopover = (eventInfo: EventInfo | null = null) => {
     // open the calendar event modal
     setModalEventInfo({
-      ...modalEventInfo,
-      start: slotInfo.start,
-      end: slotInfo.end,
+      ...eventInfo,
     })
+    onClosePopover()
     setOpenCalendarEventModal(true)
-    console.log('openCalendarEventModal calendar', openCalendarEventModal)
   }
 
   // select calendar slot(cell)
   const onSelectSlot = (slotInfo: SlotInfo) => {
     console.log('onSelectSlot slotInfo', slotInfo)
-    onOpenCalendarEventModal(slotInfo)
+    // open new calendar event modal
+    setModalEventInfo({
+      ...INIT_CALENDAR_MODAL_EVENT_INFO,
+      start: slotInfo.start,
+      end: slotInfo.end,
+    })
+    setOpenCalendarEventModal(true)
 
     // click slot on month view
     // if (view === Views.MONTH) {

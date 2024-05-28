@@ -11,6 +11,7 @@ import GoogleMap from "@/components/googleMap/GoogleMap"
 import Button from '@mui/material/Button'
 import useCalendar from '@/hooks/calendarHook'
 import useCalendarEventModal from '@/hooks/calendarEventModalHook'
+import useCalendarEventPopoverHook from '@/hooks/calendarEventPopoverHook'
 import { INIT_CALENDAR_MODAL_EVENT_INFO, INIT_CALENDAR, All_USERS } from '@/const'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -43,6 +44,15 @@ const MyPage = () => {
         onSave,
     } = useCalendarEventModal(INIT_CALENDAR_MODAL_EVENT_INFO)
 
+    const {
+        popoverId,
+        popoverAnchorEl,
+        setPopoverAnchorEl,
+        popoverOpen,
+        onClickPopoverBtn,
+        onClosePopover,
+    } = useCalendarEventPopoverHook()
+
     const dispatch = useDispatch<AppDispatch>()
     const calendarEvents = useAppSelector((state) => state.calendarEventsReducer)
     useEffect(() => {
@@ -59,8 +69,8 @@ const MyPage = () => {
                 onTodayClick={onTodayClick}
                 setTimeZoneName={setTimeZoneName}
             />
-            <Box sx={{ width: '100%', height: '85vh', marginTop: '0px'}} className='mypage-container'>
-                <Box sx={{ overflow: 'auto', resize: 'both' }} className='calendar-area'>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', height: '85vh', marginTop: '0px', gap: '10px'}} className='mypage-container'>
+                <Box sx={{ overflow: 'auto', resize: 'both', width: '60%' }} className='calendar-area'>
                     <Calendar
                         date={date}
                         view={view}
@@ -82,9 +92,15 @@ const MyPage = () => {
                         onUploadPhoto={onUploadPhoto}
                         onSave={onSave}
                         allUsers={All_USERS}
+                        popoverId={popoverId}
+                        popoverAnchorEl={popoverAnchorEl}
+                        setPopoverAnchorEl={setPopoverAnchorEl}
+                        popoverOpen={popoverOpen}
+                        onClickPopoverBtn={onClickPopoverBtn}
+                        onClosePopover={onClosePopover}
                     />
                 </Box>
-                <Box sx={{ overflow: 'auto', resize: 'both' }} className='google-map-area'>
+                <Box sx={{ overflow: 'auto', resize: 'both', height: '85vh', flex: 3 }} className='google-map-area'>
                     <GoogleMap />
                 </Box>
             </Box>

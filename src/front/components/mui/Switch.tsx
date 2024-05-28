@@ -63,7 +63,12 @@ const MuiSwitch = ({label, name, value, onChangeForm}: {label: string, name: str
 
     return (
         <FormControlLabel
-            control={<IOSSwitch sx={{ m: 1 }} value={value} onChange={(e) => { onChangeForm(e, name) }} />}
+            control={<IOSSwitch
+                sx={{ m: 1 }}
+                value={value}
+                checked={value}
+                onChange={(e) => { onChangeForm(e, name) }}
+            />}
             label={label}
             className='mui-customize'
         />

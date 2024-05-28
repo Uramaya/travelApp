@@ -1,6 +1,5 @@
 import { useEffect, useCallback, useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHotel } from "@fortawesome/free-solid-svg-icons";
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
 import '@/styles/calendar/CalendarMonthEvent.scss'
 import { numDigits } from '@/utils/utils'
@@ -8,9 +7,20 @@ import { numDigits } from '@/utils/utils'
 import { EventInfo, CalendarView } from '@/types'
 
 import CalendarEvent from '@/components/calendar/CalendarEvent'
-import CalendarEventPopover from '@/components/calendar/CalendarEventPopover'
 
-const CalendarMonthEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view:CalendarView }) => {
+const CalendarMonthEvent = ({
+    eventInfo,
+    view,
+    onEditPopover,
+    onCopyPopover,
+    onDeletePopover,
+}: { eventInfo: EventInfo,
+    view:CalendarView,
+    onEditPopover: any,
+    onCopyPopover: any,
+    onDeletePopover: any,
+}) => {
+    
 
     // dynamic class name of the event-number
     const iconLocationClass = (): string => {
@@ -31,9 +41,9 @@ const CalendarMonthEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view:Ca
 
     const button = useCallback((): JSX.Element => {
         return <div className='calendar-month-event calendar-event'>
-            <div className='content'>
+            <div className='content' style={{color: `${eventInfo?.eventType?.color}`}}>
                 <div className='icon-wrapper'>
-                    <FontAwesomeIcon icon={faHotel} className="icon" color="#39635E" />
+                <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
                 </div>
                 <div className='title'>{eventInfo.title}</div>
                 {iconLocationPin()}
@@ -41,13 +51,16 @@ const CalendarMonthEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view:Ca
         </div>
     }, [eventInfo])
 
-    const popover = useCallback((): JSX.Element => {
-        return <CalendarEventPopover className='calendar-month-event-popover' eventInfo={ eventInfo } />
-    }, [eventInfo])
-
     return (
         <>
-            <CalendarEvent button={button()} popover={popover()} eventInfo={eventInfo} view={view} />
+            <CalendarEvent
+                button={button()}
+                eventInfo={eventInfo}
+                view={view}
+                onEditPopover={onEditPopover}
+                onCopyPopover={onCopyPopover}
+                onDeletePopover={onDeletePopover}
+            />
         </>
     )
 }

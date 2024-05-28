@@ -7,10 +7,13 @@ $CALENDAR_EVENT_POPOVER_ICON_LOCATION_PIN_COLOR: #D84949;
 $CALENDAR_EVENT_POPOVER_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
 $CALENDAR_EVENT_POPOVER_BORDER_COLOR: #39635E;
 $CALENDAR_EVENT_POPOVER_X_MARK_FONT_COLOR: #A2A2A2;
-$CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
+$CALENDAR_EVENT_CONTENT_FONT_COLOR: #878686;
 // ---------------------------
 
 .calendar-event-popover {
+    &.MuiModal-root.MuiPopover-root {
+        z-index: 998;
+    }
     & .MuiPopover-paper {
         overflow: visible;
     }

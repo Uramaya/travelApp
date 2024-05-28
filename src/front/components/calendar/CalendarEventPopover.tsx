@@ -1,15 +1,49 @@
 import { useCallback } from "react"
-import { EventInfo } from '@/types'
+import { EventInfo, UserInfo } from '@/types'
 import '@/styles/calendar/CalendarEventPopover.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHotel, faXmark, faLocationPin, faClock, faLocationDot, faUsers, faCopy, faPen, faTrashCan, faCircleDot, faMapLocationDot, faEllipsis } from "@fortawesome/free-solid-svg-icons"
-import { numDigits, getCalendarEventPopoverTimeLabel } from '@/utils/utils'
+import { numDigits, getCalendarEventPopoverTimeLabel, getUSerInfoById } from '@/utils/utils'
+import { All_USERS } from '@/const'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
+import Avatar from '@mui/material/Avatar'
 import IconDefaultUser from '@/components/icon/IconDefaultUser'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 
-const CalendarEventPopover = ({ className, eventInfo }: { className: string, eventInfo: EventInfo }) => {
+const CalendarEventPopover = ({ 
+  eventInfo,
+  onEditPopover,
+  onCopyPopover,
+  onDeletePopover,
+  onClosePopover,
+}: { 
+  eventInfo: EventInfo,
+  onEditPopover: any,
+  onCopyPopover: any,
+  onDeletePopover: any,
+  onClosePopover: any
+}) => {
+  library.add(fas, fab)
+
+  const onEdit = (): void => {
+    onClosePopover()
+    onEditPopover(eventInfo)
+  }
+
+  const onCopy = (): void => {
+    onClosePopover()
+    onCopyPopover(eventInfo)
+  }
+
+  const onDelete = (): void => {
+    onDeletePopover(eventInfo)
+  }
+
   // dynamic class name of the event-number
   const iconLocationClass = (): string => {
     if (!eventInfo || !eventInfo.index) return 'none'
@@ -29,10 +63,10 @@ const CalendarEventPopover = ({ className, eventInfo }: { className: string, eve
 
   const title = useCallback((): JSX.Element => {
     return <div className='title-wrapper'>
-      <div className='title-icon-wrapper'>
-        <FontAwesomeIcon icon={faHotel} className="icon" color="#39635E" />
+      <div className='title-icon-wrapper' style={{ border: `1.5px solid ${eventInfo?.eventType?.color}` }}>
+        <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
       </div>
-      <div className='title'>{eventInfo.title}</div>
+      <div className='title' style={{ color: `${eventInfo?.eventType?.color}` }}>{eventInfo.title}</div>
     </div>
   }, [eventInfo])
 
@@ -46,26 +80,50 @@ const CalendarEventPopover = ({ className, eventInfo }: { className: string, eve
     </div>
   }, [eventInfo])
 
+  const getModalUserInfo = (userId: number): UserInfo | undefined => {
+    return getUSerInfoById(userId, All_USERS)
+  }
+
+  const userChip = useCallback((userId: number): JSX.Element => {
+    const userInfo = getModalUserInfo(userId)
+    if(!userInfo) return
+    const userIcon = userInfo?.icon
+    if (!userIcon) return <Chip
+      className="mui-customize"
+      key={userId}
+      label={userInfo?.name}
+      icon={<IconDefaultUser width="25px" height="25px" iconSize="14px" />}
+      onMouseDown={(e) => e.stopPropagation()}
+    /> 
+    else return <Chip
+      className="mui-customize"
+      key={userId}
+      label={userInfo?.name}
+      avatar={<Avatar alt={userInfo?.name}
+        src={userInfo?.icon}
+      />}
+      onMouseDown={(e) => e.stopPropagation()}
+    />
+  }, [eventInfo])
+
   const users = useCallback((): JSX.Element => {
-    if (!eventInfo.users.length) return <></>
-    if (eventInfo.users.length < 4) return <Box sx={{ display: 'flex', width: '100%' }} className="content-user" >
+    if (!eventInfo.userIds.length) return <></>
+    if (eventInfo.userIds.length < 4) return <Box sx={{ display: 'flex', width: '100%' }} className="content-user" >
       <FontAwesomeIcon icon={faUsers} className="icon-content" color="#A2A2A2" />
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} className="" >
-        {eventInfo.users.map((user) => {
-          return <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className='title-content-wrapper title-user-content-wrapper' >
-            <IconDefaultUser width="25px" height="25px" iconSize="14px" />
-            <div className='title-content title-user-content'>{user.name}</div>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} >
+        {eventInfo.userIds.map((userId) => {
+          return <Box key={userId} sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className='title-content-wrapper title-user-content-wrapper' >
+            {userChip(userId)}
           </Box>
         })}
       </Box>
     </Box>
-    if (eventInfo.users.length >= 4) return <Box sx={{ display: 'flex', width: '100%' }} className="content-user" >
+    if (eventInfo.userIds.length >= 4) return <Box sx={{ display: 'flex', width: '100%' }} className="content-user" >
       <FontAwesomeIcon icon={faUsers} className="icon-content" color="#A2A2A2" />
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} className="" >
-        {eventInfo.users.slice(0, 3).map((user) => {
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} >
+        {eventInfo.userIds.slice(0, 3).map((userId) => {
           return <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className='title-content-wrapper title-user-content-wrapper' >
-            <IconDefaultUser width="25px" height="25px" iconSize="14px" />
-            <div className='title-content title-user-content'>{user.name}</div>
+            {userChip(userId)}
           </Box>
         })}
         <IconButton className='tool-bar-icon-btn'>
@@ -108,8 +166,8 @@ const CalendarEventPopover = ({ className, eventInfo }: { className: string, eve
   const closeBtn = useCallback((): JSX.Element => {
     return <div>
       <div className='icon-wrapper-x-mark'>
-        <IconButton className='icon-x-mark-btn'>
-          <FontAwesomeIcon icon={faXmark} className='icon-x-mark' color="#39635E" />
+        <IconButton className='icon-x-mark-btn' onClick={onClosePopover}>
+          <FontAwesomeIcon icon={faXmark} className='icon-x-mark' color="#39635E"/>
         </IconButton>
       </div>
     </div>
@@ -117,14 +175,14 @@ const CalendarEventPopover = ({ className, eventInfo }: { className: string, eve
 
   const toolBar = useCallback((): JSX.Element => {
     return <div className='tool-bar-wrapper'>
-      <IconButton className='tool-bar-icon-btn'>
+      <IconButton className='tool-bar-icon-btn' onClick={onDelete}>
         <FontAwesomeIcon icon={faTrashCan} className="icon-tool-bar" color="#A2A2A2" />
       </IconButton>
-      <IconButton className='tool-bar-icon-btn'>
+      <IconButton className='tool-bar-icon-btn' onClick={onCopy}>
         <FontAwesomeIcon icon={faCopy} className="icon-tool-bar" color="#A2A2A2" />
       </IconButton>
-      <IconButton className='tool-bar-icon-btn'>
-        <FontAwesomeIcon icon={faPen} className="icon-tool-bar" color="#A2A2A2" />
+      <IconButton className='tool-bar-icon-btn' onClick={onEdit}>
+        <FontAwesomeIcon icon={faPen} className="icon-tool-bar" color="#A2A2A2"/>
       </IconButton>
     </div>
   }, [eventInfo])
@@ -132,7 +190,7 @@ const CalendarEventPopover = ({ className, eventInfo }: { className: string, eve
   const Popover = useCallback((): JSX.Element => {
     return <>
       {iconLocationPin()}
-      <div className={`calendar-event-popover ${className}`}>
+      <div className='calendar-event-popover'>
         <div className="content">
           {title()}
           <div className="content-outer-wrapper">
@@ -145,7 +203,7 @@ const CalendarEventPopover = ({ className, eventInfo }: { className: string, eve
       {closeBtn()}
     </>
 
-  }, [className])
+  }, [eventInfo])
   return (
     <Popover />
   )

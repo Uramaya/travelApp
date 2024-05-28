@@ -8,6 +8,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
     icon: 'bed',
     type: 'main',
     color: '#2D2D2D',
+    backgroundColor: '',
     childMenus: [
       {
         id: 1,
@@ -15,6 +16,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'hotel',
         type: 'stay',
         color: '#39635E',
+        backgroundColor: 'E9F5F5',
       },
       {
         id: 2,
@@ -22,6 +24,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'shop',
         type: 'stay',
         color: '#39635E',
+        backgroundColor: 'E9F5F5',
       },
       {
         id: 3,
@@ -29,6 +32,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: ['fab', 'airbnb'],
         type: 'stay',
         color: '#39635E',
+        backgroundColor: 'E9F5F5',
       },
       {
         id: 4,
@@ -36,6 +40,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'bed',
         type: 'stay',
         color: '#39635E',
+        backgroundColor: 'E9F5F5',
       },
     ]
   },
@@ -45,6 +50,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
     icon: 'plane',
     type: 'main',
     color: '#2D2D2D',
+    backgroundColor: '',
     childMenus: [
       {
         id: 5,
@@ -52,6 +58,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'plane',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 6,
@@ -59,6 +66,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'train',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 7,
@@ -66,6 +74,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'train-subway',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 8,
@@ -73,6 +82,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'bus',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 81,
@@ -80,6 +90,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'motorcycle',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 9,
@@ -87,6 +98,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'bicycle',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 10,
@@ -94,6 +106,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'car-side',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 11,
@@ -101,6 +114,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'car',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 12,
@@ -108,6 +122,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'person-walking',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 13,
@@ -115,6 +130,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'taxi',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 14,
@@ -122,6 +138,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'ship',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
       {
         id: 15,
@@ -129,6 +146,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'ferry',
         type: 'commute',
         color: '#F88029',
+        backgroundColor: '#FFEED5',
       },
     ]
   },
@@ -138,6 +156,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
     icon: 'archway',
     type: 'main',
     color: '#2D2D2D',
+    backgroundColor: '',
     childMenus: [
       {
         id: 16,
@@ -145,6 +164,8 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'archway',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
+
       },
       {
         id: 17,
@@ -152,6 +173,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'plane-departure',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 18,
@@ -159,6 +181,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'cart-shopping',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 19,
@@ -166,6 +189,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'tree',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 20,
@@ -173,6 +197,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'mountain',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 21,
@@ -180,6 +205,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'umbrella-beach',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 22,
@@ -187,6 +213,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'camera-retro',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 23,
@@ -194,6 +221,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'briefcase',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 24,
@@ -201,6 +229,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'heart',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 25,
@@ -208,6 +237,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'restroom',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 26,
@@ -215,6 +245,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'person-swimming',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 27,
@@ -222,6 +253,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'futbol',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 28,
@@ -229,6 +261,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'person-skiing',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 29,
@@ -236,6 +269,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'fa-music',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 30,
@@ -243,6 +277,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'laptop',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 31,
@@ -250,6 +285,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'book-open-reader',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 33,
@@ -257,6 +293,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'smoking',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
       {
         id: 34,
@@ -264,6 +301,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'person-praying',
         type: 'activity',
         color: '#D84949',
+        backgroundColor: '#FFEBE8',
       },
     ]
   },
@@ -273,6 +311,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
     icon: 'utensils',
     type: 'main',
     color: '#2D2D2D',
+    backgroundColor: '',
     childMenus: [
       {
         id: 35,
@@ -280,6 +319,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'mug-saucer',
         type: 'eat',
         color: '#7C3823',
+        backgroundColor: '#EEDECB',
       },
       {
         id: 36,
@@ -287,6 +327,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'utensils',
         type: 'eat',
         color: '#7C3823',
+        backgroundColor: '#EEDECB',
       },
       {
         id: 37,
@@ -294,6 +335,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'martini-glass-citrus',
         type: 'eat',
         color: '#7C3823',
+        backgroundColor: '#EEDECB',
       },
       {
         id: 38,
@@ -301,6 +343,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
         icon: 'store',
         type: 'eat',
         color: '#7C3823',
+        backgroundColor: '#EEDECB',
       },
     ]
   },
@@ -310,6 +353,7 @@ export const CALENDAR_EVENT_TYPE_MENU: EventTypeInfo[] = [
     icon: 'angles-right',
     type: 'main',
     color: '#2D2D2D',
+    backgroundColor: '',
     childMenus: []
   },
 ]

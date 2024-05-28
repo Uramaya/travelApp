@@ -8,12 +8,19 @@ import { numDigits, getCalendarEventTimeLabel } from '@/utils/utils'
 import { EventInfo, CalendarView } from '@/types'
 
 import CalendarEvent from '@/components/calendar/CalendarEvent'
-import CalendarEventPopover from '@/components/calendar/CalendarEventPopover'
 
-const CalendarDayEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view: CalendarView }) => {
-    const [label, setLabel] = useState<string>('')
-
-
+const CalendarDayEvent = ({
+    eventInfo,
+    view,
+    onEditPopover,
+    onCopyPopover,
+    onDeletePopover,
+}: { eventInfo: EventInfo,
+    view: CalendarView,
+    onEditPopover: any,
+    onCopyPopover: any,
+    onDeletePopover: any,
+}) => {
 
     // dynamic class name of the event-number
     const iconLocationClass = (): string => {
@@ -41,9 +48,9 @@ const CalendarDayEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view: Cal
     const button = useCallback((): JSX.Element => {
         return <div className='calendar-day-event-wrapper'>
             <div className='calendar-day-event calendar-event'>
-                <div className='content'>
+                <div className='content' style={{color: `${eventInfo?.eventType?.color}`}}>
                     <div className='icon-wrapper'>
-                        <FontAwesomeIcon icon={faHotel} className="icon" color="#39635E" />
+                        <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
                     </div>
                     <div className='title'>
                         {eventInfo.title}
@@ -56,12 +63,16 @@ const CalendarDayEvent = ({ eventInfo, view }: { eventInfo: EventInfo, view: Cal
 
     }, [eventInfo])
 
-    const popover = useCallback((): JSX.Element => {
-        return <CalendarEventPopover className='calendar-day-event-popover' eventInfo={eventInfo} />
-    }, [eventInfo])
     return (
         <>
-            <CalendarEvent button={button()} popover={popover()} eventInfo={eventInfo} view={view} />
+            <CalendarEvent
+                button={button()}
+                eventInfo={eventInfo}
+                view={view}
+                onEditPopover={onEditPopover}
+                onCopyPopover={onCopyPopover}
+                onDeletePopover={onDeletePopover}
+            />
         </>
     )
 }
