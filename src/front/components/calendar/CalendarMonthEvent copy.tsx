@@ -1,25 +1,26 @@
-import { useCallback, useEffect, useState } from 'react'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
-import '@/styles/calendar/CalendarDayEvent.scss'
-import { numDigits, getCalendarEventTimeLabel } from '@/utils/utils'
+import { useEffect, useCallback, useState } from 'react'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationPin } from "@fortawesome/free-solid-svg-icons";
+import '@/styles/calendar/CalendarMonthEvent.scss'
+import { numDigits } from '@/utils/utils'
 
 import { EventInfo, CalendarView } from '@/types'
 
 import CalendarEvent from '@/components/calendar/CalendarEvent'
 
-const CalendarDayEvent = ({
+const CalendarMonthEvent = ({
     eventInfo,
     view,
     onEditPopover,
     onCopyPopover,
     onDeletePopover,
 }: { eventInfo: EventInfo,
-    view: CalendarView,
+    view:CalendarView,
     onEditPopover: any,
     onCopyPopover: any,
     onDeletePopover: any,
 }) => {
+    
 
     // dynamic class name of the event-number
     const iconLocationClass = (): string => {
@@ -38,28 +39,16 @@ const CalendarDayEvent = ({
         </div>
     }, [eventInfo])
 
-    // create dynamic time label jsx element(hh:mm A - hh:mm A)
-    const timeLabel = useCallback((): JSX.Element => {
-        if (!eventInfo.allDay) return <div className='time-label'>{getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end })}</div>
-    }, [eventInfo])
-
-
     const button = useCallback((): JSX.Element => {
-        return <div className='calendar-day-event-wrapper'>
-            <div className='calendar-day-event calendar-event'>
-                <div className='content' style={{color: `${eventInfo?.eventType?.color}`}}>
-                    <div className='icon-wrapper'>
-                        <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
-                    </div>
-                    <div className='title'>
-                        {eventInfo.title}
-                        {timeLabel()}
-                    </div>
-                    {iconLocationPin()}
+        return <div className='calendar-month-event calendar-event'>
+            <div className='content' style={{color: `${eventInfo?.eventType?.color}`}}>
+                <div className='icon-wrapper'>
+                <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
                 </div>
+                <div className='title'>{eventInfo.title}</div>
+                {iconLocationPin()}
             </div>
         </div>
-
     }, [eventInfo])
 
     return (
@@ -76,4 +65,4 @@ const CalendarDayEvent = ({
     )
 }
 
-export default CalendarDayEvent
+export default CalendarMonthEvent

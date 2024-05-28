@@ -15,6 +15,7 @@ import CalendarWeekHeader from '@/components/calendar/CalendarWeekHeader'
 import CalendarWeekEvent from '@/components/calendar/CalendarWeekEvent'
 import CalendarMonthEvent from '@/components/calendar/CalendarMonthEvent'
 import CalendarEventModal from '@/components/calendar/CalendarEventModal'
+import CalendarEventAddBtn from '@/components/calendar/CalendarEventAddBtn'
 
 import { INIT_CALENDAR_MODAL_EVENT_INFO } from '@/const'
 
@@ -75,12 +76,6 @@ const Calendar = ({
           onEditPopover={onEditPopover}
           onCopyPopover={onCopyPopover}
           onDeletePopover={onDeletePopover}
-          popoverId={popoverId}
-          popoverAnchorEl={popoverAnchorEl}
-          setPopoverAnchorEl={setPopoverAnchorEl}
-          popoverOpen={popoverOpen}
-          onClickPopoverBtn={onClickPopoverBtn}
-          onClosePopover={onClosePopover}
         />
       },
     },
@@ -90,18 +85,12 @@ const Calendar = ({
       },
       event: ({ event }: EventProps<EventInfo>) => {
         return <CalendarWeekEvent
-                  eventInfo={event}
-                  view="week"
-                  onEditPopover={onEditPopover}
-                  onCopyPopover={onCopyPopover}
-                  onDeletePopover={onDeletePopover}
-                  popoverId={popoverId}
-                  popoverAnchorEl={popoverAnchorEl}
-                  setPopoverAnchorEl={setPopoverAnchorEl}
-                  popoverOpen={popoverOpen}
-                  onClickPopoverBtn={onClickPopoverBtn}
-                  onClosePopover={onClosePopover}
-                />
+            eventInfo={event}
+            view="week"
+            onEditPopover={onEditPopover}
+            onCopyPopover={onCopyPopover}
+            onDeletePopover={onDeletePopover}
+          />
       },
     },
     month: {
@@ -112,12 +101,6 @@ const Calendar = ({
           onEditPopover={onEditPopover}
           onCopyPopover={onCopyPopover}
           onDeletePopover={onDeletePopover}
-          popoverId={popoverId}
-          popoverAnchorEl={popoverAnchorEl}
-          setPopoverAnchorEl={setPopoverAnchorEl}
-          popoverOpen={popoverOpen}
-          onClickPopoverBtn={onClickPopoverBtn}
-          onClosePopover={onClosePopover}
         />
       },
     }
@@ -151,23 +134,23 @@ const Calendar = ({
   const onSelectSlot = (slotInfo: SlotInfo) => {
     console.log('onSelectSlot slotInfo', slotInfo)
     // open new calendar event modal
-    setModalEventInfo({
-      ...INIT_CALENDAR_MODAL_EVENT_INFO,
-      start: slotInfo.start,
-      end: slotInfo.end,
-    })
-    setOpenCalendarEventModal(true)
+    // setModalEventInfo({
+    //   ...INIT_CALENDAR_MODAL_EVENT_INFO,
+    //   start: slotInfo.start,
+    //   end: slotInfo.end,
+    // })
+    // setOpenCalendarEventModal(true)
 
     // click slot on month view
-    // if (view === Views.MONTH) {
-    //   setView(Views.WEEK)
-    //   setDate(eventInfo.start)
-    // }
+    if (view === Views.MONTH) {
+      setView(Views.WEEK)
+      setDate(slotInfo.start)
+    }
     // click slot on week view
-    // if (view === Views.WEEK) {
-    //   setView(Views.DAY)
-    //   setDate(eventInfo.start)
-    // }
+    if (view === Views.WEEK) {
+      setView(Views.DAY)
+      setDate(slotInfo.start)
+    }
   }
 
   // select calendar event
@@ -207,6 +190,13 @@ const Calendar = ({
       />
       <CalendarEventModal
         modalEventInfo={modalEventInfo}
+        openCalendarEventModal={openCalendarEventModal}
+        setOpenCalendarEventModal={setOpenCalendarEventModal}
+        setModalEventInfo={setModalEventInfo}
+        onSave={onSave}
+        allUsers={allUsers}
+      />
+      <CalendarEventAddBtn
         openCalendarEventModal={openCalendarEventModal}
         setOpenCalendarEventModal={setOpenCalendarEventModal}
         setModalEventInfo={setModalEventInfo}

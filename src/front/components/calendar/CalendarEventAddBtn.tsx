@@ -1,36 +1,57 @@
 import { useState, useCallback, ReactNode, useRef, useEffect } from 'react'
-
 import Popover from '@mui/material/Popover'
 import Button from '@mui/material/Button'
-import CalendarEventAddPopover from '@/components/calendar/CalendarEventPopover'
-import '@/styles/calendar/CalendarEvent.scss'
-import { EventInfo, CalendarView } from '@/types'
+import CalendarEventModal from '@/components/calendar/CalendarEventModal'
+import '@/styles/calendar/CalendarEventAddBtn.scss'
+import { INIT_CALENDAR_MODAL_EVENT_INFO } from '@/const'
+import { EventInfo, CalendarView, UserInfo } from '@/types'
+import { faPlus } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
-const CalendarEventAddBtn = ({ open, eventInfo, anchorEl, onClose }: { open: boolean, eventInfo: EventInfo | null, anchorEl: HTMLElement | null, onClose: () => void }) => {
-    // const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
-    // const onClick = () => {
-    //     setOpen(true)
-    // }
-    const id = open ? 'virtual-element-popover' : undefined
+const CalendarEventAddBtn = ({
+    openCalendarEventModal,
+    setOpenCalendarEventModal,
+    setModalEventInfo,
+    onSave,
+    allUsers,
+}: {
+    openCalendarEventModal: boolean,
+    setOpenCalendarEventModal: React.Dispatch<React.SetStateAction<boolean>>,
+    setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>,
+    onSave: () => void,
+    allUsers: UserInfo[]
 
-    const popover = useCallback((): JSX.Element => {
-        return <CalendarEventAddPopover className='calendar-day-event-add-popover-date-cell' eventInfo={eventInfo} />
-    }, [])
+}) => {
+    const onClick = useCallback(() => {
+        setOpenCalendarEventModal(true)
+    }, [openCalendarEventModal, setOpenCalendarEventModal])
+
+    const onClose = useCallback(() => {
+        setOpenCalendarEventModal(false)
+    }, [openCalendarEventModal, setOpenCalendarEventModal])
 
     return (
-        <div className='calendar-event-add'>
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={onClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
+        <div className='calendar-event-add-btn'>
+            <Button
+                variant="text"
+                size="small"
+                className='calendar-event-btn'
+                onClick={onClick}
             >
-                <div>{popover()}</div>
-            </Popover>
+                <div className='icon-plus-btn'>
+                    <div className='icon-wrapper'>
+                        <FontAwesomeIcon icon={faPlus} className="icon" color="#53A9DB" />
+                    </div>
+                </div>
+            </Button>
+            <CalendarEventModal
+                modalEventInfo={INIT_CALENDAR_MODAL_EVENT_INFO}
+                openCalendarEventModal={openCalendarEventModal}
+                setOpenCalendarEventModal={setOpenCalendarEventModal}
+                setModalEventInfo={setModalEventInfo}
+                onSave={onSave}
+                allUsers={allUsers}
+            />
         </div>
     )
 }

@@ -27,7 +27,7 @@ const CalendarEvent = ({
 
     const onClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         setPopoverAnchorEl(event.currentTarget)
-      }, [popoverAnchorEl])
+    }, [popoverAnchorEl])
 
     const onClosePopover = useCallback(() => {
         console.log('onClosePopover')
@@ -100,9 +100,9 @@ const CalendarEvent = ({
     }
     
     const open = Boolean(popoverAnchorEl);
-    const id = open ? `calendar-popover-${eventInfo.id}` : undefined;
+    const id = open ? `calendar-popover-${eventInfo.id}` : undefined
     return (
-        <div className={`calendar-event ${calendarClass}`}>
+        <div className={`calendar-event ${calendarClass}`} style={{ background: `${eventInfo.eventType.backgroundColor}` }}>
             <Button
                 ref={buttonDom}
                 aria-describedby={id}
