@@ -54,4 +54,16 @@ $FILLED_INPUT_FONT_COLOR: #676565;
 .MuiPaper-root.MuiPopover-paper.MuiMenu-paper {
     border-radius: 12px;
 }
+
+.search-input {
+    .icon-magnifying-glass {
+        position: relative;
+        z-index: 2;
+    }
+    .mui-customize .MuiInputBase-input {
+        padding-left: 40px;
+    }
+}
+
+
 // ---------------------------

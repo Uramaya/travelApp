@@ -142,7 +142,7 @@ const CalendarEventPopover = ({
       </Box>
 
       {/* location */}
-      <Box className="" >
+      <Box>
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
           <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
           <div className='title-content'>{eventInfo.location}</div>

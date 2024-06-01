@@ -102,15 +102,17 @@ const CalendarEvent = ({
     const open = Boolean(popoverAnchorEl);
     const id = open ? `calendar-popover-${eventInfo.id}` : undefined
     return (
-        <div className={`calendar-event ${calendarClass}`} style={{ background: `${eventInfo.eventType.backgroundColor}` }}>
+        <div className={`calendar-event ${calendarClass}`}
+            style={{ background: `${eventInfo.eventType.backgroundColor}`
+        }}>
             <Button
                 ref={buttonDom}
                 aria-describedby={id}
                 variant="text"
                 size="small"
-                style={{ background: `${eventInfo.eventType.backgroundColor}` }}
                 className={`calendar-event-btn ${reGetCalendarClass()}`}
                 onClick={onClick}
+                style={{ color: `${eventInfo.eventType.color}`}}
             >
                 { button }
             </Button>

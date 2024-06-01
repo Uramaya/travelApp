@@ -1,7 +1,6 @@
 import { COUNTRIES } from '@/const/country'
 import { COUNTRY_FLAGS } from "@/const/countryFlogEmoji"
-import { UserInfo } from "@/types"
-import { LargeNumberLike } from 'crypto'
+import { UserInfo, AddressComponent, AddressType } from "@/types"
 import moment from 'moment'
 /**
  * Returns the digits of the number
@@ -90,4 +89,27 @@ export const getCalendarEventDateTimeModalLabel = (date: Date | null | undefined
 export const getUSerInfoById = (userId: number | null | undefined, allUsers: UserInfo[] | null | undefined): UserInfo | undefined => {
     if (!userId || !allUsers) return undefined
     return allUsers.find(user => user.id === userId)
+}
+
+/**
+* Returns the date label shown on the event card
+* @param { Date | null | undefined } startDate // date
+* @param { Date | null | undefined } endDate // date
+* @returns { string } //  D MMM YYYY ;
+*/
+export const getEventCardDateLabel = (startDate: Date | null | undefined, endDate: Date | null | undefined): string => {
+    if (!startDate) return ''
+    if (!endDate) return `${moment(startDate).format('D MMM YYYY')}`
+    return `${moment(startDate).format('D MMM YYYY')} - ${moment(endDate).format('D MMM YYYY')}`
+}
+
+/**
+* Returns the location label shown on the event card
+* @param { AddressComponent | null | undefined } addressComponent // date
+* @param { Date | null | undefined } endDate // date
+* @returns { string } //  D MMM YYYY ;
+*/
+export const getEventCardLocationLabel = (addressComponent: AddressComponent[] | null | undefined): string => {
+    if (!addressComponent) return ''
+    return [addressComponent.find(address => address.types.includes('country'))?.long_name, addressComponent.find(address => address.types.includes('administrative_area_level_2'))?.long_name].join(', ')
 }

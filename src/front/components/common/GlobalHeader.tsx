@@ -4,14 +4,21 @@ import '@/styles/GlobalHeader.scss'
 
 import GlobalHeaderUser from '@/components/common/GlobalHeaderUser'
 import GlobalHeaderLogo from '@/components/common/GlobalHeaderLogo'
+import AddTripBtn from '@/components/common/AddTripBtn'
+import SearchPlanInput from '@/components/common/SearchPlanInput'
 
 const GlobalHeader = () => {
     
     return (
         <div className='global-header'>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', height: '50px', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', width: '100%', height: '50px', alignItems: 'center', justifyContent: 'space-between' }}>
                 <GlobalHeaderLogo />
-                <GlobalHeaderUser />
+
+                <Box sx={{ display: 'flex', alignItems: 'center' }} gap={2.5}>
+                    <AddTripBtn />
+                    <SearchPlanInput />
+                    <GlobalHeaderUser />
+                </Box>
             </Box>
         </div>
     )

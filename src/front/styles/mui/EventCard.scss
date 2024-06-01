@@ -1,0 +1,55 @@
+// variables------------------
+$EVENT_CARD_FONT_COLOR: #A2A2A2;
+$EVENT_CARD_TITLE_FONT_COLOR: #000000;
+// ---------------------------
+
+
+// mui button customize------
+.mui-customize {
+    &.MuiPaper-root.MuiCard-root {
+        box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
+        border-radius: 12px;
+    }
+    & .MuiCardContent-root {
+        padding: 10px 16px;
+    }
+}
+
+.event-card {
+    & .event-card-title {
+        color: $EVENT_CARD_TITLE_FONT_COLOR;
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+    & .icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    & .icon-title {
+        color: $EVENT_CARD_FONT_COLOR;
+        font-size: 12px;
+    }
+
+    & .even-card-tool-bar {
+        & .icon {
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    & .event-card-user-chip {
+        margin-left: -8px;
+    }
+
+    & .MuiChip-root.MuiChip-filled {
+        color: $EVENT_CARD_FONT_COLOR;
+    }
+
+    & .icon-title-like {
+        margin-left: -5px;
+    }
+}
+
+// ---------------------------

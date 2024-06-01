@@ -4,6 +4,24 @@ import { Views } from 'react-big-calendar'
 type CalendarViewKeys = keyof typeof Views;
 export type CalendarView = typeof Views[CalendarViewKeys]
 
+export type EventList =  {
+    ongoing: EventListItem[]
+    recent: EventListItem[]
+    explore: EventListItem[]
+}
+
+export type EventListItem =  {
+    id: number
+    title: string
+    start: Date
+    end: Date
+    author: UserInfo
+    watch: number
+    like: number
+    address: AddressComponent[]
+    users: UserInfo[]
+    mainImage: string
+}
 export type EventInfo =  {
     id: number
     title: string
@@ -32,6 +50,14 @@ export type UserInfo =  {
     icon: string | null
     timeZoneName: string | null
 }
+
+export type AddressComponent = {
+    long_name: string
+    short_name: string
+    types: AddressType[]
+}
+
+export type AddressType = 'political' | 'street_number' | 'route' | 'locality' | 'administrative_area_level_2' | 'administrative_area_level_1' | 'country' | 'postal_code'
 
 export type CommuteInfo =  {
     from: string

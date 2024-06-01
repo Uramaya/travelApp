@@ -15,6 +15,7 @@ import '@/styles/GlobalToolBar.scss'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import moment from 'moment'
 import { VIEW_OPTIONS, GMT_OPTIONS } from '@/const'
+import SearchPlanInput from '@/components/common/SearchPlanInput'
 
 import { CalendarView } from '@/types'
 import { capitalized, getCountryFlagSVGByTimeZoneName } from '@/utils/utils'
@@ -26,30 +27,6 @@ const GlobalToolBar = ({ view, timeZoneName, setView, onTodayClick, setTimeZoneN
     onTodayClick: () => void
     setTimeZoneName: React.Dispatch<React.SetStateAction<string>>,
 }) => {
-    // const [weekDay, setWeekDay] = useState<string>('')
-    // const [label, setLabel] = useState(moment(date).format('MM YYYY'))
-    // // set label 
-    // useEffect(() => {
-    //     const weekDay = moment(date).format('ddd')
-    //     setWeekDay(weekDay)
-    // }, [date, setWeekDay])
-
-    // // set weekday 
-    // useEffect(() => {
-    //     const label = moment(date).format('MMM YYYY')
-    //     setLabel(label)
-    // }, [date, setLabel])
-
-    // const calendarLabel = useCallback((): JSX.Element => {
-    //     if (view === Views.DAY) return <div className='label-day'>
-    //         <div className='label-week'>{weekDay}</div>
-    //         <div className='label'>{label}</div>
-    //     </div>
-    //     else return <div className='label'>
-    //         {label}
-    //     </div>
-    // }, [view, label, weekDay])
-
     const onChangeView = useCallback((event: SelectChangeEvent): void => {
         setView(event.target.value as CalendarView)
     }, [setView])
@@ -61,9 +38,7 @@ const GlobalToolBar = ({ view, timeZoneName, setView, onTodayClick, setTimeZoneN
     return (
         <div className='global-tool-bar'>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }}>
-                <FormControl sx={{ m: 1, width: '25%' }}>
-                    <TextField id="outlined-basic" label="Search Plan" size="small" className="mui-customize" />
-                </FormControl>
+                <Box sx={{ marginRight: '10px' }}><SearchPlanInput /></Box>
                 <FormControl sx={{ m: 1, width: '10%', maxWidth: '90px', minWidth: '60px' }}>
                     <Button variant="contained" size="small" className="mui-customize color-primary" onClick={onTodayClick}>
                         Today
