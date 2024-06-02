@@ -50,7 +50,7 @@ const GlobalHeader = ({ eventItem, setEventItem }: { eventItem?: EventListItem, 
             {eventItem.title}
         </Button>
         else if (eventItem && isEditEventTitle) return <ClickAwayListener onClickAway={onClickAwayEventTitle}>
-            <FormControl sx={{ m: 1, width: '30%' }}>
+            <FormControl sx={{ m: 1 }}>
                 <TextField
                     className="title-input"
                     label="Title"
