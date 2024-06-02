@@ -7,7 +7,7 @@ import '@/styles/GlobalHeader.scss'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
 
-const SearchPlanInput = ({ left = '-92px', top = '28px' }: { formWidth?: string, left?: string, top?: string }) => {
+const SearchPlanInput = ({ left = '8px', top = '28px' }: { formWidth?: string, left?: string, top?: string }) => {
     return (
         <Box>
             <FormControl sx={{ marginTop: '-16px' }} className='search-input'>
@@ -15,7 +15,7 @@ const SearchPlanInput = ({ left = '-92px', top = '28px' }: { formWidth?: string,
                     icon={faMagnifyingGlass}
                     className="icon-magnifying-glass"
                     color="#676565"
-                    style={{ left: `${left}`, top: `${top}` }}
+                    style={{ left: `${left}`, top: `${top}`, width: '20px' }}
                 />
                 <TextField
                     id="id-search-plan"

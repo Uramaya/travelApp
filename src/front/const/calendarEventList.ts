@@ -982,3 +982,21 @@ export const EVENTLIST: EventList = {
   recent: RECENT,
   explore: EXPLORE,
 }
+
+export const EVENT_DETAIL = (id: string | string[] | null) => {
+  const id_ = Number(id)
+  if(!id_ && id_ !== 0) return
+  // TODO: to get event detail from api
+  const eventFindInOngoing = EVENTLIST.ongoing.find(eventItem => eventItem.id === id_)
+  if(eventFindInOngoing) {
+    return eventFindInOngoing
+  }
+  const eventFindInRecent = EVENTLIST.recent.find(eventItem => eventItem.id === id_)
+  if(eventFindInRecent) {
+    return eventFindInRecent
+  }
+  const eventFindInExplore = EVENTLIST.explore.find(eventItem => eventItem.id === id_)
+  if(eventFindInExplore) {
+    return eventFindInExplore
+  }
+}

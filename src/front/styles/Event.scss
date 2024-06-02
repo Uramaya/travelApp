@@ -1,11 +1,10 @@
-.mypage-container {
+.my-event-container {
     display: flex;
     flex-wrap: wrap;
     // grid-template-columns: minmax(60%, auto) auto;
     gap: 10px 10px;
 
     .calendar-area {
-        width: 60%;
         height: 85vh;
     }
 

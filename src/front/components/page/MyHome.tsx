@@ -2,8 +2,8 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, useAppSelector } from "@/stores/store"
-import { setCalendarEvents, addCalendarEvents, updateCalendarEvents, deleteCalendarEvents } from "@/stores/calendar";
-import { getCalenderEvents, createCalenderEvents, updateCalenderEventsById, deleteCalenderEventsById } from "@/app/api/calendarEvents";
+import { setCalendarEvents, addCalendarEvents, updateCalendarEvents, deleteCalendarEvents } from "@/stores/calendar"
+import { getCalenderEvents, createCalenderEvents, updateCalenderEventsById, deleteCalenderEventsById } from "@/app/api/calendarEvents"
 
 import Calendar from "@/components/calendar/Calendar"
 import GlobalToolBar from "@/components/common/GlobalToolBar"
@@ -20,13 +20,14 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import '@/styles/MyHome.scss'
 import AddTripBtn from '@/components/common/AddTripBtn'
+import GlobalHeader from "@/components/common/GlobalHeader"
 
 
 const MyHome = () => {
     const {
         eventList,
         setEventList,
-    } = useCalendarEventList(EVENTLIST)
+    } = useCalendarEventList({ initEventList: EVENTLIST })
 
     const dispatch = useDispatch<AppDispatch>()
     const calendarEvents = useAppSelector((state) => state.calendarEventsReducer)
@@ -40,48 +41,51 @@ const MyHome = () => {
     }
 
     return (
-        <Box className='my-home' sx={{ padding: '10px 24px' }}>
-            <Box className='home-title' sx={{ marginTop: '10px' ,marginBottom: '16px' }}>My History</Box>
+        <>
+            <GlobalHeader />
+            <Box className='my-home' sx={{ padding: '10px 24px' }}>
+                <Box className='home-title' sx={{ marginTop: '10px', marginBottom: '16px' }}>My History</Box>
 
-            {/* Google Map */}
-            <Box sx={{ width: '100%', height: '400px' }} className='google-map-area'>
-                <GoogleMap />
-            </Box>
+                {/* Google Map */}
+                <Box sx={{ width: '100%', height: '400px' }} className='google-map-area'>
+                    <GoogleMap />
+                </Box>
 
-            <Box sx={{ width: '100%', marginTop: '10px' }} display="flex" justifyContent="flex-end">
-                <AddTripBtn />
-            </Box>
+                <Box sx={{ width: '100%', marginTop: '10px' }} display="flex" justifyContent="flex-end">
+                    <AddTripBtn />
+                </Box>
 
-            {/* Ongoing Trip */}
-            <Box className='home-title'>Ongoing Trip</Box>
-            <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
-                <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                    {eventList.ongoing.map((eventItem) => {
-                        return <EventCard eventItem={eventItem} />
-                    })}
+                {/* Ongoing Trip */}
+                <Box className='home-title'>Ongoing Trip</Box>
+                <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
+                    <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
+                        {eventList.ongoing.map((eventItem) => {
+                            return <EventCard eventItem={eventItem} />
+                        })}
+                    </Box>
+                </Box>
+
+                {/* Recent Trip */}
+                <Box className='home-title' sx={{ marginTop: '60px' }}>Recent Trip</Box>
+                <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
+                    <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
+                        {eventList.recent.map((eventItem) => {
+                            return <EventCard eventItem={eventItem} />
+                        })}
+                    </Box>
+                </Box>
+
+                {/* Explore */}
+                <Box className='home-title' sx={{ marginTop: '60px' }}>Explore</Box>
+                <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
+                    <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
+                        {eventList.explore.map((eventItem) => {
+                            return <EventCard eventItem={eventItem} isExplore={true} />
+                        })}
+                    </Box>
                 </Box>
             </Box>
-
-            {/* Recent Trip */}
-            <Box className='home-title' sx={{ marginTop: '60px'}}>Recent Trip</Box>
-            <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
-                <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                    {eventList.recent.map((eventItem) => {
-                        return <EventCard eventItem={eventItem} />
-                    })}
-                </Box>
-            </Box>
-
-            {/* Explore */}
-            <Box className='home-title' sx={{ marginTop: '60px'}}>Explore</Box>
-            <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
-                <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                    {eventList.explore.map((eventItem) => {
-                        return <EventCard eventItem={eventItem} isExplore={true} />
-                    })}
-                </Box>
-            </Box>
-        </Box>
+        </>
     )
 }
 

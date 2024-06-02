@@ -1,7 +1,7 @@
-import { Dispatch } from '@reduxjs/toolkit';
-import { SetStateAction } from 'react';
+import { Dispatch } from '@reduxjs/toolkit'
+import { SetStateAction } from 'react'
 import { Views } from 'react-big-calendar'
-type CalendarViewKeys = keyof typeof Views;
+type CalendarViewKeys = keyof typeof Views
 export type CalendarView = typeof Views[CalendarViewKeys]
 
 export type EventList =  {

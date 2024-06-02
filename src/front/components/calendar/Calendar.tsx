@@ -17,7 +17,6 @@ import CalendarMonthEvent from '@/components/calendar/CalendarMonthEvent'
 import CalendarEventModal from '@/components/calendar/CalendarEventModal'
 import CalendarEventAddBtn from '@/components/calendar/CalendarEventAddBtn'
 
-import { INIT_CALENDAR_MODAL_EVENT_INFO } from '@/const'
 
 // Setup the localizer by providing the moment (or globalize, or Luxon) Object
 // to the correct localizer.

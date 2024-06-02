@@ -1,5 +1,5 @@
 import { ReduxProvider } from "@/stores/provider";
-const myPageLayout = ({ children }: { children: React.ReactNode }) => {
+const homeLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div>
             <ReduxProvider>
@@ -9,4 +9,4 @@ const myPageLayout = ({ children }: { children: React.ReactNode }) => {
     )
 }
 
-export default myPageLayout
+export default homeLayout

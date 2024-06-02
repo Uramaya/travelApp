@@ -94,8 +94,8 @@ const EventCard = ({ eventItem, isExplore = false }: { eventItem: EventListItem,
     }, [eventItem, overLikeBtn, setOverLikeBtn])
 
     return (
-        <Card sx={{ width: '30%', minWidth: '285px' }} className='mui-customize event-card'>
-            <CardActionArea>
+        <Card sx={{ width: '30%', minWidth: '340px' }} className='mui-customize event-card' >
+            <CardActionArea href={`/event/${eventItem.id}`}>
                 <CardMedia
                     component="img"
                     height="160"
