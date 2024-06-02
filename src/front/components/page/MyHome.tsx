@@ -60,7 +60,7 @@ const MyHome = () => {
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
                         {eventList.ongoing.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} />
+                            return <EventCard eventItem={eventItem} key={eventItem.id} />
                         })}
                     </Box>
                 </Box>
@@ -70,7 +70,7 @@ const MyHome = () => {
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
                         {eventList.recent.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} />
+                            return <EventCard eventItem={eventItem} key={eventItem.id} />
                         })}
                     </Box>
                 </Box>
@@ -80,7 +80,7 @@ const MyHome = () => {
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
                         {eventList.explore.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} isExplore={true} />
+                            return <EventCard eventItem={eventItem} isExplore={true} key={eventItem.id} />
                         })}
                     </Box>
                 </Box>

@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import IconButton from '@mui/material/IconButton'
 
-const GlobalHeader = ({ eventItem, setEventItem }: { eventItem?: EventListItem, setEventItem: React.Dispatch<React.SetStateAction<EventListItem>> }) => {
+const GlobalHeader = ({ eventItem, setEventItem }: { eventItem?: EventListItem, setEventItem?: React.Dispatch<React.SetStateAction<EventListItem>> }) => {
     const [isEditEventTitle, setIsEditEventTitle] = useState<boolean>(false)
     const [eventTitle, setEventTitle] = useState<string>(eventItem?.title || '')
 
@@ -66,14 +66,13 @@ const GlobalHeader = ({ eventItem, setEventItem }: { eventItem?: EventListItem, 
     return (
         <div className='global-header'>
             <Box sx={{ display: 'flex', width: '100%', height: '50px', alignItems: 'center', justifyContent: 'space-between' }}>
-                <IconButton className="btn-back" href='/home' >
-                    <FontAwesomeIcon icon={faChevronLeft} className="icon-back" color="#676565" aria-label="previous" />
-                </IconButton>
-                <GlobalHeaderLogo />
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }} gap={1}>
+                    <IconButton className="btn-back" href='/home' >
+                        <FontAwesomeIcon icon={faChevronLeft} className="icon-back" color="#676565" aria-label="previous" />
+                    </IconButton>
                     {headerLogo()}
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center' }} gap={2.5}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }} gap={1}>
                     <AddTripBtn />
                     <SearchPlanInput />
                     <GlobalHeaderUser />
