@@ -51,7 +51,7 @@ const GoogleMapArea = () => {
     //     text: "12",
     // }
 
-    return <APIProvider apiKey={'AIzaSyAhtLAv0cV9eIH0wSAA7i7_Irc4fXVpknE'}>
+    return <APIProvider apiKey={''}>
             <Map defaultCenter={position} defaultZoom={3}>
                 <Marker position={position} title='Tokyo Tower'/>
             </Map>
