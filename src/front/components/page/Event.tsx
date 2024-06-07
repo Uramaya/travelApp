@@ -99,7 +99,7 @@ const Event = ({ id }:{ id: string }) => {
                 onTodayClick={onTodayClick}
                 setTimeZoneName={setTimeZoneName}
             />
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', height: '85vh', marginTop: '0px', gap: '10px'}} className='my-event-container'>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', height: '84vh', marginTop: '0px', gap: '10px'}} className='my-event-container'>
                 <Box sx={{ overflow: 'auto', resize: 'both', width: '70%' }} className='calendar-area'>
                     <Calendar
                         date={date}
@@ -132,7 +132,7 @@ const Event = ({ id }:{ id: string }) => {
                         onClosePopover={onClosePopover}
                     />
                 </Box>
-                <Box sx={{ overflow: 'auto', resize: 'both', height: '85vh', flex: 3 }} className='google-map-area'>
+                <Box sx={{ overflow: 'auto', resize: 'both', height: '84vh', flex: 3 }} className='google-map-area'>
                     <GoogleMap />
                 </Box>
             </Box>
