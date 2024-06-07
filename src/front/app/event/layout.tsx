@@ -1,11 +1,12 @@
-import { ReduxProvider } from "@/stores/provider"
+"use client"
+// import { ReduxProvider } from "@/stores/provider"
 import '@/styles/Root.scss'
 const myEventLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="root-content-wrapper">
-            <ReduxProvider>
+            {/* <ReduxProvider> */}
                 {children}
-            </ReduxProvider>
+            {/* </ReduxProvider> */}
         </div>
     )
 }

@@ -47,6 +47,8 @@ const CalendarEventModal = ({
   setModalEventInfo,
   onSave,
   allUsers,
+  onOpenModal,
+  onCloseModal,
 }: {
   modalEventInfo: EventInfo,
   openCalendarEventModal: boolean,
@@ -54,13 +56,10 @@ const CalendarEventModal = ({
   setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>,
   onSave: () => void,
   allUsers: UserInfo[]
-
+  onOpenModal: (eventInfo?: EventInfo) => void,
+  onCloseModal: () => void,
 }) => {
   library.add(fas, fab)
-  const onOpenModal = () => setOpenCalendarEventModal(true)
-  const onCloseModal = () => {
-    setOpenCalendarEventModal(false)
-  }
   const onSaveClick = () => {
     // when click the save button
     onSave()

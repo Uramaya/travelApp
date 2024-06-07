@@ -1,6 +1,6 @@
 import { COUNTRIES } from '@/const/country'
 import { COUNTRY_FLAGS } from "@/const/countryFlogEmoji"
-import { UserInfo, AddressComponent, AddressType } from "@/types"
+import { UserInfo, AddressComponent, AddressType, EventList, EventListItem } from "@/types"
 import moment from 'moment'
 /**
  * Returns the digits of the number
@@ -112,4 +112,68 @@ export const getEventCardDateLabel = (startDate: Date | null | undefined, endDat
 export const getEventCardLocationLabel = (addressComponent: AddressComponent[] | null | undefined): string => {
     if (!addressComponent) return ''
     return [addressComponent.find(address => address.types.includes('country'))?.long_name, addressComponent.find(address => address.types.includes('administrative_area_level_2'))?.long_name].join(', ')
+}
+
+// /**
+// * Returns the event list item by event id
+// * @param { EventList | null | undefined } eventList // event list obj
+// * @param { number | null | undefined } id // event id
+// * @returns { {ongoing: EventListItem | undefined, recent: EventListItem | undefined, explore: EventListItem | undefined} } //  return event list item ;
+// */
+// export const getEventById = (eventList: EventList | null | undefined, id: number | null | undefined): 
+// {
+//     ongoing: EventListItem | undefined,
+//     recent: EventListItem | undefined, 
+//     explore: EventListItem | undefined
+// } => {
+//     const id_ = Number(id)
+//     if(!id_ && id_ !== 0 || !eventList) return
+//     const result = {
+//         ongoing: null,
+//         recent: null,
+//         explore: null, 
+//     }
+//     // TODO: to get event detail from api
+//     const eventFindInOngoing = eventList.ongoing.find(eventItem => eventItem.id === id_)
+//     if(eventFindInOngoing) {
+//         result.ongoing = {...eventFindInOngoing}
+//     }
+//     const eventFindInRecent = eventList.recent.find(eventItem => eventItem.id === id_)
+//     if(eventFindInRecent) {
+//         result.recent = {...eventFindInRecent}
+//     }
+//     const eventFindInExplore = eventList.explore.find(eventItem => eventItem.id === id_)
+//     if(eventFindInExplore) {
+//         result.explore = {...eventFindInExplore}
+//     }
+//     return result
+// }
+
+/**
+* Returns the event list item by event id
+* @param { EventList | null | undefined } eventList // event list obj
+* @param { number | null | undefined } id // event id
+* @returns { {ongoing: EventListItem | undefined, recent: EventListItem | undefined, explore: EventListItem | undefined} } //  return event list item ;
+*/
+export const getEventDetail = (eventList: EventList | null | undefined, id: number | null | undefined): EventListItem | undefined => {
+    const id_ = Number(id)
+    if(!id_ && id_ !== 0 || !eventList) return
+    const result = {
+        ongoing: null,
+        recent: null,
+        explore: null, 
+    }
+    // TODO: to get event detail from api
+    const eventFindInOngoing = eventList.ongoing.find(eventItem => eventItem.id === id_)
+    if(eventFindInOngoing) {
+        return eventFindInOngoing
+    }
+    const eventFindInRecent = eventList.recent.find(eventItem => eventItem.id === id_)
+    if(eventFindInRecent) {
+        return eventFindInRecent
+    }
+    const eventFindInExplore = eventList.explore.find(eventItem => eventItem.id === id_)
+    if(eventFindInExplore) {
+        return eventFindInExplore
+    }
 }

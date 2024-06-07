@@ -3,15 +3,13 @@ import { EventList, EventListItem } from '@/types'
 import { EVENT_DETAIL } from '@/const/calendarEventList'
 
 // the calendar event modal control hook
-const useCalendarEventList = ({initEventList = null, eventId = null}: {initEventList?: EventList, eventId?: string | string[]}) => {
+const useCalendarEventList = () => {
 
   // basic calendar event list setting
-  const [eventList, setEventList] = useState<EventList | null>(initEventList)
-  const [eventItem, setEventItem] = useState<EventListItem | null>(EVENT_DETAIL(eventId))
+
+  const [eventItem, setEventItem] = useState<EventListItem | null>(null)
 
   return {
-    eventList,
-    setEventList,
     eventItem,
     setEventItem,
   }

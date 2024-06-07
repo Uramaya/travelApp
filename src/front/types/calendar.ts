@@ -103,7 +103,8 @@ export type CalendarProps =  {
     setOpenCalendarEventModal: React.Dispatch<React.SetStateAction<boolean>>
     modalEventInfo: EventInfo | null
     setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>
-    onOpenModal: () => void
+    onOpenModal: (event: EventInfo | null) => void
+    onCloseModal: () => void
     onClickAddPhoto: () => void
     onUploadPhoto: () => void
     onSave: () => void
