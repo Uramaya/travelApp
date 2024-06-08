@@ -1,0 +1,42 @@
+// variables------------------
+$DATE_TIME_PICKER_ICON_COLOR: #A2A2A2;
+$DATE_TIME_PICKER_FONT_COLOR: #676565;
+$DATE_TIME_PICKER_SELECTED_BG_COLOR: #E8FAFF;
+$DATE_TIME_PICKER_SELECTED_BORDER_COLOR: #69B6E5;
+$DATE_TIME_PICKER_SELECTED_FONT_COLOR: #3E9DD6;
+// ---------------------------
+
+
+// mui button customize------
+.mui-customize {
+    &.mui-customize-datetime-picker .MuiInputBase-input{
+        padding: 10px 14px;
+        color: $DATE_TIME_PICKER_FONT_COLOR;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    .MuiIconButton-root {
+        color: $DATE_TIME_PICKER_FONT_COLOR;
+    }
+    
+}
+// ---------------------------
+
+.MuiPickersLayout-root .Mui-selected.Mui-selected.MuiMultiSectionDigitalClockSection-item,
+.Mui-selected.MuiPickersDay-root.MuiPickersDay-dayWithMargin {
+    background-color: $DATE_TIME_PICKER_SELECTED_BG_COLOR;
+    color: $DATE_TIME_PICKER_SELECTED_FONT_COLOR;
+    border-radius: 10px;
+}
+.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today {
+    border: 2px solid $DATE_TIME_PICKER_SELECTED_BORDER_COLOR;
+    color: $DATE_TIME_PICKER_SELECTED_FONT_COLOR;
+}
+.MuiPickersPopper-paper .MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary {
+    background-color: $DATE_TIME_PICKER_SELECTED_BG_COLOR;
+    color: $DATE_TIME_PICKER_SELECTED_FONT_COLOR;
+    border: 2px solid $DATE_TIME_PICKER_SELECTED_BORDER_COLOR;
+    border-radius: 20px;
+    padding: 4px 15px;
+    width: 80px;
+}

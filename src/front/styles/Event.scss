@@ -1,0 +1,16 @@
+.my-event-container {
+    display: flex;
+    flex-wrap: wrap;
+    // grid-template-columns: minmax(60%, auto) auto;
+    gap: 10px 10px;
+
+    .calendar-area {
+        height: 85vh;
+    }
+
+    .google-map-area {
+        // width: 40%;
+        flex:3;
+        height: 85vh;
+    }
+}

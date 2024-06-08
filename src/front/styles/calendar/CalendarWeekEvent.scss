@@ -1,0 +1,264 @@
+@use '../globals.scss';
+// variables------------------
+// ---------------------------
+.calendar-week-event {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    &-wrapper {
+        width: 100%;
+    }
+    & .content {
+        display: flex;
+        border-radius: 6px;
+        padding: 1px;
+        align-items: center;
+        width: 100%;
+    }
+    & .icon-wrapper {
+        border-radius: 100%;
+        width: 22px;
+        height: 22px;
+        margin: 0 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 23px;
+        min-width: 23px;
+    }
+    & .icon {
+        font-size: 12px;
+    }
+    & .title {
+        font-size: 12px;
+        font-weight: 600;
+        padding-left: 4px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        flex-basis: calc(100% - 50px);
+        text-align: left;
+    }
+    & .time-label {
+        font-size: 11px;
+    }
+    & .icon-wrapper-location-pin {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        right: 15px;
+    }
+
+    & .icon-location-pin {
+        width: 24px;
+        height: 24px;
+        position: relative;
+        &.none {
+            color: transparent;
+            left: 24px;
+        }
+        &.digit1 {
+            left: 24px;
+        }
+        &.digit2 {
+            left: 32px;
+        }
+        &.digit3 {
+            left: 30px;
+        } 
+    }
+
+    & .event-number {
+        font-size: 12px;
+        font-weight: 500;
+        position: relative;
+        bottom: 1px;
+        &.none {
+            left: 8.5px;
+            visibility: hidden;
+        }
+        &.digit1 {
+            left: 8.5px;
+        }
+        &.digit2 {
+            left: 12.5px;
+        }
+        &.digit3 {
+            left: 12px;
+            font-size: 7px;
+        } 
+    }
+}
+
+.rbc-day-slot .rbc-event-label {
+    font-weight: 500;
+    display: none;
+}
+
+.rbc-day-slot .rbc-event, .rbc-day-slot .rbc-background-event {
+    border: 0;
+}
+
+.rbc-day-slot .rbc-event-content {
+    padding: 0;
+}
+// responsive design
+// PC_BIG---------------------
+// @media screen and (max-width: globals.$SIZE_PC_BIG) {
+//     .calendar-week-event {
+//         & .icon-wrapper {
+//             display: none;
+//         }
+//         & .title {
+//             flex-basis: 100%;
+//             font-size: 10px;
+//         }
+//         & .time-label {
+//             font-size: 8px;
+//         }
+//         & .icon-wrapper-location-pin {
+//             width: 18px;
+//             height: 18px;
+//         }
+//         & .icon-location-pin {
+//             width: 18px;
+//             height: 18px;
+//             position: relative;
+//             &.none {
+//                 color: transparent;
+//                 left: 22px;
+//             }
+//             &.digit1 {
+//                 left: 22px;
+//             }
+//             &.digit2 {
+//                 left: 25px;
+//             }
+//             &.digit3 {
+//                 left: 25px;
+//             } 
+//         }
+    
+//         & .event-number {
+//             font-size: 10px;
+//             z-index: 200;
+//             font-weight: 500;
+//             position: relative;
+//             bottom: 1px;
+//             &.none {
+//                 left: 12px;
+//                 visibility: hidden;
+//             }
+//             &.digit1 {
+//                 left: 12px;
+//             }
+//             &.digit2 {
+//                 left: 12px;
+//             }
+//             &.digit3 {
+//                 left: 14px;
+//                 font-size: 7px;
+//             } 
+//         }
+//     }
+//  }
+
+// // ---------------------------
+
+// // PC_SMALL-------------------
+// @media screen and (max-width: globals.$SIZE_PC_SMALL) {
+//     .calendar-week-event {
+//         & .icon-wrapper {
+//             display: none;
+//         }
+//         & .title {
+//             flex-basis: 100%;
+//             font-size: 10px;
+//         }
+//         & .icon-wrapper-location-pin {
+//             width: 18px;
+//             height: 18px;
+//         }
+//         & .icon-location-pin {
+//             width: 18px;
+//             height: 18px;
+//             position: relative;
+//             &.none {
+//                 color: transparent;
+//                 left: 16px;
+//             }
+//             &.digit1 {
+//                 left: 16px;
+//             }
+//             &.digit2 {
+//                 left: 18px;
+//             }
+//             &.digit3 {
+//                 left: 19px;
+//             } 
+//         }
+    
+//         & .event-number {
+//             font-size: 10px;
+//             z-index: 200;
+//             font-weight: 500;
+//             position: relative;
+//             bottom: 1px;
+//             &.none {
+//                 left: 6px;
+//                 visibility: hidden;
+//             }
+//             &.digit1 {
+//                 left: 6px;
+//             }
+//             &.digit2 {
+//                 left: 5.5px;
+//             }
+//             &.digit3 {
+//                 left: 5px;
+//                 font-size: 7px;
+//             } 
+//         }
+//     }
+//  }
+ 
+// // ---------------------------
+
+// // PC_SMALL_CALENDAR----------
+// @media screen and (max-width: globals.$SIZE_PC_SMALL_CALENDAR) {
+//     .calendar-week-event {
+//         & .icon-wrapper {
+//             display: none;
+//         }
+//         & .title {
+//             flex-basis: 100%;
+//             font-size: 10px;
+//         }
+//         & .icon-wrapper-location-pin {
+//             display: none;
+//         }
+//     }
+//  }
+// // ---------------------------
+
+// // SP_HORIZONTAL--------------
+// @media screen and (max-width: globals.$SIZE_SP_HORIZONTAL) {
+//     .calendar-week-event {
+//         & .icon-wrapper {
+//             display: none;
+//         }
+//         & .title {
+//             flex-basis: 100%;
+//             font-size: 10px;
+//         }
+//         & .icon-wrapper-location-pin {
+//             display: none;
+//         }
+//     }
+//  }
+// ---------------------------
+
+// SP_VERTICAL----------------
+
+// ---------------------------

@@ -1,0 +1,19 @@
+// variables------------------
+$ICON_DEFAULT_USER_ICON_WRAPPER_COLOR: #EBE8E8;
+// ---------------------------
+.icon-default-user {
+    & .icon-wrapper {
+        border-radius: 100%;
+        margin: 0 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $ICON_DEFAULT_USER_ICON_WRAPPER_COLOR;
+    }
+}
+
+// PC-------------------------
+// ---------------------------
+
+// Smart Phone----------------
+// ---------------------------

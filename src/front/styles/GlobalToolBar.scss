@@ -1,0 +1,23 @@
+// variables------------------
+$GLOBAL_TOOLBAR_SHARE_ICON_COLOR: #8B8989;
+
+// ---------------------------
+.global-tool-bar {
+    & .icon-share.svg-inline--fa {
+        height: 1.45em;
+        color: $GLOBAL_TOOLBAR_SHARE_ICON_COLOR;
+    }
+    & .icon-box {
+        column-gap: 5px;
+    }
+    & .icon-btn {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+// PC-------------------------
+// ---------------------------
+
+// Smart Phone----------------
+// ---------------------------

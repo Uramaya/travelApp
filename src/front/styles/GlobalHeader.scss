@@ -1,0 +1,21 @@
+// variables------------------
+$GLOBAL_HEADER_TITLE_FONT_COLOR: #676565;
+// ---------------------------
+.global-header {
+    .global-header-logo {
+        width: 20px;
+        height: 20px;
+    }
+
+    .global-header-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: $GLOBAL_HEADER_TITLE_FONT_COLOR;
+        text-transform: none;
+    }
+
+    .icon-back {
+        width: 18px;
+        height: 18px;
+    }
+}

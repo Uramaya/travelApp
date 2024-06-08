@@ -1,0 +1,27 @@
+// variables------------------
+$CALENDAR_EVENT_Add_BTN_BG_COLOR: #FFFFFF;
+// ---------------------------
+.calendar-event-add-btn {
+    .icon-plus-btn {
+        .icon-wrapper {
+            position: fixed;
+            bottom: 40px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background-color: $CALENDAR_EVENT_Add_BTN_BG_COLOR;
+            border-radius: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
+        }
+    
+        .icon {
+            width: 25px;
+            height: 25px;
+        }
+    }
+}
+
+
