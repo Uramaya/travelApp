@@ -113,7 +113,6 @@ const Calendar = ({
 
   const onEditPopover = (eventInfo: EventInfo | null = null) => {
     // open the calendar event modal
-    console.log('onEditPopover', eventInfo)
     onClosePopover()
     onOpenModal(eventInfo)
   }

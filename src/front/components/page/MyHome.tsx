@@ -1,6 +1,6 @@
 "use client"
-import { useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from "@/stores/store"
 import { setEvents, addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
 import { getEvents, createEvents, updateEventsById, deleteEventsById } from "@/app/api/events"
@@ -13,7 +13,7 @@ import useCalendarEventList from '@/hooks/calendarEventListHook'
 import useCalendar from '@/hooks/calendarHook'
 import useCalendarEventModal from '@/hooks/calendarEventModalHook'
 import useCalendarEventPopoverHook from '@/hooks/calendarEventPopoverHook'
-import EventCard from '@/components/mui/EventCard';
+import EventCard from '@/components/mui/EventCard'
 import { EVENTLIST } from '@/const'
 import FormControl from '@mui/material/FormControl'
 import Box from '@mui/material/Box'

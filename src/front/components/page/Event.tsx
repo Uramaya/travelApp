@@ -1,6 +1,6 @@
 "use client"
-import { useEffect, useCallback } from 'react';
-import { useDispatch, createSelectorHook } from 'react-redux';
+import { useEffect, useCallback, useState } from 'react'
+import { useDispatch, createSelectorHook } from 'react-redux'
 import { useAppSelector, useAppDispatch } from '@/stores/hooks'
 import { setCalendarEvents, addCalendarEvents, updateCalendarEvents, deleteCalendarEvents } from "@/stores/features/calendar"
 import { getCalenderEvents, createCalenderEvents, updateCalenderEventsById, deleteCalenderEventsById } from "@/app/api/calendarEvents"
@@ -21,9 +21,9 @@ import Box from '@mui/material/Box'
 import '@/styles/Event.scss'
 import GlobalHeader from "@/components/common/GlobalHeader"
 import { EventListItem } from '@/types'
+import Splitter from "@/components/splitter/Splitter"
 
-
-const Event = ({ id }:{ id: string }) => {
+const Event = ({ id }: { id: string }) => {
     const {
         eventItem,
         setEventItem,
@@ -74,24 +74,82 @@ const Event = ({ id }:{ id: string }) => {
 
     // when click save button on the calendar edit modal
     const onSaveCalendarModal = useCallback(() => {
-        if(!modalEventInfo.id) {
+        if (!modalEventInfo.id) {
             // create new event
             createCalenderEvents(modalEventInfo).then((calendarEvent) => dispatch(addCalendarEvents(calendarEvent)))
         } else {
             // update event
-            updateCalenderEventsById(modalEventInfo.id, modalEventInfo).then(({id, calendarEvent}) => dispatch(updateCalendarEvents({id, calendarEvent})))
+            updateCalenderEventsById(modalEventInfo.id, modalEventInfo).then(({ id, calendarEvent }) => dispatch(updateCalendarEvents({ id, calendarEvent })))
         }
-            createCalenderEvents(modalEventInfo).then((calendarEvent) => dispatch(addCalendarEvents(calendarEvent)))
+        createCalenderEvents(modalEventInfo).then((calendarEvent) => dispatch(addCalendarEvents(calendarEvent)))
     }, [dispatch, modalEventInfo, createCalenderEvents, updateCalenderEventsById])
 
     // update event item
     const updateEventItem = useCallback((eventItem: EventListItem) => {
-        updateEventsById(id, eventItem).then(({id, event}) => setEventItem(event))
+        updateEventsById(id, eventItem).then(({ id, event }) => setEventItem(event))
     }, [setEventItem, updateEventsById])
 
+    const calendar = () => {
+        return <Box sx={{ width: '100%' }}>
+            <Calendar
+                date={date}
+                view={view}
+                events={calendarEvents}
+                width='99%'
+                height='90vh'
+                setDate={setDate}
+                setView={setView}
+                onNavigate={onNavigate}
+                onView={onView}
+                onTodayClick={onTodayClick}
+                onNextClick={onNextClick}
+                onPrevClick={onPrevClick}
+                openCalendarEventModal={openCalendarEventModal}
+                setOpenCalendarEventModal={setOpenCalendarEventModal}
+                modalEventInfo={modalEventInfo}
+                setModalEventInfo={setModalEventInfo}
+                onOpenModal={onOpenModal}
+                onCloseModal={onCloseModal}
+                onClickAddPhoto={onClickAddPhoto}
+                onUploadPhoto={onUploadPhoto}
+                onSave={onSaveCalendarModal}
+                allUsers={All_USERS}
+                popoverId={popoverId}
+                popoverAnchorEl={popoverAnchorEl}
+                setPopoverAnchorEl={setPopoverAnchorEl}
+                popoverOpen={popoverOpen}
+                onClickPopoverBtn={onClickPopoverBtn}
+                onClosePopover={onClosePopover}
+            />
+        </Box>
+    }
+
+    const googleMap = () => {
+        return <div>
+            <GoogleMap />
+        </div>
+    }
     return (
         <>
             <GlobalHeader eventItem={eventItem} updateEventItem={(eventItem) => {updateEventItem(eventItem)}} />
+            <GlobalToolBar
+                view={view}
+                timeZoneName={timeZoneName}
+                setView={setView}
+                onTodayClick={onTodayClick}
+                setTimeZoneName={setTimeZoneName}
+            />
+            <Box
+                sx={{ height: '84vh', marginTop: '0px', gap: '10px' }}
+                className='my-event-container'
+            >
+                <Splitter
+                    leftComponent={calendar()}
+                    rightComponent={googleMap()}
+                />
+            </Box>
+
+            {/* <GlobalHeader eventItem={eventItem} updateEventItem={(eventItem) => {updateEventItem(eventItem)}} />
             <GlobalToolBar
                 view={view}
                 timeZoneName={timeZoneName}
@@ -135,7 +193,7 @@ const Event = ({ id }:{ id: string }) => {
                 <Box sx={{ overflow: 'auto', resize: 'both', height: '84vh', flex: 3 }} className='google-map-area'>
                     <GoogleMap />
                 </Box>
-            </Box>
+            </Box> */}
         </>
     )
 }
