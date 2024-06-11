@@ -42,6 +42,7 @@ const Calendar = ({
   modalEventInfo,
   setModalEventInfo,
   onOpenModal,
+  onCloseModal,
   onClickAddPhoto,
   onUploadPhoto,
   onSave,
@@ -113,33 +114,18 @@ const Calendar = ({
   const onEditPopover = (eventInfo: EventInfo | null = null) => {
     // open the calendar event modal
     console.log('onEditPopover', eventInfo)
-    setModalEventInfo({
-      ...eventInfo,
-    })
     onClosePopover()
-    setOpenCalendarEventModal(true)
+    onOpenModal(eventInfo)
   }
 
   const onCopyPopover = (eventInfo: EventInfo | null = null) => {
     // open the calendar event modal
-    setModalEventInfo({
-      ...eventInfo,
-    })
     onClosePopover()
-    setOpenCalendarEventModal(true)
+    onOpenModal(eventInfo)
   }
 
   // select calendar slot(cell)
   const onSelectSlot = (slotInfo: SlotInfo) => {
-    console.log('onSelectSlot slotInfo', slotInfo)
-    // open new calendar event modal
-    // setModalEventInfo({
-    //   ...INIT_CALENDAR_MODAL_EVENT_INFO,
-    //   start: slotInfo.start,
-    //   end: slotInfo.end,
-    // })
-    // setOpenCalendarEventModal(true)
-
     // click slot on month view
     if (view === Views.MONTH) {
       setView(Views.WEEK)
@@ -192,6 +178,8 @@ const Calendar = ({
         openCalendarEventModal={openCalendarEventModal}
         setOpenCalendarEventModal={setOpenCalendarEventModal}
         setModalEventInfo={setModalEventInfo}
+        onOpenModal={onOpenModal}
+        onCloseModal={onCloseModal}
         onSave={onSave}
         allUsers={allUsers}
       />
@@ -199,6 +187,8 @@ const Calendar = ({
         openCalendarEventModal={openCalendarEventModal}
         setOpenCalendarEventModal={setOpenCalendarEventModal}
         setModalEventInfo={setModalEventInfo}
+        onOpenModal={onOpenModal}
+        onCloseModal={onCloseModal}
         onSave={onSave}
         allUsers={allUsers}
       />

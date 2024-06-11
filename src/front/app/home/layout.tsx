@@ -1,10 +1,10 @@
-import { ReduxProvider } from "@/stores/provider";
+// import { ReduxProvider } from "@/stores/provider";
 const homeLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div>
-            <ReduxProvider>
+            {/* <ReduxProvider> */}
                 {children}
-            </ReduxProvider>
+            {/* </ReduxProvider> */}
         </div>
     )
 }

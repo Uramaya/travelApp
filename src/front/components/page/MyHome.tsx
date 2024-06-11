@@ -2,8 +2,8 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, useAppSelector } from "@/stores/store"
-import { setCalendarEvents, addCalendarEvents, updateCalendarEvents, deleteCalendarEvents } from "@/stores/calendar"
-import { getCalenderEvents, createCalenderEvents, updateCalenderEventsById, deleteCalenderEventsById } from "@/app/api/calendarEvents"
+import { setEvents, addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
+import { getEvents, createEvents, updateEventsById, deleteEventsById } from "@/app/api/events"
 
 import Calendar from "@/components/calendar/Calendar"
 import GlobalToolBar from "@/components/common/GlobalToolBar"
@@ -24,21 +24,12 @@ import GlobalHeader from "@/components/common/GlobalHeader"
 
 
 const MyHome = () => {
-    const {
-        eventList,
-        setEventList,
-    } = useCalendarEventList({ initEventList: EVENTLIST })
-
     const dispatch = useDispatch<AppDispatch>()
-    const calendarEvents = useAppSelector((state) => state.calendarEventsReducer)
+    const eventList = useAppSelector((state) => state.eventsReducer)
     useEffect(() => {
-        // Fetch entities on component mount
-        getCalenderEvents().then((events) => dispatch(setCalendarEvents(events)))
+        // Fetch event list on component mount
+        getEvents().then((eventList) => dispatch(setEvents(eventList)))
     }, [dispatch])
-
-    const onAddTripClick = () => {
-        // when click the add trip button
-    }
 
     return (
         <>

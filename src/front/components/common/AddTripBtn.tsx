@@ -4,6 +4,7 @@ import Box from '@mui/material/Box'
 import '@/styles/GlobalHeader.scss'
 import FormControl from '@mui/material/FormControl'
 import Button from '@mui/material/Button'
+import Link from 'next/link'
 
 const AddTripBtn = () => {
     const onAddTripClick = () => {
@@ -13,9 +14,11 @@ const AddTripBtn = () => {
     return (
         <Box className="save-btn-wrapper" >
             <FormControl sx={{ m: 1, width: '10%', maxWidth: '90px', minWidth: '60px' }}>
+            <Link href="/event/new">
                 <Button variant="contained" size="small" className="mui-customize color-primary" onClick={onAddTripClick}>
                     Add Trip
                 </Button>
+            </Link>  
             </FormControl>
         </Box>
     )

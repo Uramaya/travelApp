@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import IconButton from '@mui/material/IconButton'
 
-const GlobalHeader = ({ eventItem, setEventItem }: { eventItem?: EventListItem, setEventItem?: React.Dispatch<React.SetStateAction<EventListItem>> }) => {
+const GlobalHeader = ({ eventItem, updateEventItem }: { eventItem?: EventListItem, updateEventItem?: (eventItem: EventListItem) => void }) => {
     const [isEditEventTitle, setIsEditEventTitle] = useState<boolean>(false)
     const [eventTitle, setEventTitle] = useState<string>(eventItem?.title || '')
 
@@ -25,16 +25,16 @@ const GlobalHeader = ({ eventItem, setEventItem }: { eventItem?: EventListItem, 
 
     const onChangeTitle = useCallback((
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-        setEventItem({
+            updateEventItem({
             ...eventItem,
             title: event.target.value,
         })
         setEventTitle(event.target.value)
-    }, [eventItem, eventTitle, setEventTitle, setEventItem, setIsEditEventTitle])
+    }, [eventItem, eventTitle, setEventTitle, updateEventItem, setIsEditEventTitle])
 
     const onClickAwayEventTitle = useCallback((): void => {
         setIsEditEventTitle(false)
-    }, [eventItem, eventTitle, setEventTitle, setEventItem, setIsEditEventTitle])
+    }, [eventItem, eventTitle, setEventTitle, updateEventItem, setIsEditEventTitle])
 
     const headerLogo = useCallback((): JSX.Element => {
         if (eventItem && !isEditEventTitle) return <Button

@@ -1,13 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import authReducer from '@/stores/auth'
-import entitiesReducer from '@/stores/entities'
-import calendarEventsReducer from '@/stores/calendar'
+import eventsReducer from '@/stores/features/event'
+import calendarEventsReducer from '@/stores/features/calendar'
 import { TypedUseSelectorHook, useSelector } from 'react-redux'
 
 export const store = configureStore({
     reducer: {
-        authReducer,
-        entitiesReducer,
+        eventsReducer,
         calendarEventsReducer,
     },
     // temporary add: for prevent the api error

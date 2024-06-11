@@ -14,13 +14,16 @@ const CalendarEventAddBtn = ({
     setModalEventInfo,
     onSave,
     allUsers,
+    onOpenModal,
+    onCloseModal,
 }: {
     openCalendarEventModal: boolean,
     setOpenCalendarEventModal: React.Dispatch<React.SetStateAction<boolean>>,
     setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>,
     onSave: () => void,
-    allUsers: UserInfo[]
-
+    allUsers: UserInfo[],
+    onOpenModal: (eventInfo?: EventInfo) => void,
+    onCloseModal: () => void,
 }) => {
     const onClick = useCallback(() => {
         setOpenCalendarEventModal(true)
@@ -49,6 +52,8 @@ const CalendarEventAddBtn = ({
                 openCalendarEventModal={openCalendarEventModal}
                 setOpenCalendarEventModal={setOpenCalendarEventModal}
                 setModalEventInfo={setModalEventInfo}
+                onOpenModal={onOpenModal}
+                onCloseModal={onCloseModal}
                 onSave={onSave}
                 allUsers={allUsers}
             />
