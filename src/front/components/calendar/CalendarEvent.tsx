@@ -30,7 +30,6 @@ const CalendarEvent = ({
     }, [popoverAnchorEl])
 
     const onClosePopover = useCallback(() => {
-        console.log('onClosePopover')
         setPopoverAnchorEl(null)
     }, [popoverAnchorEl])
 

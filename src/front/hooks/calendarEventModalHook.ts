@@ -33,7 +33,6 @@ const calendarEventModal = (initEventInfo: EventInfo) => {
 
   // click next button
   const onSave = () => {
-    console.log('onSave', modalEventInfo)
     // to call the save event info api
 
     // to call the save photo api

@@ -11,7 +11,6 @@ const useCalendarEventPopoverHook = () => {
   const popoverId = popoverOpen ? 'calendar-popover' : undefined;
 
   const onClickPopoverBtn = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('onClickPopoverBtn', event)
     setPopoverAnchorEl(event.currentTarget)
   }, [setPopoverAnchorEl])
 

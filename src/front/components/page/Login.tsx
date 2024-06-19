@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { logIn, logOut } from "@/stores/auth"
+import { logIn, logOut } from "@/stores/features/auth"
 import { AppDispatch, useAppSelector } from "@/stores/store"
 import { Button } from "@mui/material"
 import { useDispatch } from "react-redux"
