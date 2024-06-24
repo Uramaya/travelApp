@@ -2,21 +2,22 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'language_id',
+        'icon_url',
+        'time_zone_name',
+        'deleted_at'
     ];
 
     /**
@@ -25,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'remember_token',
     ];
 
     /**
@@ -35,5 +36,37 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
+    
+    // events created by the author
+    public function author_events()
+    {
+        return $this->belongsToMany('App\Models\Events')->withPivot('author_id')->withTimestamps();
+    }
+
+    // events created by the user
+    public function user_events()
+    {
+        return $this->belongsToMany('App\Models\Events')->withTimestamps();
+    }
+
+    // calendar events created by the author
+    public function author_calendar_events()
+    {
+        return $this->belongsToMany('App\Models\CalendarEvents')->withPivot('author_id')->withTimestamps();
+    }
+
+    // calendar events created by the user
+    public function user_calendar_events()
+    {
+        return $this->belongsToMany('App\Models\CalendarEvents')->withTimestamps();
+    }
+
+    // language of the user
+    public function language()
+    {
+        return $this->belongsTo('App\Models\Language');
+    }
+
 }
