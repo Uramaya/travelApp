@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model
 {
+    // use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -25,30 +28,30 @@ class Event extends Model
     // authors of the event
     public function authors()
     {
-        return $this->belongsToMany('App\Models\Users')->withPivot('author_id')->withTimestamps();
+        return $this->belongsToMany('App\User')->withPivot('author_id')->withTimestamps();
     }
 
     // locations of the event
     public function locations()
     {
-        return $this->belongsToMany('App\Models\Locations')->withTimestamps();
+        return $this->belongsToMany('App\Location')->withTimestamps();
     }
 
     // users of the event
     public function users()
     {
-        return $this->belongsToMany('App\Models\Users')->withTimestamps();
+        return $this->belongsToMany('App\User')->withTimestamps();
     }
 
     // images of the event
     public function images()
     {
-        return $this->belongsToMany('App\Models\Images')->withTimestamps();
+        return $this->belongsToMany('App\Image')->withTimestamps();
     }
     
     // child calendar events
     public function calendarEvents()
     {
-        return $this->hasMany('App\Models\CalendarEvent');
+        return $this->hasMany('App\CalendarEvent');
     }
 }

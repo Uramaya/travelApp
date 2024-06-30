@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Marker extends Model
 {
+    
+    // use HasFactory;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +23,6 @@ class Marker extends Model
     // calendar events belongs to the marker
     public function calendarEvents()
     {
-        return $this->hasMany('App\Models\CalendarEvents');
+        return $this->hasMany('App\CalendarEvent');
     }
 }

@@ -31,5 +31,7 @@ class CreateEventImageTable extends Migration
     public function down()
     {
         Schema::dropIfExists('event_image');
+        $table->dropForeign('event_id');
+        $table->dropForeign('image_id');
     }
 }

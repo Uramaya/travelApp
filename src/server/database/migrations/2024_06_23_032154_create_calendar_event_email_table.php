@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEventEmailTable extends Migration
+class CreateCalendarEventEmailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateEventEmailTable extends Migration
      */
     public function up()
     {
-        Schema::create('event_email', function (Blueprint $table) {
+        Schema::create('calendar_event_email', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('event_id');
+            $table->unsignedBigInteger('calendar_event_id');
             $table->unsignedBigInteger('email_id');
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreign('calendar_event_id')->references('id')->on('calendar_events')->onDelete('cascade');
             $table->foreign('email_id')->references('id')->on('emails')->onDelete('cascade');
             $table->timestamps();
         });
@@ -30,6 +30,8 @@ class CreateEventEmailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_email');
+        Schema::dropIfExists('calendar_event_email');
+        $table->dropForeign('calendar_event_id');
+        $table->dropForeign('email_id');
     }
 }

@@ -20,17 +20,12 @@ class CreateEventsTable extends Migration
             $table->string('time_zone_name', 50);
             $table->date('start')->default(Carbon::now()->setTimezone('utc'));
             $table->date('end')->default(Carbon::now()->setTimezone('utc')->addHours(1));
-            $table->unsignedBigInteger('author_id')->nullable()->default(null)->index();
-            $table->foreign('author_id')->references('id')->on('users')->OnDelete('cascade');
             $table->integer('watch')->default(0);
             $table->integer('like')->default(0);
             $table->unsignedBigInteger('location_id')->nullable()->default(null)->index();
-            $table->unsignedBigInteger('calendar_event_id')->nullable()->default(null)->index();
             $table->foreign('location_id')->references('id')->on('locations')->OnDelete('cascade');
-            $table->foreign('calendar_event_id')->references('id')->on('calendar_events')->OnDelete('cascade');
             $table->string('description', 2000)->nullable()->default(null);
             $table->timestamps();
-
         });
     }
 

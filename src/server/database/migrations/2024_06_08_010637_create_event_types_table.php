@@ -20,7 +20,7 @@ class CreateEventTypesTable extends Migration
             $table->string('type', 10);
             $table->string('color', 10);
             $table->string('background_color', 10);
-            $table->unsignedBigInteger('event_type_id');
+            $table->unsignedBigInteger('event_type_id')->nullable()->default(null);
             $table->timestamps();
         });
     }

@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pdf extends Model
 {
+    
+    // use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +23,6 @@ class Pdf extends Model
     // pdfs belongs to the calendar event
     public function calendar_events()
     {
-        return $this->belongsToMany('App\Models\CalendarEvents')->withTimestamps();
+        return $this->belongsToMany('App\CalendarEvent')->withTimestamps();
     }
 }
