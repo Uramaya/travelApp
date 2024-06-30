@@ -31,5 +31,7 @@ class CreateCalendarEventImageTable extends Migration
     public function down()
     {
         Schema::dropIfExists('calendar_event_image');
+        $table->dropForeign('calendar_event_id');
+        $table->dropForeign('image_id');
     }
 }

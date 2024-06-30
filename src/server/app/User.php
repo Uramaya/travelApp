@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Model
 {
+    
+    // use HasFactory;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -42,31 +46,31 @@ class User extends Model
     // events created by the author
     public function author_events()
     {
-        return $this->belongsToMany('App\Models\Events')->withPivot('author_id')->withTimestamps();
+        return $this->belongsToMany('App\Event')->withPivot('author_id')->withTimestamps();
     }
 
     // events created by the user
     public function user_events()
     {
-        return $this->belongsToMany('App\Models\Events')->withTimestamps();
+        return $this->belongsToMany('App\Event')->withTimestamps();
     }
 
     // calendar events created by the author
     public function author_calendar_events()
     {
-        return $this->belongsToMany('App\Models\CalendarEvents')->withPivot('author_id')->withTimestamps();
+        return $this->belongsToMany('App\CalendarEvent')->withPivot('author_id')->withTimestamps();
     }
 
     // calendar events created by the user
     public function user_calendar_events()
     {
-        return $this->belongsToMany('App\Models\CalendarEvents')->withTimestamps();
+        return $this->belongsToMany('App\CalendarEvent')->withTimestamps();
     }
 
     // language of the user
     public function language()
     {
-        return $this->belongsTo('App\Models\Language');
+        return $this->belongsTo('App\Language');
     }
 
 }

@@ -17,12 +17,8 @@ class CreateEventLocationTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('event_id');
             $table->unsignedBigInteger('location_id');
-            $table->unsignedBigInteger('location_from_id');
-            $table->unsignedBigInteger('location_to_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
-            $table->foreign('location_from_id')->references('id')->on('locations')->onDelete('cascade');
-            $table->foreign('location_to_id')->references('id')->on('locations')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -35,5 +31,7 @@ class CreateEventLocationTable extends Migration
     public function down()
     {
         Schema::dropIfExists('event_location');
+        $table->dropForeign('event_id');
+        $table->dropForeign('location_id');
     }
 }

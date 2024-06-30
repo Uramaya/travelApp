@@ -33,5 +33,8 @@ class CreateCalendarEventUserTable extends Migration
     public function down()
     {
         Schema::dropIfExists('calendar_event_user');
+        $table->dropForeign('calendar_event_id');
+        $table->dropForeign('user_id');
+        $table->dropForeign('author_id');
     }
 }

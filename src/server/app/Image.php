@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Image extends Model
 {
+    
+    // use HasFactory;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -19,13 +23,13 @@ class Image extends Model
     // images belongs to the event
     public function events()
     {
-        return $this->belongsToMany('App\Models\Events')->withTimestamps();
+        return $this->belongsToMany('App\Event')->withTimestamps();
     }
     
     
     // images belongs to the calendar event
     public function calendar_events()
     {
-        return $this->belongsToMany('App\Models\CalendarEvents')->withTimestamps();
+        return $this->belongsToMany('App\CalendarEvent')->withTimestamps();
     }
 }

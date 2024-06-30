@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Email extends Model
 {
+    // use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +26,6 @@ class Email extends Model
     // emails belongs to the calendar event
     public function calendar_events()
     {
-        return $this->belongsToMany('App\Models\CalendarEvents')->withTimestamps();
+        return $this->belongsToMany('App\CalendarEvent')->withTimestamps();
     }
 }
