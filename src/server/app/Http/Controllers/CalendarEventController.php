@@ -8,37 +8,6 @@ use App\Exceptions\ResponseException;
 
 class EventController extends Controller
 {
-    
-    public function index () 
-    {
-        $eventService = new EventService();
-        $events = [
-            // get the ongoing event list
-            'ongoing' => $eventService->getOngoingEvents(),
-
-            // get the recent event list
-            'recent' => $eventService->getOngoingEvents(),
-
-            // get the explore event list
-            'explore' => $eventService->getOngoingEvents(),
-        ];
-        return response()->json($events, 200);
-    }
-
-    /**
-     * Display the event detail.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show (Request $request) 
-    {
-        $eventService = new EventService();
-        $eventId = $request->route('id');
-        $event = $eventService->getEventDetail($eventId);
-        return response()->json($event, 200);
-    }
-
     /**
      * Store a newly created event.
      *
@@ -47,10 +16,9 @@ class EventController extends Controller
      */
     public function store (Request $request) 
     {
-        
         // try {
             $eventService = new EventService();
-            $eventService->saveEvent($request);
+            $eventService->saveCalendarEvent($request);
             return response()->json($event, 201);
         // } catch (Exception $e) {
         //     $responseException; 
@@ -67,7 +35,7 @@ class EventController extends Controller
     public function update (Request $request) 
     {
         $eventService = new EventService();
-        $eventService->saveEvent($request);
+        $eventService->saveCalendarEvent($request);
         return response()->json($event, 201);
     }
 
@@ -80,7 +48,7 @@ class EventController extends Controller
     public function destroy (Request $request) 
     {
         $eventService = new EventService();
-        $eventService->deleteEvent($eventId);
+        $eventService->deleteCalendarEvent($eventId);
         return response()->json($event, 201);
     }
 }

@@ -19,8 +19,20 @@ use App\Http\Controllers\MarkerController;
 
 // Route::middleware('auth:api')->get('currentUser', 'AuthController@currentUser');
 Route::get('currentUser', 'AuthController@currentUser');
+// Route::group(['middleware' => ['events']], function () {
+Route::group(['prefix' => 'events'], function () {
+    Route::get('/', 'EventController@index');
+    Route::get('/{id}', 'EventController@show');
+    Route::post('/', 'EventController@store');
+    Route::patch('/{id}', 'EventController@update');
+    Route::delete('/{id}', 'EventController@destroy');
+});
 
-Route::get('events', 'EventController@index');
-Route::get('event/{id}', 'EventController@detail');
+Route::group(['prefix' => 'calendarEvents'], function () {
+    Route::post('/', 'CalendarEventController@store');
+    Route::patch('/{id}', 'CalendarEventController@update');
+    Route::delete('/{id}', 'CalendarEventController@destroy');
+});
+
 Route::get('languages', 'LanguageController@index');
 Route::get('markers', 'MarkerController@index');

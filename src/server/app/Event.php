@@ -24,6 +24,24 @@ class Event extends Model
         'like',
         'description',
     ];
+
+    protected $guarded = ['id'];
+
+    public static $rules = array(
+		'title' => 'required | between:0,70',
+        'time_zone_name' => 'required | between:0,50',
+        'start' => 'required',
+        'end' => 'required',
+        'author_ids' => 'required',
+        'watch' => 'required | integer',
+        'like' => 'required | integer',
+		'description' => 'required | between:0,2000',
+
+
+        'name' => 'required',
+        'age' => 'integer | between:0,150',
+        'sex' => ['max:1', 'regex:/^[男|女]+$/u'],
+	);
     
     // authors of the event
     public function authors()
