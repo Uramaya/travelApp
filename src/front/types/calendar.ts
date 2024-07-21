@@ -15,13 +15,26 @@ export type EventListItem =  {
     title: string
     start: Date
     end: Date
-    author: UserInfo
+    authors: UserInfo[]
     watch: number
     like: number
-    address: AddressComponent[]
+    locations: LocationInfo[]
     users: UserInfo[]
-    mainImage: string
+    images: ImageInfo[]
 }
+
+export type ImageInfo =  {
+    id: number
+    image_url: string
+    image_key: string
+}
+
+export type LocationInfo =  {
+    id: number
+    google_map_url: string
+    google_map_json: LocationsComponent[]
+}
+
 export type EventInfo =  {
     id: number
     title: string
@@ -47,17 +60,17 @@ export type UserInfo =  {
     name: string
     mail: string | null
     language: string | null
-    icon: string | null
-    timeZoneName: string | null
+    icon_url: string | null
+    time_zone_name: string | null
 }
 
-export type AddressComponent = {
+export type LocationsComponent = {
     long_name: string
     short_name: string
-    types: AddressType[]
+    types: LocationType[]
 }
 
-export type AddressType = 'political' | 'street_number' | 'route' | 'locality' | 'administrative_area_level_2' | 'administrative_area_level_1' | 'country' | 'postal_code'
+export type LocationType = 'political' | 'street_number' | 'route' | 'locality' | 'administrative_area_level_2' | 'administrative_area_level_1' | 'country' | 'postal_code'
 
 export type CommuteInfo =  {
     from: string

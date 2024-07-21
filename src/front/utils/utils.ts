@@ -1,6 +1,6 @@
 import { COUNTRIES } from '@/const/country'
 import { COUNTRY_FLAGS } from "@/const/countryFlogEmoji"
-import { UserInfo, AddressComponent, AddressType, EventList, EventListItem } from "@/types"
+import { UserInfo, LocationInfo, LocationType, EventList, EventListItem, ImageInfo } from "@/types"
 import moment from 'moment'
 /**
  * Returns the digits of the number
@@ -104,14 +104,41 @@ export const getEventCardDateLabel = (startDate: Date | null | undefined, endDat
 }
 
 /**
+* Returns the date label shown on the event card
+* @param { ImageInfo[] | null | undefined } images
+* @returns { string }
+*/
+export const getEventCardMainImage = (images: ImageInfo[] | null | undefined): string => {
+    if (!images || !images.length) return ''
+    return images[0].image_url
+}
+
+/**
+* Returns the date label shown on the event card
+* @param { ImageInfo[] | null | undefined } images
+* @returns { string }
+*/
+export const getEventCardMainAuthors = (images: ImageInfo[] | null | undefined): string => {
+    if (!images || !images.length) return ''
+    return images[0].image_url
+}
+
+/**
 * Returns the location label shown on the event card
-* @param { AddressComponent | null | undefined } addressComponent // date
+* @param { LocationInfo[] | null | undefined } locations // date
 * @param { Date | null | undefined } endDate // date
 * @returns { string } //  D MMM YYYY ;
 */
-export const getEventCardLocationLabel = (addressComponent: AddressComponent[] | null | undefined): string => {
-    if (!addressComponent) return ''
-    return [addressComponent.find(address => address.types.includes('country'))?.long_name, addressComponent.find(address => address.types.includes('administrative_area_level_2'))?.long_name].join(', ')
+export const getEventCardLocationLabel = (locations: LocationInfo[] | null | undefined): string => {
+    if (!locations || !locations.length) return ''
+    const result = locations.map(location => {
+        const googleMapJson = location.google_map_json    
+        return [
+            googleMapJson.find(address => address.types.includes('country'))?.long_name,
+            googleMapJson.find(address => address.types.includes('administrative_area_level_2'))?.long_name,
+        ].join(', ')
+    }).join('/ ')
+    return result
 }
 
 // /**

@@ -83,6 +83,16 @@ class EventService implements EventRepository
         return $events->map(function ($event) {
             $authors = $event->authors()->get() ?? [];
             $locations = $event->locations()->get() ?? [];
+            if (count($locations)) {
+                $locations = $locations->map(function ($location) {
+                    $str = str_replace("'", '"', $location->google_map_json);
+                    return (object)[
+                        'id' => $location->id,
+                        'google_map_url' => $location->google_map_url,
+                        'google_map_json' => json_decode($location->google_map_json),
+                    ];
+                });
+            }
             $users = $event->users()->get() ?? [];
             $images = $event->images()->get() ?? [];
             return [
