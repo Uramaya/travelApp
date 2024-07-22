@@ -25,24 +25,37 @@ const EventCard = ({ eventItem, isExplore = false }: { eventItem: EventListItem,
     const onLike = (): void => {
     }
 
+    const userChips = useCallback((): JSX.Element => {
+        if (!eventItem) return
+        let users = eventItem.users
+        if (isExplore) {
+            users = eventItem.authors
+        }
+        return <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }} gap={0.5}>
+            {users.slice(0, 3).map((user) => {
+                return <Box key={user.id}>{userChip(user)}</Box>
+            })}
+        </Box>
+    }, [eventItem])
+
     const userChip = useCallback((user: UserInfo | undefined): JSX.Element => {
-        if (!user) return
-        if (!user.icon_url) return <Chip
-            className="mui-customize event-card-user-chip"
+        if (!eventItem) return
+        let users = eventItem.users
+        if (isExplore) {
+            users = eventItem.authors
+        }
+        if (user.icon_url) return <Box
+            component="img"
             key={user.id}
-            // label={user.name}
-            icon={<IconDefaultUser width="25px" height="25px" iconSize="14px" />}
-            onMouseDown={(e) => e.stopPropagation()}
+            sx={{
+                height: 18,
+                width: 18,
+                borderRadius: '100%',
+                objectFit: 'cover',
+            }}
+            src={user.icon_url}
         />
-        else return <Chip
-            className="mui-customize event-card-user-chip"
-            key={user.id}
-            // label={user.name}
-            avatar={<Avatar alt={user.name}
-                src={user.icon_url}
-            />}
-            onMouseDown={(e) => e.stopPropagation()}
-        />
+        else return <IconDefaultUser width="18px" height="18px" iconSize="12px" />
     }, [eventItem])
 
     const toolbar = useCallback((): JSX.Element => {
@@ -64,23 +77,6 @@ const EventCard = ({ eventItem, isExplore = false }: { eventItem: EventListItem,
             </Box>
         </Box>
         else return <Box sx={{ display: 'flex' }} gap={1.5} className="even-card-tool-bar">
-            {/* <Box sx={{ display: 'flex', alignItems: 'center' }} gap={0.5}>
-                {eventItem.users.map((user) => {
-                    if(user.icon_url) return <Box
-                        component="img"
-                        key={user.id}
-                        sx={{
-                            height: 18,
-                            width: 18,
-                            borderRadius: '100%',
-                            objectFit: 'cover',
-                        }}
-                        src={user.icon_url}
-                    />
-                    else return <IconDefaultUser width="18px" height="18px" iconSize="12px" />
-                })}
-            </Box> */}
-            
             <Box sx={{ display: 'flex', alignItems: 'center' }} >
                 <IconButton
                     className='tool-bar-icon-btn'
@@ -116,11 +112,7 @@ const EventCard = ({ eventItem, isExplore = false }: { eventItem: EventListItem,
                         <div className='icon-title'>{getEventCardDateLabel(eventItem.start, eventItem.end)}</div>
                     </Box>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px' }} className='title-content-wrapper title-user-content-wrapper' >
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1px' }} >
-                            {eventItem.authors.slice(0, 3).map((author) => {
-                                return userChip(author)
-                            })}
-                        </Box>
+                        {userChips()}
                         {toolbar()}
                     </Box>
                 </CardContent>
