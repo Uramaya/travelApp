@@ -43,11 +43,13 @@ class EventService implements EventRepository
     {
         $user_events = $this->getCurrentUserEvents();
         
-        $events = $user_events->where([
-            ['start', '>=', Carbon::today()->addMonths(1)->format('Y-m-d')],
-            ['start', '<=', Carbon::today()->subMonths(1)->format('Y-m-d')],
-        ])->get()->random(20);
+        $events = $user_events->where('start', '>=', Carbon::today()->addMonths(1)->format('Y-m-d'))
+        ->orWhere('start', '<=', Carbon::today()->subMonths(1)->format('Y-m-d'))
+        ->get();
 
+        if ($events->count() > 20) {
+            $events = $events->random(20);
+        }
         return $this->generateEvents($events);  
     }
 
@@ -62,14 +64,22 @@ class EventService implements EventRepository
         $authService = new AuthService();
         $userId = $authService->getCurrentLoginUser()->id;
         $user_events = [];
-        $users = User::where(['id', '!=', $userId])->all()->random(20);
+        $users = User::where('id', '!=', $userId)->get();
+        if ($users->count() > 20) {
+            $users = $users->random(20);
+        }
         foreach ($users as $user){
-            $events = $user->user_events();
-            $user_events = array_merge($user_events, $events);
+            $user_event = $user->user_events()->get();
+            if (!isset($user_event)) {
+                return [];
+            }
+            $user_event_array = $this->generateEvents($user_event)->toArray();
+            $user_events = array_merge($user_events, $user_event_array);
+            if (count($user_events) > 30) {
+                $user_events = array_slice($user_events , 0, 30);
+            }
         }   
-        $events = $user_events->get()->random(20);
-
-        return $this->generateEvents($events);
+        return $user_events;
     }
 
     /**

@@ -17,10 +17,10 @@ class EventController extends Controller
             'ongoing' => $eventService->getOngoingEvents(),
 
             // get the recent event list
-            'recent' => $eventService->getOngoingEvents(),
+            'recent' => $eventService->getRecentEvents(),
 
             // get the explore event list
-            'explore' => $eventService->getOngoingEvents(),
+            'explore' => $eventService->getExploreEvents(),
         ];
         return response()->json($events, 200);
     }
