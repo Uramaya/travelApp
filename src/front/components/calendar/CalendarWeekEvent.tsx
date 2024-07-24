@@ -36,7 +36,7 @@ const CalendarWeekEvent = ({
 
     // create dynamic time label jsx element(hh:mm A - hh:mm A)
     const timeLabel = useCallback((): JSX.Element => {
-        if (label && !eventInfo.allDay) return <div className='time-label'>{getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end })}</div>
+        if (label && !eventInfo.is_all_day) return <div className='time-label'>{getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end })}</div>
     }, [eventInfo])
 
     // create dynamic location pic icon jsx element
@@ -50,9 +50,9 @@ const CalendarWeekEvent = ({
     const button = (): JSX.Element => {
         return <div className='calendar-week-event-wrapper'>
             <div className='calendar-week-event calendar-event'>
-                <div className='content' style={{color: `${eventInfo?.eventType?.color}`}}>
+                <div className='content' style={{color: `${eventInfo?.event_type?.color}`}}>
                     <div className='icon-wrapper'>
-                        <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
+                        <FontAwesomeIcon icon={eventInfo?.event_type?.icon} className="icon" color={eventInfo?.event_type?.color} />
                     </div>
                     <div className='title'>{eventInfo.title}</div>
                     {iconLocationPin()}

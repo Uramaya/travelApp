@@ -42,7 +42,7 @@ const CalendarEvent = ({
         const isDayView = view === 'day'
         const isMonthView = view === 'month'
         const isWeekView = view === 'week'
-        const isAllDayEvent = eventInfo.allDay
+        const isAllDayEvent = eventInfo.is_all_day
 
         // dynamic condition for the all day month/week event
         const isExtraSmallSizeAllDayEvent = !isDayView && isAllDayEvent && buttonWidth <= 65
@@ -102,7 +102,7 @@ const CalendarEvent = ({
     const id = open ? `calendar-popover-${eventInfo.id}` : undefined
     return (
         <div className={`calendar-event ${calendarClass}`}
-            style={{ background: `${eventInfo.eventType.backgroundColor}`
+            style={{ background: `${eventInfo.event_type.background_color}`
         }}>
             <Button
                 ref={buttonDom}
@@ -111,7 +111,7 @@ const CalendarEvent = ({
                 size="small"
                 className={`calendar-event-btn ${reGetCalendarClass()}`}
                 onClick={onClick}
-                style={{ color: `${eventInfo.eventType.color}`}}
+                style={{ color: `${eventInfo.event_type.color}`}}
             >
                 { button }
             </Button>

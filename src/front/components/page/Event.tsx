@@ -20,7 +20,7 @@ import { INIT_CALENDAR_MODAL_EVENT_INFO, INIT_CALENDAR, All_USERS, EVENTLIST } f
 import Box from '@mui/material/Box'
 import '@/styles/Event.scss'
 import GlobalHeader from "@/components/common/GlobalHeader"
-import { EventListItem } from '@/types'
+import { EventListItem, EventInfo } from '@/types'
 import Splitter from "@/components/splitter/Splitter"
 
 const Event = ({ id }: { id: string }) => {
@@ -65,13 +65,31 @@ const Event = ({ id }: { id: string }) => {
 
     const dispatch = useDispatch<AppDispatch>()
     const calendarEvents = useAppSelector((state: RootState) => state.calendarEventsReducer)
-    const events = useAppSelector((state: RootState) => state.eventsReducer)
     useEffect(() => {
         // Fetch event detail and calendar event on component mount
-        getCalenderEvents().then((events) => dispatch(setCalendarEvents(events)))
-        getEventById(id).then((eventItem) => setEventItem(eventItem))
+        getEventById(id).then((result) => {
+            if(result) {
+                setEventItem(result.event)
+                const events = arrangeCalendarEvents(result.calendar_events)
+                dispatch(setCalendarEvents(events))
+            }
+        })
     }, [dispatch, getCalenderEvents, getEvents, getEventById, setEvents, setEventItem])
 
+    // add index to the calendar events
+    const arrangeCalendarEvents = (calendarEvents: EventInfo[]) => {
+        if (!calendarEvents) {
+            return []
+        }
+        return calendarEvents.map((event, index) => {
+            return {
+                ...event,
+                start: new Date(event.start),
+                end: new Date(event.end),
+                index: index + 1
+            }
+        })
+    }
     // when click save button on the calendar edit modal
     const onSaveCalendarModal = useCallback(() => {
         if (!modalEventInfo.id) {

@@ -15,29 +15,72 @@ export type EventListItem =  {
     title: string
     start: Date
     end: Date
-    author: UserInfo
+    authors: UserInfo[]
     watch: number
     like: number
-    address: AddressComponent[]
+    locations: LocationInfo[]
     users: UserInfo[]
-    mainImage: string
+    images: ImageInfo[]
 }
+
+export type ImageInfo =  {
+    id: number
+    image_url: string
+    image_key: string
+}
+
+export type LocationInfo =  {
+    id: number
+    google_map_url: string
+    google_map_json: LocationsComponent[]
+}
+
 export type EventInfo =  {
     id: number
     title: string
+    marker: MarkerInfo[] | null
+    time_zone_name: string
     start: Date
     end: Date
-    allDay: boolean | null
-    index: number | null
-    userIds: number[]
-    eventType: EventTypeInfo
-    location: string
-    commute: CommuteInfo | null
-    googleMapUrl: string | null
-    images: string[]
+    is_all_day: number | boolean | null
+    watch: number
+    like: number
+    location: LocationInfo
+    location_from: LocationInfo
+    location_to: LocationInfo
+    event_type: EventTypeInfo
+    users: UserInfo[]
+    images: ImageInfo[]
     timeZoneName: string
     description: string
-    mail: string
+    emails: EmailInfo[]
+    pdfs: PdfInfo[]
+    index?: number
+}
+
+export type MarkerInfo =  {
+    color: string
+    background_color: string
+}
+
+export type EmailInfo =  {
+    id: number
+    subject: string
+    from_name: string
+    from_mail: string
+    to_name: string
+    to_mail: string
+    body: string
+    created_at: string
+    updated_at: string
+}
+
+export type PdfInfo =  {
+    id: number
+    pdf_url: string
+    pdf_key: string
+    created_at: string
+    updated_at: string
 }
 
 export type EventInfoKeys = keyof EventInfo;
@@ -47,22 +90,17 @@ export type UserInfo =  {
     name: string
     mail: string | null
     language: string | null
-    icon: string | null
-    timeZoneName: string | null
+    icon_url: string | null
+    time_zone_name: string | null
 }
 
-export type AddressComponent = {
+export type LocationsComponent = {
     long_name: string
     short_name: string
-    types: AddressType[]
+    types: LocationType[]
 }
 
-export type AddressType = 'political' | 'street_number' | 'route' | 'locality' | 'administrative_area_level_2' | 'administrative_area_level_1' | 'country' | 'postal_code'
-
-export type CommuteInfo =  {
-    from: string
-    to: string
-}
+export type LocationType = 'political' | 'street_number' | 'route' | 'locality' | 'administrative_area_level_2' | 'administrative_area_level_1' | 'country' | 'postal_code'
 
 export type EventType = 'main' | 'stay' | 'commute' | 'activity' | 'eat' | 'other'
 
@@ -72,7 +110,7 @@ export type EventTypeInfo =  {
     icon: any
     type: EventType
     color: string
-    backgroundColor: string
+    background_color: string
     childMenus?: EventTypeInfo[]
 }
 

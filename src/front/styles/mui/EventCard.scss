@@ -30,6 +30,9 @@ $EVENT_CARD_TITLE_FONT_COLOR: #000000;
     & .icon-title {
         color: $EVENT_CARD_FONT_COLOR;
         font-size: 12px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     & .even-card-tool-bar {

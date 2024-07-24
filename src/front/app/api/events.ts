@@ -5,15 +5,13 @@ import { EVENTLIST } from '@/const'
 import { getEventDetail } from '@/utils/utils'
 
 export const getEvents = async () => {
-  // const response = await axios.get('/events');
-  // return response.data;
-  return EVENTLIST
+  const response = await axios.get('http://localhost:13000/api/events/');
+  return response.data;
 };
 
 export const getEventById = async (id: number | string ) => {
-  // const response = await axios.get('/events');
-  // return response.data;
-  return getEventDetail(EVENTLIST, Number(id))
+  const response = await axios.get(`http://localhost:13000/api/events/${id}`);
+  return response.data;
 };
 
 export const createEvents = async (eventItem: EventListItem) => {

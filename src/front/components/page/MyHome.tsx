@@ -25,10 +25,10 @@ import GlobalHeader from "@/components/common/GlobalHeader"
 
 const MyHome = () => {
     const dispatch = useDispatch<AppDispatch>()
-    const eventList = useAppSelector((state) => state.eventsReducer)
+    const events = useAppSelector((state) => state.eventsReducer)
     useEffect(() => {
         // Fetch event list on component mount
-        getEvents().then((eventList) => dispatch(setEvents(eventList)))
+        getEvents().then((events) => dispatch(setEvents(events)))
     }, [dispatch])
 
     return (
@@ -50,8 +50,8 @@ const MyHome = () => {
                 <Box className='home-title'>Ongoing Trip</Box>
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                        {eventList.ongoing.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} key={eventItem.id} />
+                        {events.ongoing.map((eventItem, index) => {
+                            return <EventCard eventItem={eventItem} key={`ongoing-${index}`} />
                         })}
                     </Box>
                 </Box>
@@ -60,8 +60,8 @@ const MyHome = () => {
                 <Box className='home-title' sx={{ marginTop: '60px' }}>Recent Trip</Box>
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                        {eventList.recent.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} key={eventItem.id} />
+                        {events.recent.map((eventItem, index) => {
+                            return <EventCard eventItem={eventItem} key={`recent-${index}`} />
                         })}
                     </Box>
                 </Box>
@@ -70,8 +70,8 @@ const MyHome = () => {
                 <Box className='home-title' sx={{ marginTop: '60px' }}>Explore</Box>
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                        {eventList.explore.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} isExplore={true} key={eventItem.id} />
+                        {events.explore.map((eventItem, index) => {
+                            return <EventCard eventItem={eventItem} isExplore={true} key={`explore-${index}`} />
                         })}
                     </Box>
                 </Box>

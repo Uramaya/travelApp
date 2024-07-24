@@ -22,7 +22,7 @@ $factory->define(User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'language_id' => rand(1,20),
-        'icon_url' => Str::random(20),
+        'icon_url' => $faker->imageUrl,
         'time_zone_name' => $faker->randomElement(['Asia/Dubai', 'Asia/Baku', 'Asia/Colombo', 'Asia/Tokyo', 'Pacific/Auckland', 'Pacific/Apia']),
         'email_verified_at' => now(),
         'remember_token' => Str::random(10),

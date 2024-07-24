@@ -18,9 +18,12 @@ use App\Http\Controllers\MarkerController;
 */
 
 // Route::middleware('auth:api')->get('currentUser', 'AuthController@currentUser');
-Route::get('currentUser', 'AuthController@currentUser');
+Route::middleware('cors')->get('currentUser', 'AuthController@currentUser');
 // Route::group(['middleware' => ['events']], function () {
-Route::group(['prefix' => 'events'], function () {
+Route::group([
+    'middleware' => ['cors'],
+    'prefix' => 'events'
+], function () {
     Route::get('/', 'EventController@index');
     Route::get('/{id}', 'EventController@show');
     Route::post('/', 'EventController@store');
@@ -28,11 +31,14 @@ Route::group(['prefix' => 'events'], function () {
     Route::delete('/{id}', 'EventController@destroy');
 });
 
-Route::group(['prefix' => 'calendarEvents'], function () {
+Route::group([
+    'middleware' => ['cors'],
+    'prefix' => 'calendarEvents'
+], function () {
     Route::post('/', 'CalendarEventController@store');
     Route::patch('/{id}', 'CalendarEventController@update');
     Route::delete('/{id}', 'CalendarEventController@destroy');
 });
 
-Route::get('languages', 'LanguageController@index');
-Route::get('markers', 'MarkerController@index');
+Route::middleware('cors')->get('languages', 'LanguageController@index');
+Route::middleware('cors')->get('markers', 'MarkerController@index');
