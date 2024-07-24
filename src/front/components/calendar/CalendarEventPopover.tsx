@@ -14,6 +14,7 @@ import IconDefaultUser from '@/components/icon/IconDefaultUser'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
+import { getPopOverLocationLabel } from '@/utils/utils'
 
 const CalendarEventPopover = ({ 
   eventInfo,
@@ -63,20 +64,20 @@ const CalendarEventPopover = ({
 
   const title = useCallback((): JSX.Element => {
     return <div className='title-wrapper'>
-      <div className='title-icon-wrapper' style={{ border: `1.5px solid ${eventInfo?.eventType?.color}` }}>
-        <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
+      <div className='title-icon-wrapper' style={{ border: `1.5px solid ${eventInfo?.event_type?.color}` }}>
+        <FontAwesomeIcon icon={eventInfo?.event_type?.icon} className="icon" color={eventInfo?.event_type?.color} />
       </div>
-      <div className='title' style={{ color: `${eventInfo?.eventType?.color}` }}>{eventInfo.title}</div>
+      <div className='title' style={{ color: `${eventInfo?.event_type?.color}` }}>{eventInfo.title}</div>
     </div>
   }, [eventInfo])
 
   const timeLabel = useCallback((): JSX.Element => {
-    if (eventInfo.allDay) return <div>
-      <div className='title-content'>{`${getCalendarEventPopoverTimeLabel(eventInfo.start, eventInfo.allDay)}`}</div>
+    if (eventInfo.is_all_day) return <div>
+      <div className='title-content'>{`${getCalendarEventPopoverTimeLabel(eventInfo.start, eventInfo.is_all_day)}`}</div>
     </div>
     else return <div>
-      <div className='title-content'>{`${getCalendarEventPopoverTimeLabel(eventInfo.start, eventInfo.allDay)} - `}</div>
-      <div className='title-content'>{getCalendarEventPopoverTimeLabel(eventInfo.end, eventInfo.allDay)}</div>
+      <div className='title-content'>{`${getCalendarEventPopoverTimeLabel(eventInfo.start, eventInfo.is_all_day)} - `}</div>
+      <div className='title-content'>{getCalendarEventPopoverTimeLabel(eventInfo.end, eventInfo.is_all_day)}</div>
     </div>
   }, [eventInfo])
 
@@ -84,46 +85,47 @@ const CalendarEventPopover = ({
     return getUSerInfoById(userId, All_USERS)
   }
 
-  const userChip = useCallback((userId: number): JSX.Element => {
-    const userInfo = getModalUserInfo(userId)
-    if(!userInfo) return
-    const userIcon = userInfo?.icon
+  const userChip = useCallback((user: UserInfo): JSX.Element => {
+    if (!user) {
+      return <></>
+    }
+    const userIcon = user.icon_url
     if (!userIcon) return <Chip
       className="mui-customize"
-      key={userId}
-      label={userInfo?.name}
+      key={user.id}
+      label={user.name}
       icon={<IconDefaultUser width="25px" height="25px" iconSize="14px" />}
       onMouseDown={(e) => e.stopPropagation()}
     /> 
     else return <Chip
       className="mui-customize"
-      key={userId}
-      label={userInfo?.name}
-      avatar={<Avatar alt={userInfo?.name}
-        src={userInfo?.icon}
+      key={user.id}
+      label={user.name}
+      avatar={<Avatar alt={user.name}
+        src={user.icon_url}
       />}
       onMouseDown={(e) => e.stopPropagation()}
     />
   }, [eventInfo])
 
   const users = useCallback((): JSX.Element => {
-    if (!eventInfo.userIds.length) return <></>
-    if (eventInfo.userIds.length < 4) return <Box sx={{ display: 'flex', width: '100%' }} className="content-user" >
+    if (!eventInfo.users.length) return <></>
+    if (eventInfo.users.length < 4) return <Box sx={{ display: 'flex', width: '100%' }} className="content-user" >
       <FontAwesomeIcon icon={faUsers} className="icon-content" color="#A2A2A2" />
       <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} >
-        {eventInfo.userIds.map((userId) => {
-          return <Box key={userId} sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className='title-content-wrapper title-user-content-wrapper' >
-            {userChip(userId)}
+        {eventInfo.users.map((user) => {
+          return <Box key={user.id} sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className='title-content-wrapper title-user-content-wrapper' >
+            {userChip(user)}
           </Box>
         })}
       </Box>
     </Box>
-    if (eventInfo.userIds.length >= 4) return <Box sx={{ display: 'flex', width: '100%' }} className="content-user" >
+    if (eventInfo.users.length >= 4) return <Box sx={{ display: 'flex', width: '100%' }} className="content-user" >
       <FontAwesomeIcon icon={faUsers} className="icon-content" color="#A2A2A2" />
       <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} >
-        {eventInfo.userIds.slice(0, 3).map((userId) => {
-          return <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className='title-content-wrapper title-user-content-wrapper' >
-            {userChip(userId)}
+        {eventInfo.users.slice(0, 3).map((user) => {
+          return <Box key={user.id} sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className='title-content-wrapper title-user-content-wrapper' >
+            {userChip(user)}
           </Box>
         })}
         <IconButton className='tool-bar-icon-btn'>
@@ -145,7 +147,7 @@ const CalendarEventPopover = ({
       <Box>
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
           <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
-          <div className='title-content'>{eventInfo.location}</div>
+          <div className='title-content'>{getPopOverLocationLabel(eventInfo.location)}</div>
         </Box>
         {/* location button */}
         <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >

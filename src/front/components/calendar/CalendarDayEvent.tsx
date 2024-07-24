@@ -40,16 +40,16 @@ const CalendarDayEvent = ({
 
     // create dynamic time label jsx element(hh:mm A - hh:mm A)
     const timeLabel = useCallback((): JSX.Element => {
-        if (!eventInfo.allDay) return <div className='time-label'>{getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end })}</div>
+        if (!eventInfo.is_all_day) return <div className='time-label'>{getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end })}</div>
     }, [eventInfo])
 
 
     const button = useCallback((): JSX.Element => {
         return <div className='calendar-day-event-wrapper'>
             <div className='calendar-day-event calendar-event'>
-                <div className='content' style={{color: `${eventInfo?.eventType?.color}`}}>
+                <div className='content' style={{color: `${eventInfo?.event_type?.color}`}}>
                     <div className='icon-wrapper'>
-                        <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
+                        <FontAwesomeIcon icon={eventInfo?.event_type?.icon} className="icon" color={eventInfo?.event_type?.color} />
                     </div>
                     <div className='title'>
                         {eventInfo.title}

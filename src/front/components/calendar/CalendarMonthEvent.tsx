@@ -41,9 +41,9 @@ const CalendarMonthEvent = ({
 
     const button = useCallback((): JSX.Element => {
         return <div className='calendar-month-event calendar-event'>
-            <div className='content' style={{color: `${eventInfo?.eventType?.color}`}}>
+            <div className='content' style={{color: `${eventInfo?.event_type?.color}`}}>
                 <div className='icon-wrapper'>
-                <FontAwesomeIcon icon={eventInfo?.eventType?.icon} className="icon" color={eventInfo?.eventType?.color} />
+                <FontAwesomeIcon icon={eventInfo?.event_type?.icon} className="icon" color={eventInfo?.event_type?.color} />
                 </div>
                 <div className='title'>{eventInfo.title}</div>
                 {iconLocationPin()}

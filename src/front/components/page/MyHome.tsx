@@ -50,8 +50,8 @@ const MyHome = () => {
                 <Box className='home-title'>Ongoing Trip</Box>
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                        {events.ongoing.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} key={`ongoing-${eventItem.id}`} />
+                        {events.ongoing.map((eventItem, index) => {
+                            return <EventCard eventItem={eventItem} key={`ongoing-${index}`} />
                         })}
                     </Box>
                 </Box>
@@ -60,8 +60,8 @@ const MyHome = () => {
                 <Box className='home-title' sx={{ marginTop: '60px' }}>Recent Trip</Box>
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                        {events.recent.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} key={`recent-${eventItem.id}`} />
+                        {events.recent.map((eventItem, index) => {
+                            return <EventCard eventItem={eventItem} key={`recent-${index}`} />
                         })}
                     </Box>
                 </Box>
@@ -70,8 +70,8 @@ const MyHome = () => {
                 <Box className='home-title' sx={{ marginTop: '60px' }}>Explore</Box>
                 <Box className='event-card-list-wrapper' sx={{ marginTop: '10px', overflowY: 'auto' }}>
                     <Box className='event-card-list' display="flex" justifyContent="start" gap={2}>
-                        {events.explore.map((eventItem) => {
-                            return <EventCard eventItem={eventItem} isExplore={true} key={`explore-${eventItem.id}`} />
+                        {events.explore.map((eventItem, index) => {
+                            return <EventCard eventItem={eventItem} isExplore={true} key={`explore-${index}`} />
                         })}
                     </Box>
                 </Box>

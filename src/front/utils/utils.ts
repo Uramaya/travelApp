@@ -58,10 +58,10 @@ export const getCalendarEventTimeLabel = ({ start, end }:
 /**
 * Returns the time label shown on the popover
 * @param { Date | null | undefined } date // date time
-* @param { boolean | null | undefined } allDay // allDay flag
+* @param { number | boolean | null | undefined } allDay // allDay flag
 * @returns { string } // if allDay=true => D MMM YYYY(ddd) ; if allDay=false => D MMM YYYY(ddd) H:mm
 */
-export const getCalendarEventPopoverTimeLabel = (date: Date | null | undefined, allDay: boolean | null | undefined): string => {
+export const getCalendarEventPopoverTimeLabel = (date: Date | null | undefined, allDay: number | boolean | null | undefined): string => {
     if (!date) return ''
     if (allDay) return `${moment(date).format('D MMM YYYY(ddd)')}`
     else return `${moment(date).format('D MMM YYYY(ddd) H:mm')}`
@@ -126,7 +126,6 @@ export const getEventCardMainAuthors = (images: ImageInfo[] | null | undefined):
 /**
 * Returns the location label shown on the event card
 * @param { LocationInfo[] | null | undefined } locations // date
-* @param { Date | null | undefined } endDate // date
 * @returns { string } //  D MMM YYYY ;
 */
 export const getEventCardLocationLabel = (locations: LocationInfo[] | null | undefined): string => {
@@ -139,6 +138,20 @@ export const getEventCardLocationLabel = (locations: LocationInfo[] | null | und
         ].join(', ')
     }).join('/ ')
     return result
+}
+
+/**
+* Returns the location label shown on the calendar event pop over
+* @param { LocationInfo | null | undefined } location // date
+* @returns { string } //  D MMM YYYY ;
+*/
+export const getPopOverLocationLabel = (location: LocationInfo | null | undefined): string => {
+    if (!location) return ''
+        const googleMapJson = location.google_map_json    
+        return [
+            googleMapJson.find(address => address.types.includes('country'))?.long_name,
+            googleMapJson.find(address => address.types.includes('administrative_area_level_2'))?.long_name,
+        ].join(', ')
 }
 
 // /**
