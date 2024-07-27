@@ -28,6 +28,10 @@ $DATE_TIME_PICKER_SELECTED_FONT_COLOR: #3E9DD6;
     color: $DATE_TIME_PICKER_SELECTED_FONT_COLOR;
     border-radius: 10px;
 }
+
+.mui-customize.MuiPickersDay-root.MuiPickersDay-dayWithMargin {
+    border-radius: 100% !important;
+}
 .MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today {
     border: 2px solid $DATE_TIME_PICKER_SELECTED_BORDER_COLOR;
     color: $DATE_TIME_PICKER_SELECTED_FONT_COLOR;
