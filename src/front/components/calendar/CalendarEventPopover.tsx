@@ -3,7 +3,7 @@ import { EventInfo, UserInfo } from '@/types'
 import '@/styles/calendar/CalendarEventPopover.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHotel, faXmark, faLocationPin, faClock, faLocationDot, faUsers, faCopy, faPen, faTrashCan, faCircleDot, faMapLocationDot, faEllipsis } from "@fortawesome/free-solid-svg-icons"
-import { numDigits, getCalendarEventPopoverTimeLabel, getUSerInfoById } from '@/utils/utils'
+import { numDigits, getCalendarEventPopoverTimeLabel, getUserInfoById } from '@/utils/utils'
 import { All_USERS } from '@/const'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
@@ -82,7 +82,7 @@ const CalendarEventPopover = ({
   }, [eventInfo])
 
   const getModalUserInfo = (userId: number): UserInfo | undefined => {
-    return getUSerInfoById(userId, All_USERS)
+    return getUserInfoById(userId, All_USERS)
   }
 
   const userChip = useCallback((user: UserInfo): JSX.Element => {

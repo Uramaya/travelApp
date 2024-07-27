@@ -70,8 +70,8 @@ const Event = ({ id }: { id: string }) => {
         getEventById(id).then((result) => {
             if(result) {
                 setEventItem(result.event)
-                const events = arrangeCalendarEvents(result.calendar_events)
-                dispatch(setCalendarEvents(events))
+                const calendarEvents = arrangeCalendarEvents(result.calendar_events)
+                dispatch(setCalendarEvents(calendarEvents))
             }
         })
     }, [dispatch, getCalenderEvents, getEvents, getEventById, setEvents, setEventItem])
@@ -99,7 +99,6 @@ const Event = ({ id }: { id: string }) => {
             // update event
             updateCalenderEventsById(modalEventInfo.id, modalEventInfo).then(({ id, calendarEvent }) => dispatch(updateCalendarEvents({ id, calendarEvent })))
         }
-        createCalenderEvents(modalEventInfo).then((calendarEvent) => dispatch(addCalendarEvents(calendarEvent)))
     }, [dispatch, modalEventInfo, createCalenderEvents, updateCalenderEventsById])
 
     // update event item

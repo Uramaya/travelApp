@@ -104,24 +104,25 @@ const Calendar = ({
         />
       },
     }
-  }), [])
+  }), [modalEventInfo, events])
 
 
   const onDeletePopover = (eventInfo: EventInfo | null = null) => {
 
   }
 
-  const onEditPopover = (eventInfo: EventInfo | null = null) => {
+  const onEditPopover = useCallback((eventInfo: EventInfo | null = null): void => {
     // open the calendar event modal
     onClosePopover()
     onOpenModal(eventInfo)
-  }
+  }, [events])
 
-  const onCopyPopover = (eventInfo: EventInfo | null = null) => {
+  
+const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => {
     // open the calendar event modal
     onClosePopover()
-    onOpenModal(eventInfo)
-  }
+    onOpenModal({...eventInfo, id: 0})
+  }, [events])
 
   // select calendar slot(cell)
   const onSelectSlot = (slotInfo: SlotInfo) => {
@@ -141,6 +142,19 @@ const Calendar = ({
   // when select the event, toggle the popup
   const onSelectEvent = useCallback((eventInfo: EventInfo) => {
   }, [])
+
+  const calendarEventModal = useCallback((): JSX.Element => {
+    return <CalendarEventModal
+      modalEventInfo={modalEventInfo}
+      openCalendarEventModal={openCalendarEventModal}
+      setOpenCalendarEventModal={setOpenCalendarEventModal}
+      setModalEventInfo={setModalEventInfo}
+      onOpenModal={onOpenModal}
+      onCloseModal={onCloseModal}
+      onSave={onSave}
+      allUsers={allUsers}
+    />
+  }, [openCalendarEventModal, modalEventInfo])
 
 
   return (
@@ -172,16 +186,7 @@ const Calendar = ({
         onSelectEvent={onSelectEvent}
         showAllEvents
       />
-      <CalendarEventModal
-        modalEventInfo={modalEventInfo}
-        openCalendarEventModal={openCalendarEventModal}
-        setOpenCalendarEventModal={setOpenCalendarEventModal}
-        setModalEventInfo={setModalEventInfo}
-        onOpenModal={onOpenModal}
-        onCloseModal={onCloseModal}
-        onSave={onSave}
-        allUsers={allUsers}
-      />
+      {calendarEventModal()}
       <CalendarEventAddBtn
         openCalendarEventModal={openCalendarEventModal}
         setOpenCalendarEventModal={setOpenCalendarEventModal}

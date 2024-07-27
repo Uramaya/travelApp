@@ -1,10 +1,10 @@
-import { useCallback, useState, useRef } from "react"
+import { useCallback, useState, useRef, useEffect } from "react"
 import { EventInfo, EventInfoKeys, UserInfo } from '@/types'
 import '@/styles/calendar/CalendarEventModal.scss'
 import '@/styles/Quill.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark, faLocationPin, faClock, faLocationDot, faUsers, faAlignLeft, faCircleDot, faMapLocationDot, faEnvelope, faLightbulb, faTrashCan, faCopy, faPlus } from "@fortawesome/free-solid-svg-icons"
-import { numDigits, getCalendarEventPopoverTimeLabel, getUSerInfoById } from '@/utils/utils'
+import { numDigits, getCalendarEventPopoverTimeLabel, getUserInfoById } from '@/utils/utils'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
@@ -38,7 +38,6 @@ import dayjs, { Dayjs } from 'dayjs'
 import ReactQuill from 'react-quill'
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import 'react-quill/dist/quill.snow.css'
-import { ALL } from "dns"
 
 const CalendarEventModal = ({
   modalEventInfo,
@@ -65,8 +64,6 @@ const CalendarEventModal = ({
     onSave()
   }
 
-  const [value, setValue] = useState('')
-
   // control event type menu
   const [openEventTypeMenu, setOpenEventTypeMenu] = useState<boolean>(false)
 
@@ -76,49 +73,49 @@ const CalendarEventModal = ({
       SelectChangeEvent<string> |
       SelectChangeEvent<number[]>,
     fromName: string): void => {
-    const eventInfo: EventInfo = modalEventInfo
+    const eventInfo: EventInfo = {...modalEventInfo}
     eventInfo[fromName] = event.target.value
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change switch
   const onChangeFormSwitch = useCallback((event: React.ChangeEvent<HTMLInputElement>, fromName: string): void => {
-    const eventInfo: EventInfo = modalEventInfo
+    const eventInfo: EventInfo = {...modalEventInfo}
     eventInfo[fromName] = event.target.checked
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change date
   const onChangeFormDate = useCallback((datetime: React.ChangeEvent<Dayjs> | Dayjs, fromName: string): void => {
-    const eventInfo: EventInfo = modalEventInfo
+    const eventInfo: EventInfo = {...modalEventInfo}
     eventInfo[fromName] = (datetime as Dayjs).toDate()
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change description
   const onChangeFormDescription = useCallback((description: string): void => {
-    const eventInfo: EventInfo = modalEventInfo
+    const eventInfo: EventInfo = {...modalEventInfo}
     eventInfo['description'] = description
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change users
-  const onChangeFormUsers = useCallback((event: SelectChangeEvent<number[]>): void => {
-    const eventInfo: EventInfo = modalEventInfo
-    const userIds = event.target.value as number[]
+  const onChangeFormUsers = useCallback((event: SelectChangeEvent<UserInfo[]>): void => {
+    const eventInfo: EventInfo = {...modalEventInfo}
+    const users = event.target.value as UserInfo[]
     setModalEventInfo({
       ...eventInfo,
-      userIds: userIds
+      users: users
     })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change users
   const onDeleteFormUsers = useCallback((userId: number): void => {
-    const eventInfo: EventInfo = modalEventInfo
-    const userIds = modalEventInfo.userIds.filter((id) => id !== userId)
+    const eventInfo: EventInfo = {...modalEventInfo}
+    const users = modalEventInfo.users.filter((user) => user.id !== userId)
     setModalEventInfo({
       ...eventInfo,
-      userIds: userIds
+      users: users
     })
   }, [modalEventInfo])
 
@@ -160,7 +157,7 @@ const CalendarEventModal = ({
   }, [modalEventInfo])
 
   const dateFrom = useCallback((): JSX.Element => {
-    if (modalEventInfo?.allDay) return <DatePicker
+    if (modalEventInfo?.is_all_day) return <DatePicker
       label="From"
       className="mui-customize mui-customize-datetime-picker"
       value={dayjs(modalEventInfo?.start)}
@@ -179,7 +176,7 @@ const CalendarEventModal = ({
   }, [modalEventInfo, onChangeFormSwitch, setModalEventInfo])
 
   const dateTo = useCallback((): JSX.Element => {
-    if (modalEventInfo?.allDay) return <DatePicker
+    if (modalEventInfo?.is_all_day) return <DatePicker
       label="To"
       value={dayjs(modalEventInfo?.end)}
       minDate={dayjs(modalEventInfo?.start)}
@@ -201,7 +198,7 @@ const CalendarEventModal = ({
   const timeLabel = useCallback((): JSX.Element => {
     return <Box sx={{ width: '100%' }}>
       <FormControl sx={{ m: 1, width: '50%' }}>
-        <Switch label='All-day' value={modalEventInfo?.allDay} name='allDay' onChangeForm={onChangeFormSwitch} />
+        <Switch label='All-day' value={Boolean(modalEventInfo?.is_all_day)} name='allDay' onChangeForm={onChangeFormSwitch} />
       </FormControl>
       <Box sx={{ width: '100%' }} className="content-time-label" >
         <FormControl sx={{ m: 1, width: '100%' }}>
@@ -221,7 +218,7 @@ const CalendarEventModal = ({
           labelId="modal-time-zone-select-label"
           id="modal-time-zone-select"
           className="mui-customize select-box modal-select-box-timezone"
-          value={modalEventInfo?.timeZoneName}
+          value={modalEventInfo?.time_zone_name}
           label="time zone"
           size="small"
           IconComponent={(props) => (<IconChevronDownForMuiSelect props={props} />)}
@@ -266,7 +263,7 @@ const CalendarEventModal = ({
 
   }, [modalEventInfo])
   const userIcon = useCallback((user: UserInfo): JSX.Element => {
-    if (!user.icon) return <IconDefaultUser width="25px" height="25px" iconSize="14px" />
+    if (!user.icon_url) return <IconDefaultUser width="25px" height="25px" iconSize="14px" />
     return <Box
       component="img"
       sx={{
@@ -275,7 +272,7 @@ const CalendarEventModal = ({
         borderRadius: '50%',
         objectFit: "cover",
       }}
-      src={user.icon}
+      src={user.icon_url}
     />
   }, [modalEventInfo])
 
@@ -294,30 +291,25 @@ const CalendarEventModal = ({
     })
   }, [modalEventInfo])
 
-  const getModalUserInfo = (userId: number): UserInfo | undefined => {
-    return getUSerInfoById(userId, All_USERS)
-  }
-
-  const userChip = useCallback((userId: number): JSX.Element => {
-    const userInfo = getModalUserInfo(userId)
-    if(!userInfo) return
-    const userIcon = userInfo?.icon
+  const userChip = useCallback((user: UserInfo | undefined): JSX.Element => {
+    if(!user) return
+    const userIcon = user?.icon_url
     if (!userIcon) return <Chip
       className="mui-customize"
-      key={userId}
-      label={userInfo?.name}
+      key={user.id}
+      label={user?.name}
       icon={<IconDefaultUser width="25px" height="25px" iconSize="14px" />}
-      onDelete={() => { onDeleteFormUsers(userId) }}
+      onDelete={() => { onDeleteFormUsers(user.id) }}
       onMouseDown={(e) => e.stopPropagation()}
-    /> 
+    />
     else return <Chip
       className="mui-customize"
-      key={userId}
-      label={userInfo?.name}
-      avatar={<Avatar alt={userInfo?.name}
-        src={userInfo?.icon}
+      key={user.id}
+      label={user?.name}
+      avatar={<Avatar alt={user?.name}
+        src={user?.icon_url}
       />}
-      onDelete={() => { onDeleteFormUsers(userId) }}
+      onDelete={() => { onDeleteFormUsers(user.id) }}
       onMouseDown={(e) => e.stopPropagation()}
     />
   }, [modalEventInfo])
@@ -332,14 +324,14 @@ const CalendarEventModal = ({
             labelId="modal-users-select-label"
             id="modal-users-select"
             className="mui-customize select-box modal-select-box"
-            value={modalEventInfo?.userIds}
+            value={modalEventInfo?.users}
             label="users"
             size="small"
             multiple
-            renderValue={(selected) => (
+            renderValue={(selectedUser) => (
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                {selected.map((userId) => (
-                  userChip(userId)
+                {selectedUser.map((user) => (
+                  userChip(user)
                 ))}
               </Box>
             )}
@@ -433,8 +425,8 @@ const CalendarEventModal = ({
                 {/* Calendar Event Type Select Button */}
                 <Box sx={{ display: 'flex', alignItems: 'center' }} className='title-icon-outer-wrapper'>
                   <Button onClick={onClickEventTypeBtn} >
-                    <div className='title-icon-wrapper' style={{ border: `1.5px solid ${modalEventInfo?.eventType?.color}` }}>
-                      <FontAwesomeIcon icon={modalEventInfo?.eventType?.icon} className="icon" color={modalEventInfo?.eventType?.color} />
+                    <div className='title-icon-wrapper' style={{ border: `1.5px solid ${modalEventInfo?.event_type?.color}` }}>
+                      <FontAwesomeIcon icon={modalEventInfo?.event_type?.icon} className="icon" color={modalEventInfo?.event_type?.color} />
                     </div>
                     <FontAwesomeIcon icon={['fas', 'chevron-down']} className="icon-chevron-down" color="#A2A2A2" />
                   </Button>

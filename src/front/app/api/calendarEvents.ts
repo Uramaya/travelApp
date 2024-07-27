@@ -10,15 +10,13 @@ export const getCalenderEvents = async () => {
 };
 
 export const createCalenderEvents = async (calendarEvent: EventInfo) => {
-  // const response = await axios.post('/calenderEvents', newEntity);
-  // return response.data;
-  return calendarEvent;
+  const response = await axios.post('/calenderEvents', calendarEvent);
+  return response.data;
 };
 
 export const updateCalenderEventsById = async (id: number, calendarEvent: EventInfo) => {
-  // const response = await axios.put(`/calenderEvents/${id}`, updatedEntity);
-  // return response.data;
-  return {id: id, calendarEvent: calendarEvent}
+  const response = await axios.put(`/calenderEvents/${id}`, calendarEvent);
+  return response.data;
 };
 
 export const deleteCalenderEventsById = async (id: number) => {

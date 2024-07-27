@@ -284,8 +284,8 @@ class EventService implements EventRepository
             $imageAttachedIds = [];
             foreach($request->input('images') as $imageItem){
                 $image = new Image;
-                $image->image_url =  $imageItem->image_url;  
-                $image->image_key =  $imageItem->image_key;
+                $image->image_url = $imageItem->image_url;  
+                $image->image_key = $imageItem->image_key;
                 $image->save();
                 array_push($imageAttachedIds, $image->id);
             }

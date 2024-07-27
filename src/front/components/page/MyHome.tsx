@@ -11,7 +11,6 @@ import GoogleMap from "@/components/googleMap/GoogleMap"
 import Button from '@mui/material/Button'
 import useCalendarEventList from '@/hooks/calendarEventListHook'
 import useCalendar from '@/hooks/calendarHook'
-import useCalendarEventModal from '@/hooks/calendarEventModalHook'
 import useCalendarEventPopoverHook from '@/hooks/calendarEventPopoverHook'
 import EventCard from '@/components/mui/EventCard'
 import { EVENTLIST } from '@/const'

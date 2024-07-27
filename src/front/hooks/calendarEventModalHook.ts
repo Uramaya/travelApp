@@ -10,15 +10,15 @@ const calendarEventModal = (initEventInfo: EventInfo) => {
   const [modalEventInfo, setModalEventInfo] = useState<EventInfo | null>(initEventInfo)
 
   // open modal
-  const onOpenModal = (eventInfo: EventInfo | null = null) => {
-    if (eventInfo) setModalEventInfo(eventInfo)
-    setOpenCalendarEventModal(true)
-  }
+  const onOpenModal = useCallback((eventInfo: EventInfo | null = null): void => {
+      setOpenCalendarEventModal(true)
+      setModalEventInfo(eventInfo)
+  }, [openCalendarEventModal])
 
   // close modal
   const onCloseModal = () => {
     setOpenCalendarEventModal(false)
-    setModalEventInfo(null)
+    setModalEventInfo(initEventInfo)
   }
 
   // when click add photo btn

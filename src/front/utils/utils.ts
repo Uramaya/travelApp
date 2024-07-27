@@ -86,7 +86,7 @@ export const getCalendarEventDateTimeModalLabel = (date: Date | null | undefined
 * @param { UserInfo[] | null | undefined } allUsers // all users info
 * @returns { UserInfo | undefined } // return user info
 */
-export const getUSerInfoById = (userId: number | null | undefined, allUsers: UserInfo[] | null | undefined): UserInfo | undefined => {
+export const getUserInfoById = (userId: number | null | undefined, allUsers: UserInfo[] | null | undefined): UserInfo | undefined => {
     if (!userId || !allUsers) return undefined
     return allUsers.find(user => user.id === userId)
 }

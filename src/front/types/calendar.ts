@@ -50,8 +50,8 @@ export type EventInfo =  {
     location_to: LocationInfo
     event_type: EventTypeInfo
     users: UserInfo[]
+    authors: UserInfo[]
     images: ImageInfo[]
-    timeZoneName: string
     description: string
     emails: EmailInfo[]
     pdfs: PdfInfo[]
