@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Email;
+use App\Author;
 
-class EmailsTableSeeder extends Seeder
+class AuthorsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +13,6 @@ class EmailsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Email::class, 80)->create();
+        factory(App\Author::class, 30)->create();
     }
 }

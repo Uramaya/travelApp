@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCalendarEventUserTable extends Migration
+class CreateAuthorCalendarEventTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCalendarEventUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('calendar_event_user', function (Blueprint $table) {
+        Schema::create('author_calendar_event', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('calendar_event_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('author_id');
             $table->foreign('calendar_event_id')->references('id')->on('calendar_events')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,8 +30,8 @@ class CreateCalendarEventUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('calendar_event_user');
+        Schema::dropIfExists('author_calendar_event');
         $table->dropForeign('calendar_event_id');
-        $table->dropForeign('user_id');
+        $table->dropForeign('author_id');
     }
 }
