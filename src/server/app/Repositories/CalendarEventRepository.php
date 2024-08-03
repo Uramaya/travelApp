@@ -2,39 +2,24 @@
 
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\CalendarEventRequest;
 
 interface CalendarEventRepository
 {  
     /**
-     * get the ongoing event list
-     * @param 
+     * save calendar event
+     * @param CalendarEventRequest $request
      * @return array
      *
      */
-    public function getOngoingEvents ();
+    public function saveCalendarEvent (CalendarEventRequest $request);
 
     /**
-     * get the recent event list
-     * @param 
+     * delete calendar event
+     * @param int $eventId
      * @return array
      *
      */
-    public function getRecentEvents ();
+    public function deleteCalendarEvent (int $eventId);
 
-    /**
-     * get the explore event list
-     * @param 
-     * @return array
-     *
-     */
-    public function getExploreEvents ();
-
-    /**
-     * get the explore event list
-     * @param $eventId event id
-     * @return array|object
-     *
-     */
-    public function getEventDetail ($eventId);
 }

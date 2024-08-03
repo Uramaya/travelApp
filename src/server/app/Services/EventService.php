@@ -69,7 +69,7 @@ class EventService implements EventRepository
             $users = $users->random(20);
         }
         foreach ($users as $user){
-            $user_event = $user->user_events()->get();
+            $user_event = $user->events()->get();
             if (!isset($user_event)) {
                 return [];
             }
@@ -197,7 +197,7 @@ class EventService implements EventRepository
     private function getCurrentUserEvents ()
     {
         $authService = new AuthService();
-        return $authService->getCurrentLoginUser()->user_events();
+        return $authService->getCurrentLoginUser()->events();
     }
 
     /**

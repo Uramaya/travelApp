@@ -35,6 +35,7 @@ Route::group([
     'middleware' => ['cors'],
     'prefix' => 'calendarEvents'
 ], function () {
+    Route::get('/test', 'CalendarEventController@test');
     Route::post('/', 'CalendarEventController@store');
     // Route::delete('/{id}', 'CalendarEventController@destroy');
 });

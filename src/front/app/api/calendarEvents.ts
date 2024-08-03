@@ -11,6 +11,7 @@ export const getCalenderEvents = async () => {
 
 export const createOrUpdateCalenderEvents = async (calendarEvent: EventInfo) => {
   const response = await axios.post('http://localhost:13000/api/calendarEvents', calendarEvent);
+  console.log('response', response)
   return response.data;
 };
 
