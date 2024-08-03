@@ -32,12 +32,10 @@ class Event extends Model
         'time_zone_name' => 'required | between:0,50',
         'start' => 'required',
         'end' => 'required',
-        'author_ids' => 'required',
         'watch' => 'required | integer',
         'like' => 'required | integer',
+        'location' => 'required',
 		'description' => 'required | between:0,2000',
-
-
         'name' => 'required',
         'age' => 'integer | between:0,150',
         'sex' => ['max:1', 'regex:/^[男|女]+$/u'],
@@ -46,7 +44,7 @@ class Event extends Model
     // authors of the event
     public function authors()
     {
-        return $this->belongsToMany('App\User')->withPivot('author_id')->withTimestamps();
+        return $this->belongsToMany('App\Author')->withTimestamps();
     }
 
     // locations of the event

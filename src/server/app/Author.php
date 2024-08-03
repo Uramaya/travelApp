@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 // use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class User extends Model
+class Author extends Model
 {
     
     // use HasFactory;
@@ -42,20 +42,20 @@ class User extends Model
         'email_verified_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
-
-    // events created by the user
+    
+    // events created by the author
     public function events()
     {
         return $this->belongsToMany('App\Event')->withTimestamps();
     }
 
-    // calendar events created by the user
+    // calendar events created by the author
     public function calendar_events()
     {
         return $this->belongsToMany('App\CalendarEvent')->withTimestamps();
     }
 
-    // language of the user
+    // language of the author
     public function language()
     {
         return $this->belongsTo('App\Language');

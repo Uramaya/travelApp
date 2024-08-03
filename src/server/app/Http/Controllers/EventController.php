@@ -48,10 +48,11 @@ class EventController extends Controller
     public function store (Request $request) 
     {
         
+        return "ok";
         // try {
-            $eventService = new EventService();
-            $eventService->saveEvent($request);
-            return response()->json($event, 201);
+            // $eventService = new EventService();
+            // $eventService->saveEvent($request);
+            // return response()->json($event, 201);
         // } catch (Exception $e) {
         //     $responseException; 
         //     $e->getMessage();

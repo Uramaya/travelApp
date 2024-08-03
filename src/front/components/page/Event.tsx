@@ -3,7 +3,7 @@ import { useEffect, useCallback, useState } from 'react'
 import { useDispatch, createSelectorHook } from 'react-redux'
 import { useAppSelector, useAppDispatch } from '@/stores/hooks'
 import { setCalendarEvents, addCalendarEvents, updateCalendarEvents, deleteCalendarEvents } from "@/stores/features/calendar"
-import { getCalenderEvents, createCalenderEvents, updateCalenderEventsById, deleteCalenderEventsById } from "@/app/api/calendarEvents"
+import { getCalenderEvents, createOrUpdateCalenderEvents, updateCalenderEventsById, deleteCalenderEventsById } from "@/app/api/calendarEvents"
 import { getEvents, getEventById, createEvents, updateEventsById, deleteEventsById } from "@/app/api/events"
 import { setEvents, addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
 import { RootState } from '@/stores/store'
@@ -86,20 +86,23 @@ const Event = ({ id }: { id: string }) => {
                 ...event,
                 start: new Date(event.start),
                 end: new Date(event.end),
-                index: index + 1
+                index: index + 1,
+                event_id: Number(id) || 0,
             }
         })
     }
     // when click save button on the calendar edit modal
     const onSaveCalendarModal = useCallback(() => {
-        if (!modalEventInfo.id) {
-            // create new event
-            createCalenderEvents(modalEventInfo).then((calendarEvent) => dispatch(addCalendarEvents(calendarEvent)))
-        } else {
-            // update event
-            updateCalenderEventsById(modalEventInfo.id, modalEventInfo).then(({ id, calendarEvent }) => dispatch(updateCalendarEvents({ id, calendarEvent })))
-        }
-    }, [dispatch, modalEventInfo, createCalenderEvents, updateCalenderEventsById])
+        console.log("onSaveCalendarModal", modalEventInfo)
+        console.log("calendarEvents", calendarEvents)
+        // create or update the event
+        createOrUpdateCalenderEvents(modalEventInfo).then((result) => {
+            setEventItem(result.event)
+            const calendarEvents = arrangeCalendarEvents(result.calendar_events)
+            dispatch(setCalendarEvents(calendarEvents))
+            onCloseModal()
+        })
+    }, [dispatch, modalEventInfo, createOrUpdateCalenderEvents, updateCalenderEventsById])
 
     // update event item
     const updateEventItem = useCallback((eventItem: EventListItem) => {

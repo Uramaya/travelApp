@@ -36,15 +36,31 @@ class CalendarEvent extends Model
      *
      * @var array
      */
-    protected $casts = [
-        'start' => 'datetime',
-        'end' => 'datetime',
+    protected $rules = [
+        'title' => 'required | between:0,70',
+        'time_zone_name' => 'required | between:0,50',
+        'start' => 'required',
+        'end' => 'required',
+        'is_all_day' => 'required | integer',
+        'watch' => 'required | integer',
+        'like' => 'required | integer',
+        'event_type' => 'required',
+        'location' => 'required',
+        'location_from' => 'required',
+        'location_to' => 'required',
+		'description' => 'required | between:0,2000',
+        'users' => 'required',
+        'images' => 'required',
+        'authors' => 'required',
+        'emails' => 'required',
+        'pdfs' => 'required',
+        'event_id' => 'required | integer',
     ];
 
     // authors of the calendar event
     public function authors()
     {
-        return $this->belongsToMany('App\User')->withPivot('author_id')->withTimestamps();
+        return $this->belongsToMany('App\Author')->withTimestamps();
     }
 
     // location of the calendar event
