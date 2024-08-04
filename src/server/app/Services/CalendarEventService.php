@@ -30,8 +30,7 @@ class CalendarEventService implements CalendarEventRepository
         try {
             $validation_calendar_event = $request->validated();
 
-
-            $event = Event::find($request->event_id);
+            $event = Event::where('id', '=', (int)$request->event_id)->first();
             if(empty($event)) {
                 // if event doesn't exist, stop the save process
                 abort(404, 'The event is not found');
@@ -39,72 +38,84 @@ class CalendarEventService implements CalendarEventRepository
 
             // create or update the calendar event
             $isNew = false;
-            $calendarEvent = CalendarEvent::find($request->id);
-            if(empty($calendarEvent)) {
+            if(empty($request->id)) {
                 $calendarEvent = new CalendarEvent();
                 $isNew = true;
+            } else {
+                $calendarEvent = CalendarEvent::where('id', '=', (int)$request->id)->first();
+                if(empty($calendarEvent)) {
+                    $calendarEvent = new CalendarEvent();
+                    $isNew = true;
+                }
             }
-
+            
             $calendarEvent->title =  $request->title;
             $calendarEvent->index =  $request->index;
             $calendarEvent->time_zone_name =  $request->time_zone_name;
             $calendarEvent->start =  new Carbon($request->start);
             $calendarEvent->end =  new Carbon($request->end);
             $calendarEvent->is_all_day = $request->is_all_day;
-            $calendarEvent->watch =  $request->watch;
-            $calendarEvent->like =  $request->like;
+            $calendarEvent->watch =  $request->watch ?? 0;
+            $calendarEvent->like =  $request->like ?? 0;
             $calendarEvent->event_type_id =  $request->event_type['id'];
             $calendarEvent->description =  $request->description;
+            $calendarEvent->event_id =  $request->event_id;
             
             $calendarEvent->save();
-
-            // save event pivot
             
-            $calendarEventAttachedIds = $event->calendarEvents()->pluck('id')->all() ?? [];
-            if ($isNew) {
-                array_push($calendarEventAttachedIds, $calendarEvent->id);
-                $event->calendarEvents()->sync($calendarEventAttachedIds); 
-            }
-            $calendarEvent->save();
-
             // save location pivot
-            $location = Location::find($request->location['id']);
-            if (empty($location) || $isNew) {
-                $location = new Location;
+            if (!empty($request->location)) {
+                $location = Location::where('id', '=', (int)$request->location['id'])->first();
+                if (empty($location) || $isNew) {
+                    $location = new Location;
+                }
+    
+                $location->google_map_url = $request->location['google_map_url'];
+                $location->google_map_json = json_encode($request->location['google_map_json']);
+                $location->save();
+
+                $calendarEvent->location_id = $location->id;
+                $calendarEvent->save();
+            } else {
+                $calendarEvent->location_id = null;
+                $calendarEvent->save();
+            }
+            
+            if (!empty($request->location_from)) {
+                // save location_from pivot
+                $locationFrom = Location::where('id', '=', (int)$request->location_from['id'])->first();
+                if (empty($locationFrom) || $isNew) {
+                    $locationFrom = new Location;
+                }
+
+                $locationFrom->google_map_url = $request->location_from['google_map_url'];
+                $locationFrom->google_map_json = json_encode($request->location_from['google_map_json']);
+                $locationFrom->save();
+
+                $calendarEvent->location_from_id = $locationFrom->id;
+                $calendarEvent->save();
+            } else {
+                $calendarEvent->location_from_id = null;
+                $calendarEvent->save();
             }
 
-            $location->google_map_url = $request->location['google_map_url'];
-            $location->google_map_json = json_encode($request->location['google_map_json']);
-            $location->save();
-            
-            $calendarEvent->location_id = $location->id;
-            $calendarEvent->save();
+            if (!empty($request->location_to)) {
+                // save location_to pivot
+                $locationTo = Location::where('id', '=', (int)$request->location_to['id'])->first();
+                if (empty($locationFrom) || $isNew) {
+                    $locationTo = new Location;
+                }
 
-            // save location_from pivot
-            $locationFrom = Location::find($request->location_from['id']);
-            if (empty($locationFrom) || $isNew) {
-                $locationFrom = new Location;
+                $locationTo->google_map_url = $request->location_to['google_map_url'];
+                $locationTo->google_map_json = json_encode($request->location_to['google_map_json']);
+                $locationTo->save();
+                
+                $calendarEvent->location_to_id = $locationTo->id;
+                $calendarEvent->save();   
+            } else {
+                $calendarEvent->location_to_id = null;
+                $calendarEvent->save();
             }
-
-            $locationFrom->google_map_url = $request->location_from['google_map_url'];
-            $locationFrom->google_map_json = json_encode($request->location_from['google_map_json']);
-            $locationFrom->save();
-            
-            $calendarEvent->location_from_id = $locationFrom->id;
-            $calendarEvent->save();
-
-            // save location_to pivot
-            $locationTo = Location::find($request->location_to['id']);
-            if (empty($locationFrom) || $isNew) {
-                $locationTo = new Location;
-            }
-
-            $locationTo->google_map_url = $request->location_to['google_map_url'];
-            $locationTo->google_map_json = json_encode($request->location_to['google_map_json']);
-            $locationTo->save();
-            
-            $calendarEvent->location_to_id = $locationTo->id;
-            $calendarEvent->save();
 
             // get current author
             $authService = new AuthService();
@@ -145,7 +156,7 @@ class CalendarEventService implements CalendarEventRepository
             if (count($request->images)) {
                 $imageIds = $calendarEvent->images()->pluck('images.id')->all() ?? [];
                 foreach ($request->images as $key => $imageItem) {
-                    $image = Image::find($imageItem['id']);
+                    $image = Image::where('id', '=', (int)$imageItem['id'])->first();
                     if(!$image) {
                         $image = new Image;
                         $image->image_url = $imageItem['image_url'];
@@ -156,16 +167,16 @@ class CalendarEventService implements CalendarEventRepository
                         array_push($imageIds, $image->id);
                     }
                 }
-                $calendarEvent->users()->sync($imageIds);
+                $calendarEvent->images()->sync($imageIds);
             } else {
-                $calendarEvent->users()->sync([]);
+                $calendarEvent->images()->sync([]);
             }
 
             // emails
             if (count($request->emails)) {
                 $emailIds = $calendarEvent->emails()->pluck('emails.id')->all() ?? [];
                 foreach ($request->emails as $key => $emailItem) {
-                    $email = Email::find($emailItem['id']);
+                    $email = Email::where('id', '=', (int)$emailItem['id'])->first();
                     if(!$email) {
                         $email = new Email;
                         $email->subject = $emailItem['subject'];
@@ -189,7 +200,7 @@ class CalendarEventService implements CalendarEventRepository
             if (count($request->pdfs)) {
                 $pdfIds = $calendarEvent->pdfs()->pluck('pdfs.id')->all() ?? [];
                 foreach ($request->pdfs as $key => $pdfItem) {
-                    $pdf = Pdf::find($pdfItem['id']);
+                    $pdf = Pdf::where('id', '=', (int)$pdfItem['id'])->first();
                     if(!$pdf) {
                         $pdf = new Pdf;
                         $pdf->pdf_url = $pdfItem['pdf_url'];
@@ -210,7 +221,7 @@ class CalendarEventService implements CalendarEventRepository
                 'message' => 'Update Success'
             ];
     
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             abort(500, $e->getMessage());
         }
     }
@@ -223,7 +234,7 @@ class CalendarEventService implements CalendarEventRepository
      */
     public function deleteCalendarEvent ($calendarEventId)
     {
-        $calendarEvent = CalendarEvent::find($calendarEventId);
+        $calendarEvent = CalendarEvent::where('id', '=', (int)$calendarEventId)->first();
 
         if (empty($calendarEvent)) {
             return false;
@@ -238,21 +249,21 @@ class CalendarEventService implements CalendarEventRepository
             $imageIds = $event->images()->pluck('id')->all();
             $calendarEvent->images()->sync([]);
             foreach($imageIds as $imageId) {
-                $image = Image::find($imageId);
+                $image = Image::where('id', '=', (int)$imageId)->first();
                 $image->delete();
             }
 
             $emailIds = $event->emails()->pluck('id')->all();
             $calendarEvent->emails()->sync([]);
             foreach($emailIds as $emailId) {
-                $email = Email::find($emailId);
+                $email = Email::where('id', '=', (int)$emailId)->first();
                 $email->delete();
             }
 
             $pdfIds = $event->pdfs()->pluck('id')->all();
             $calendarEvent->pdfs()->sync([]);
             foreach($pdfIds as $pdfId) {
-                $pdf = Email::find($pdfId);
+                $pdf = Email::where('id', '=', (int)$pdfId)->first();
                 $pdf->delete();
             }
 

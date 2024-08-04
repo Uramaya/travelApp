@@ -5,22 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\EventService;
 use App\Exceptions\ResponseException;
+use App\Http\Requests\EventRequest;
+use App\Http\Requests\EventTitleRequest;
+use DB;
 
 class EventController extends Controller
 {
     
+    protected $eventService;
+
+    public function __construct(
+        EventService $eventService
+    )
+    {
+        $this->eventService = $eventService;
+    }
     public function index () 
     {
         $eventService = new EventService();
         $events = [
             // get the ongoing event list
-            'ongoing' => $eventService->getOngoingEvents(),
+            'ongoing' => $this->eventService->getOngoingEvents(),
 
             // get the recent event list
-            'recent' => $eventService->getRecentEvents(),
+            'recent' => $this->eventService->getRecentEvents(),
 
             // get the explore event list
-            'explore' => $eventService->getExploreEvents(),
+            'explore' => $this->eventService->getExploreEvents(),
         ];
         return response()->json($events, 200);
     }
@@ -33,29 +44,47 @@ class EventController extends Controller
      */
     public function show (Request $request) 
     {
-        $eventService = new EventService();
-        $eventId = $request->route('id');
-        $event = $eventService->getEventDetail($eventId);
+        $eventId = (int)$request->route('id');
+        $event = $this->eventService->getEventDetail($eventId);
         return response()->json($event, 200);
     }
 
     /**
      * Store a newly created event.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\EventRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store (Request $request) 
+    public function store (EventRequest $request) 
     {
-        
-        return "ok";
+        DB::beginTransaction();
+        try {
+            $result = $this->eventService->saveEvent($request);
+            DB::commit();
+            return response()->json($result, 201);
+        } catch (Exception $e) {
+            DB::rollback();
+            abort(500, $e->getMessage());
+        }
+    }
+
+    /**
+     * update the event.
+     *
+     * @param  \App\Http\Requests\EventTitleRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateTitle (EventTitleRequest $request) 
+    {
         // try {
-            // $eventService = new EventService();
-            // $eventService->saveEvent($request);
-            // return response()->json($event, 201);
+            $this->eventService->saveEventTitle($request);
+            $event = $this->eventService->getEventDetail($request->id);
+            if(isEmpty($event)) {
+                abort(404, 'The updated event is not found');
+            }
+            return response()->json($event->title, 201);
         // } catch (Exception $e) {
-        //     $responseException; 
-        //     $e->getMessage();
+        //     abort(500, $e->getMessage());
         // }
     }
 
@@ -67,8 +96,8 @@ class EventController extends Controller
      */
     public function update (Request $request) 
     {
-        $eventService = new EventService();
-        $eventService->saveEvent($request);
+        $this->eventService->saveEvent($request);
+        $event = $this->eventService->getEventDetail($request->id);
         return response()->json($event, 201);
     }
 
@@ -80,8 +109,8 @@ class EventController extends Controller
      */
     public function destroy (Request $request) 
     {
-        $eventService = new EventService();
-        $eventService->deleteEvent($eventId);
+        $eventId = (int)$request->route('id');
+        $this->eventService->deleteEvent($eventId);
         return response()->json($event, 201);
     }
 }

@@ -16,7 +16,7 @@ export const INIT_CALENDAR_MODAL_EVENT_INFO: EventInfo = {
   title: '',
   start: new Date(moment().format('YYYY-M-DD HH:mm:ss')),
   end: new Date(moment().add(1, 'h').format('YYYY-M-DD HH:mm:ss')),
-  is_all_day: false,
+  is_all_day: 0,
   index: 10,
   users: [],
   authors: [],
@@ -39,6 +39,7 @@ export const INIT_CALENDAR_MODAL_EVENT_INFO: EventInfo = {
   marker: null,
   watch: 0,
   like: 0,
+  event_id: 0,
 }
 
 // Quill toolbar options

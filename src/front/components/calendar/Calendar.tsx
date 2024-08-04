@@ -53,6 +53,7 @@ const Calendar = ({
   popoverOpen,
   onClickPopoverBtn,
   onClosePopover,
+  eventItem,
 
 }: CalendarProps) => {
   const { formats } = useMemo(
@@ -195,6 +196,7 @@ const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => 
         onCloseModal={onCloseModal}
         onSave={onSave}
         allUsers={allUsers}
+        eventItem={eventItem}
       />
     </>
   )

@@ -36,9 +36,6 @@ class Event extends Model
         'like' => 'required | integer',
         'location' => 'required',
 		'description' => 'required | between:0,2000',
-        'name' => 'required',
-        'age' => 'integer | between:0,150',
-        'sex' => ['max:1', 'regex:/^[男|女]+$/u'],
 	);
     
     // authors of the event

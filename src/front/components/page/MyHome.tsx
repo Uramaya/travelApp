@@ -3,8 +3,8 @@ import { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from "@/stores/store"
 import { setEvents, addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
-import { getEvents, createEvents, updateEventsById, deleteEventsById } from "@/app/api/events"
-
+import { getEvents, createEvent, updateEventsById, deleteEventsById } from "@/app/api/events"
+import { useRouter } from 'next/router'
 import Calendar from "@/components/calendar/Calendar"
 import GlobalToolBar from "@/components/common/GlobalToolBar"
 import GoogleMap from "@/components/googleMap/GoogleMap"
@@ -13,7 +13,7 @@ import useCalendarEventList from '@/hooks/calendarEventListHook'
 import useCalendar from '@/hooks/calendarHook'
 import useCalendarEventPopoverHook from '@/hooks/calendarEventPopoverHook'
 import EventCard from '@/components/mui/EventCard'
-import { EVENTLIST } from '@/const'
+import { INIT_EVENT_INFO } from '@/const'
 import FormControl from '@mui/material/FormControl'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -30,9 +30,21 @@ const MyHome = () => {
         getEvents().then((events) => dispatch(setEvents(events)))
     }, [dispatch])
 
+    // when click add trip button on the home page
+    const onCreateEvent = useCallback(() => {
+        // create new event
+        createEvent(INIT_EVENT_INFO).then((result) => {
+            const eventId = result.event_id
+            if (!eventId) {
+                return
+            }
+            window.location.href = `/event/${eventId}`
+        })
+    }, [dispatch, createEvent])
+
     return (
         <>
-            <GlobalHeader />
+            <GlobalHeader onCreateEvent={onCreateEvent}/>
             <Box className='my-home' sx={{ padding: '10px 24px' }}>
                 <Box className='home-title' sx={{ marginTop: '10px', marginBottom: '16px' }}>My History</Box>
 
@@ -42,7 +54,7 @@ const MyHome = () => {
                 </Box>
 
                 <Box sx={{ width: '100%', marginTop: '10px' }} display="flex" justifyContent="flex-end">
-                    <AddTripBtn />
+                    <AddTripBtn onCreateEvent={onCreateEvent}/>
                 </Box>
 
                 {/* Ongoing Trip */}

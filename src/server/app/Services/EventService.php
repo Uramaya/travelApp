@@ -12,7 +12,10 @@ use App\User;
 use App\Image;
 use App\Pdf;
 use Carbon\Carbon;
+use App\Author;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\EventRequest;
+use App\Http\Requests\EventTitleRequest;
 
 class EventService implements EventRepository
 {
@@ -25,12 +28,25 @@ class EventService implements EventRepository
      */
     public function getOngoingEvents ()
     {
+        $events = [];
         $user_events = $this->getCurrentUserEvents();
-        $events = $user_events->where([
-            ['start', '>=', Carbon::today()->format('Y-m-d')],
-        ])->get();
+        $author_events = $this->getCurrentAuthorEvents();
 
-        return $this->generateEvents($events);     
+        if (!empty($user_events)) {
+            $user_events = $user_events->where([
+                ['start', '>=', Carbon::today()->format('Y-m-d')],
+            ])->get();
+            $events = $this->generateEvents($user_events)->toArray();
+        }
+
+        if(!empty($author_events)) {
+            $author_events = $author_events->where([
+                ['start', '>=', Carbon::today()->format('Y-m-d')],
+            ])->get();
+            $author_events = $this->generateEvents($author_events)->toArray();
+            $events = array_merge($events, $author_events);
+        }
+        return $events;
     }
 
     /**
@@ -41,16 +57,23 @@ class EventService implements EventRepository
      */
     public function getRecentEvents () 
     {
+        $events = [];
         $user_events = $this->getCurrentUserEvents();
-        
-        $events = $user_events->where('start', '>=', Carbon::today()->addMonths(1)->format('Y-m-d'))
-        ->orWhere('start', '<=', Carbon::today()->subMonths(1)->format('Y-m-d'))
-        ->get();
+        $author_events = $this->getCurrentAuthorEvents();
 
-        if ($events->count() > 20) {
-            $events = $events->random(20);
+        if (!empty($user_events)) {
+            $user_events = $user_events->where('start', '>=', Carbon::today()->addMonths(1)->format('Y-m-d'))
+            ->orWhere('start', '<=', Carbon::today()->subMonths(1)->format('Y-m-d'))->get();
+            $events = $this->generateEvents($user_events)->toArray();
         }
-        return $this->generateEvents($events);  
+
+        if(!empty($author_events)) {
+            $author_events = $author_events->where('start', '>=', Carbon::today()->addMonths(1)->format('Y-m-d'))
+            ->orWhere('start', '<=', Carbon::today()->subMonths(1)->format('Y-m-d'))->get();
+            $author_events = $this->generateEvents($author_events)->toArray();
+            $events = array_merge($events, $author_events);
+        }
+        return $events;
     }
 
     /**
@@ -88,7 +111,7 @@ class EventService implements EventRepository
      * @return array|object
      *
      */
-    private function generateEvents ($events) 
+    private function generateEvents ($events, $mergeEvents = []) 
     {
         return $events->map(function ($event) {
             $authors = $event->authors()->get() ?? [];
@@ -118,7 +141,8 @@ class EventService implements EventRepository
      */
     public function getEventDetail ($eventId)
     {
-        $event = Event::find($eventId)->first();
+        
+        $event = Event::where('id', '=', (int)$eventId)->first();
 
         $authors = $event->authors()->get() ?? [];
         $locations = $this->getLocations($event->locations()->get() ?? []);
@@ -136,10 +160,11 @@ class EventService implements EventRepository
             'locations' => $locations,
             'users' => $users,
             'images' => $images,
+            'description' => $event->description,
         ];
         return [
             'event' => $event_detail,
-            'calendar_events' => $this->generateCalendarEvent($event),
+            'calendar_events' => $this->generateCalendarEvent($event->id, $event),
         ];
     }
 
@@ -149,11 +174,11 @@ class EventService implements EventRepository
      * @return array|object
      *
      */
-    private function generateCalendarEvent ($event)
+    private function generateCalendarEvent ($eventId, $event)
     {
         $calendarEvents = $event->calendarEvents()->get() ?? [];
 
-        return $calendarEvents->map(function ($calendarEvent) {
+        return $calendarEvents->map(function ($calendarEvent) use ($eventId) {
             $marker = $calendarEvent->marker()->get() ?? null;
             $authors = $calendarEvent->authors()->get() ?? [];
             $users = $calendarEvent->users()->get() ?? [];
@@ -164,6 +189,7 @@ class EventService implements EventRepository
             $location_to = $this->getLocation($calendarEvent->location_to()->get()->toArray() ?? null);
             $emails = $calendarEvent->emails()->get() ?? [];
             $pdfs = $calendarEvent->pdfs()->get() ?? [];
+            $is_all_day = (int)$calendarEvent->is_all_day;
             
             return [
                 'id' => $calendarEvent->id,
@@ -172,7 +198,7 @@ class EventService implements EventRepository
                 'time_zone_name' => $calendarEvent->time_zone_name,
                 'start' => $calendarEvent->start,
                 'end' => $calendarEvent->end,
-                'is_all_day' => $calendarEvent->is_all_day,
+                'is_all_day' => $is_all_day,
                 'watch' => $calendarEvent->watch,
                 'like' => $calendarEvent->like,
                 'event_type' => $event_type,
@@ -185,6 +211,7 @@ class EventService implements EventRepository
                 'authors' => $authors,
                 'emails' => $emails,
                 'pdfs' => $pdfs,
+                'event_id' => $eventId,
             ]; 
         });  
     }
@@ -197,7 +224,30 @@ class EventService implements EventRepository
     private function getCurrentUserEvents ()
     {
         $authService = new AuthService();
+        $user = $authService->getCurrentLoginUser();
+        if (empty($user)) {
+            abort(404, 'current user is not found');
+        }
         return $authService->getCurrentLoginUser()->events();
+    }
+
+    /**
+     * get current user events
+     * @return array|object
+     *
+     */
+    private function getCurrentAuthorEvents ()
+    {
+        $authService = new AuthService();
+        $user = $authService->getCurrentLoginUser();
+        if (empty($user)) {
+            abort(404, 'current user is not found');
+        }
+        $author = Author::where('id', $user->id)->first();
+        if (empty($author)) {
+            return null;
+        }
+        return $author->events();
     }
 
     /**
@@ -242,69 +292,152 @@ class EventService implements EventRepository
 
     /**
      * save events
-     * @param Request $request
-     * @return boolean
+     * @param EventRequest $request
+     * @return array|object
      *
      */
-    private function saveEvent ($request)
+    public function saveEvent (EventRequest $request)
     {
-        $validation_event = Validator::make($request->input('event'), Event::$rules);
+        try {
+            $validation_event = $request->validated();
 
-        
-        if ($validation_event->fails()) {
-            return $validation->messages()->all();
-        } else {
-            $event = Event::find($request->input('event')->id);
-            if(isEmpty($event)) {
+            $isNew = false;
+            if(empty($request->id)) {
                 $event = new Event();
+                $isNew = true;
+            } else {
+                $event = Event::where('id', '=', (int)$request->id)->first();
+                if(empty($event)) {
+                    $event = new Event();
+                    $isNew = true;
+                }
             }
 
-            $event->title = $request->input('title');
-            $event->time_zone_name = $request->input('time_zone_name');
-            $event->start = $request->input('start');
-            $event->end = $request->input('end');
-            $event->watch = $request->input('watch');
-            $event->like = $request->input('like');
-            $event->description = $request->input('description');
-
-            $event->users()->attach($request->input('user_ids'));
-            $event->authors()->attach($request->input('author_ids'));
-
+            $event->title = $request->title;
+            $event->time_zone_name = $request->time_zone_name;
+            $event->start = new Carbon($request->start);
+            $event->end = new Carbon($request->end);
+            $event->watch = $request->watch ?? 0;
+            $event->like = $request->like ?? 0;
+            $event->description = $request->description;
             $event->save();
-
-            $location = new Location;
-            $location->google_map_url = $request->input('google_map_url');
-            $location->google_map_json = $request->input('google_map_json');
-            $location->save();
-
-            $event->location_id = $location->id;
-            $event->save();
-
-            
-            $imageAttachedIds = [];
-            foreach($request->input('images') as $imageItem){
-                $image = new Image;
-                $image->image_url = $imageItem->image_url;  
-                $image->image_key = $imageItem->image_key;
-                $image->save();
-                array_push($imageAttachedIds, $image->id);
+    
+            // get current author
+            $authService = new AuthService();
+            $currentAuthorId = $authService->getCurrentLoginUser()->id;
+            if(empty($currentAuthorId)) {
+                abort(404, 'The current user is not found');
             }
-            $event->images()->attach($imageAttachedIds); 
+    
+            // save authors pivot
+            $authorIds = [];
+            if (count($request->authors)) {
+                $authorIds = array_map(function ($author)
+                {
+                    return $author['id'];
+                }, $request->authors);
+    
+                if (!in_array($currentAuthorId, $authorIds)) {
+                    array_push($authorIds, $currentAuthorId);
+                }
+                $event->authors()->sync($authorIds);
+            }else {
+                $event->authors()->sync([$currentAuthorId]);
+            }
+    
+            // save users pivot
+            $userIds = [];
+            if (count($request->users)) {
+                $userIds = array_map(function ($user)
+                {
+                    return $user['id'];
+                }, $request->users);
+                $event->users()->sync($userIds);
+            } else {
+                $event->users()->sync([]);
+            }
+
+            // save location pivot
+            if (count($request->locations)) {
+                $locationIds = $event->locations()->pluck('location.id')->all() ?? [];
+                foreach ($request->locations as $key => $locationItem) {
+                    $location = Location::where('id', '=', (int)$locationItem['id'])->first();
+                    if(!$image) {
+                        $location = new Location;
+                        $location->google_map_url = $locationItem['google_map_url'];
+                        $location->google_map_json = $locationItem['google_map_json'];
+                        $location->save();
+                    }
+                    if (!in_array($location->id, $locationIds)) {
+                        array_push($locationIds, $location->id);
+                    }
+                }
+                $event->locations()->sync($locationIds);
+            } else {
+                $event->locations()->sync([]);
+            }
+    
+            // save images pivot
+            if (count($request->images)) {
+                $imageIds = $event->images()->pluck('images.id')->all() ?? [];
+                foreach ($request->images as $key => $imageItem) {
+                    $image = Image::where('id', '=', (int)$imageItem['id'])->first();
+                    if(!$image) {
+                        $image = new Image;
+                        $image->image_url = $imageItem['image_url'];
+                        $image->image_key = $imageItem['image_key'];
+                        $image->save();
+                    }
+                    if (!in_array($image->id, $imageIds)) {
+                        array_push($imageIds, $image->id);
+                    }
+                }
+                $event->images()->sync($imageIds);
+            } else {
+                $event->images()->sync([]);
+            }
+            return (object)[
+                'event_id' => $event->id
+            ];
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }   
+    }
+
+        /**
+     * save events
+     * @param EventTitleRequest $request
+     * @return array|object
+     *
+     */
+    public function saveEventTitle (EventTitleRequest $request)
+    {
+        try {
+            $validation_event = $request->validated();
+
+            $event = Event::where('id', '=', (int)$request->id)->first();
+            if(empty($event)) {
+                abort(404, 'The current event is not found');
+            }
+    
+            $event->title = $request->title;
             $event->save();
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
         }
     }
 
     /**
      * delete events
      * @param $eventId event id
-     * @return boolean
+     * @return void
      *
      */
-    private function deleteEvent ($eventId)
+    public function deleteEvent ($eventId)
     {
-        $event = Event::find($eventId);
+        $event = Event::where('id', '=', (int)$eventId)->first();
 
-        if (isEmpty($event)) {
+        if (empty($event)) {
             return false;
         } else {
 
@@ -317,35 +450,35 @@ class EventService implements EventRepository
             $imageIds = $event->images()->pluck('id')->all();
             $event->images()->sync([]);
             foreach($imageIds as $imageId) {
-                $image = Image::find($imageId);
+                $image = Image::where('id', '=', (int)$imageId)->first();
                 $image->delete();
             }
 
             $emailIds = $event->emails()->pluck('id')->all();
             $event->emails()->sync([]);
             foreach($emailIds as $emailId) {
-                $email = Email::find($emailId);
+                $email = Email::where('id', '=', (int)$emailId)->first();
                 $email->delete();
             }
 
             $pdfIds = $event->pdfs()->pluck('id')->all();
             $event->pdfs()->sync([]);
             foreach($pdfIds as $pdfId) {
-                $pdf = Pdf::find($pdfId);
+                $pdf = Pdf::where('id', '=', (int)$pdfId)->first();
                 $pdf->delete();
             }
 
             $locationIds = $event->locations()->pluck('id')->all();
             $event->locations()->sync([]);
             foreach($locationIds as $locationId) {
-                $location = Location::find($pdfId);
+                $location = Location::where('id', '=', (int)$pdfId)->first();
                 $location->delete();
             }
 
             $pdfIds = $event->calendarEvents()->pluck('id')->all();
             $event->calendarEvents()->sync([]);
             foreach($calendarEventIds as $calendarEventId) {
-                $calendarEvent = CalendarEvent::find($calendarEventId);
+                $calendarEvent = CalendarEvent::where('id', '=', (int)$calendarEventId)->first();
                 $calendarEvent->delete();
             }
 

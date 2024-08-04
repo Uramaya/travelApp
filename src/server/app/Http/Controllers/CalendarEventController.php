@@ -7,6 +7,7 @@ use App\Services\EventService;
 use App\Services\CalendarEventService;
 use App\Exceptions\ResponseException;
 use App\Http\Requests\CalendarEventRequest;
+use DB;
 use Exception;
 
 class CalendarEventController extends Controller
@@ -31,15 +32,17 @@ class CalendarEventController extends Controller
      */
     public function store (CalendarEventRequest $request) 
     {
-        // try {
+        DB::beginTransaction();
+        try {
             $this->calendarEventService->saveCalendarEvent($request);
             $eventId = $request->event_id;
             $event = $this->eventService->getEventDetail($eventId);
-
+            DB::commit();
             return response()->json($event, 201);
-        // } catch (Exception $e) {
-        //     abort(500, $e->getMessage());
-        // }
+        } catch (Exception $e) {
+            DB::rollback();
+            abort(500, $e->getMessage());
+        }
     }
 
     /**
@@ -64,28 +67,8 @@ class CalendarEventController extends Controller
      */
     public function destroy (Request $request) 
     {
+        $eventId = (int)$request->route('id');
         $this->eventService->deleteCalendarEvent($eventId);
         return response()->json($event, 201);
-    }
-
-
-    public function test (CalendarEventRequest $request) 
-    {
-        // $events = [
-        //     // get the ongoing event list
-        //     'ongoing' => $this->eventService->getOngoingEvents(),
-
-        //     // get the recent event list
-        //     'recent' => $this->eventService->getRecentEvents(),
-
-        //     // get the explore event list
-        //     'explore' => $this->eventService->getExploreEvents(),
-        // ];
-        // return response()->json($events, 200);
-        try {
-            $result = $this->calendarEventService->saveCalendarEvent($request);
-        } catch (Exception $e) {
-            abort(500, $e->getMessage());
-        }
     }
 }

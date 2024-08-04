@@ -22,22 +22,22 @@ use App\Http\Controllers\MarkerController;
 Route::middleware('cors')->get('currentUser', 'AuthController@currentUser');
 // Route::group(['middleware' => ['events']], function () {
 Route::group([
-    // 'middleware' => ['cors'],
+    'middleware' => ['cors'],
     'prefix' => 'events'
 ], function () {
-    Route::get('/', 'EventController@index');
-    Route::get('/{id}', 'EventController@show');
+    Route::post('/updateTitle', 'EventController@updateTitle');
     Route::post('/', 'EventController@store');
     Route::delete('/{id}', 'EventController@destroy');
+    Route::get('/{id}', 'EventController@show');
+    Route::get('/', 'EventController@index');
 });
 
 Route::group([
     'middleware' => ['cors'],
     'prefix' => 'calendarEvents'
 ], function () {
-    Route::get('/test', 'CalendarEventController@test');
+    Route::delete('/{id}', 'CalendarEventController@destroy');
     Route::post('/', 'CalendarEventController@store');
-    // Route::delete('/{id}', 'CalendarEventController@destroy');
 });
 
 Route::middleware('cors')->get('languages', 'LanguageController@index');

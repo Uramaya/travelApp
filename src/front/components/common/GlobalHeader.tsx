@@ -15,7 +15,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import IconButton from '@mui/material/IconButton'
 
-const GlobalHeader = ({ eventItem, updateEventItem }: { eventItem?: EventListItem, updateEventItem?: (eventItem: EventListItem) => void }) => {
+const GlobalHeader = ({ 
+    eventItem,
+    updateEventItem,
+    onCreateEvent
+}: { 
+    eventItem?: EventListItem,
+    updateEventItem?: (eventItem: EventListItem) => void,
+    onCreateEvent: () => void
+}) => {
     const [isEditEventTitle, setIsEditEventTitle] = useState<boolean>(false)
     const [eventTitle, setEventTitle] = useState<string>(eventItem?.title || '')
 
@@ -73,7 +81,7 @@ const GlobalHeader = ({ eventItem, updateEventItem }: { eventItem?: EventListIte
                     {headerLogo()}
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }} gap={1}>
-                    <AddTripBtn />
+                    <AddTripBtn onCreateEvent={onCreateEvent} />
                     <SearchPlanInput />
                     <GlobalHeaderUser />
                 </Box>

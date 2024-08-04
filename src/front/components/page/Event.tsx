@@ -3,8 +3,8 @@ import { useEffect, useCallback, useState } from 'react'
 import { useDispatch, createSelectorHook } from 'react-redux'
 import { useAppSelector, useAppDispatch } from '@/stores/hooks'
 import { setCalendarEvents, addCalendarEvents, updateCalendarEvents, deleteCalendarEvents } from "@/stores/features/calendar"
-import { getCalenderEvents, createOrUpdateCalenderEvents, updateCalenderEventsById, deleteCalenderEventsById } from "@/app/api/calendarEvents"
-import { getEvents, getEventById, createEvents, updateEventsById, deleteEventsById } from "@/app/api/events"
+import { getCalenderEvents, createOrUpdateCalenderEvents, deleteCalenderEventsById } from "@/app/api/calendarEvents"
+import { getEvents, getEventById, createEvent, updateEventsById, updateEventTitleById, deleteEventsById } from "@/app/api/events"
 import { setEvents, addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
 import { RootState } from '@/stores/store'
 import { AppDispatch } from "@/stores/store"
@@ -93,8 +93,6 @@ const Event = ({ id }: { id: string }) => {
     }
     // when click save button on the calendar edit modal
     const onSaveCalendarModal = useCallback(() => {
-        console.log("onSaveCalendarModal", modalEventInfo)
-        console.log("calendarEvents", calendarEvents)
         // create or update the event
         createOrUpdateCalenderEvents(modalEventInfo).then((result) => {
             setEventItem(result.event)
@@ -102,11 +100,16 @@ const Event = ({ id }: { id: string }) => {
             dispatch(setCalendarEvents(calendarEvents))
             onCloseModal()
         })
-    }, [dispatch, modalEventInfo, createOrUpdateCalenderEvents, updateCalenderEventsById])
+    }, [dispatch, modalEventInfo, createOrUpdateCalenderEvents])
 
     // update event item
     const updateEventItem = useCallback((eventItem: EventListItem) => {
-        updateEventsById(id, eventItem).then(({ id, event }) => setEventItem(event))
+        updateEventTitleById(id, eventItem.title).then(({ result }) => {
+            setEventItem({
+                ...eventItem,
+                title: result
+            })
+        })
     }, [setEventItem, updateEventsById])
 
     const calendar = () => {
@@ -115,6 +118,7 @@ const Event = ({ id }: { id: string }) => {
                 date={date}
                 view={view}
                 events={calendarEvents}
+                eventItem={eventItem}
                 width='99%'
                 height='90vh'
                 setDate={setDate}

@@ -2,7 +2,7 @@ import { useState, useCallback, ReactNode, useRef, useEffect } from 'react'
 import Popover from '@mui/material/Popover'
 import Button from '@mui/material/Button'
 import '@/styles/calendar/CalendarEventAddBtn.scss'
-import { EventInfo, CalendarView, UserInfo } from '@/types'
+import { EventInfo, CalendarView, UserInfo, EventListItem } from '@/types'
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { INIT_CALENDAR_MODAL_EVENT_INFO } from '@/const'
@@ -15,6 +15,7 @@ const CalendarEventAddBtn = ({
     allUsers,
     onOpenModal,
     onCloseModal,
+    eventItem
 }: {
     openCalendarEventModal: boolean,
     setOpenCalendarEventModal: React.Dispatch<React.SetStateAction<boolean>>,
@@ -23,14 +24,19 @@ const CalendarEventAddBtn = ({
     allUsers: UserInfo[],
     onOpenModal: (eventInfo?: EventInfo) => void,
     onCloseModal: () => void,
+    eventItem: EventListItem
 }) => {
     const onClick = useCallback(() => {
-        onOpenModal(INIT_CALENDAR_MODAL_EVENT_INFO)
-    }, [openCalendarEventModal, setOpenCalendarEventModal])
+        const eventInitInfo = {
+            ...INIT_CALENDAR_MODAL_EVENT_INFO,
+            event_id: eventItem.id,
+        }
+        onOpenModal(eventInitInfo)
+    }, [openCalendarEventModal, setOpenCalendarEventModal, eventItem])
 
     const onClose = useCallback(() => {
         onCloseModal()
-    }, [openCalendarEventModal, setOpenCalendarEventModal])
+    }, [openCalendarEventModal, setOpenCalendarEventModal, eventItem])
 
     return (
         <div className='calendar-event-add-btn'>

@@ -10,8 +10,11 @@ export const getCalenderEvents = async () => {
 };
 
 export const createOrUpdateCalenderEvents = async (calendarEvent: EventInfo) => {
-  const response = await axios.post('http://localhost:13000/api/calendarEvents', calendarEvent);
-  console.log('response', response)
+  const param = {
+    ... calendarEvent,
+    is_all_day: Number(calendarEvent.is_all_day),
+  }
+  const response = await axios.post('http://localhost:13000/api/calendarEvents', param);
   return response.data;
 };
 

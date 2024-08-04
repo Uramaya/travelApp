@@ -19,8 +19,10 @@ export type EventListItem =  {
     watch: number
     like: number
     locations: LocationInfo[]
+    time_zone_name: string
     users: UserInfo[]
     images: ImageInfo[]
+    description: string
 }
 
 export type ImageInfo =  {
@@ -56,6 +58,7 @@ export type EventInfo =  {
     emails: EmailInfo[]
     pdfs: PdfInfo[]
     index?: number
+    event_id: number
 }
 
 export type MarkerInfo =  {
@@ -153,6 +156,7 @@ export type CalendarProps =  {
     popoverOpen: boolean
     onClickPopoverBtn: any
     onClosePopover: () => void
+    eventItem: EventListItem
 }
 
 

@@ -14,16 +14,20 @@ export const getEventById = async (id: number | string ) => {
   return response.data;
 };
 
-export const createEvents = async (eventItem: EventListItem) => {
-  // const response = await axios.post('/events', newEntity);
-  // return response.data;
-  return eventItem
+export const createEvent = async (eventItem: EventListItem) => {
+  const response = await axios.post('http://localhost:13000/api/events', eventItem);
+  return response.data;
 };
 
 export const updateEventsById = async (id: number | string, event: EventListItem) => {
   // const response = await axios.put(`/events/${id}`, updatedEntity);
   // return response.data;
   return {id: Number(id), event: event}
+};
+
+export const updateEventTitleById = async (id: number | string, title: string) => {
+  const response = await axios.post(`/events/updateTitle`, {id: Number(id), title: title});
+  return response.data;
 };
 
 export const deleteEventsById = async (id: number | string) => {
