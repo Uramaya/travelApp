@@ -237,8 +237,14 @@ class CalendarEventService implements CalendarEventRepository
         $calendarEvent = CalendarEvent::where('id', '=', (int)$calendarEventId)->first();
         
         if (empty($calendarEvent)) {
-            return false;
+            abort(404, 'The calendar event is not found.');
         } else {
+            $event = $calendarEvent->event()->first();
+            if (empty($event)) {
+                abort(404, 'The calendar event is not found.');
+            }
+            $eventId = $event->id;
+
             $userIds = $calendarEvent->users()->pluck('users.id')->all();
             $calendarEvent->users()->detach($userIds);
 
@@ -267,6 +273,8 @@ class CalendarEventService implements CalendarEventRepository
             }
 
             $calendarEvent->delete();
+
+            return $eventId;
         }
     }
 }

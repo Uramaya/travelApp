@@ -22,17 +22,7 @@ class EventController extends Controller
     }
     public function index () 
     {
-        $eventService = new EventService();
-        $events = [
-            // get the ongoing event list
-            'ongoing' => $this->eventService->getOngoingEvents(),
-
-            // get the recent event list
-            'recent' => $this->eventService->getRecentEvents(),
-
-            // get the explore event list
-            'explore' => $this->eventService->getExploreEvents(),
-        ];
+        $events = $this->eventService->getEvents();
         return response()->json($events, 200);
     }
 
@@ -76,16 +66,16 @@ class EventController extends Controller
      */
     public function updateTitle (EventTitleRequest $request) 
     {
-        // try {
+        try {
             $this->eventService->saveEventTitle($request);
             $event = $this->eventService->getEventDetail($request->id);
             if(isEmpty($event)) {
                 abort(404, 'The updated event is not found');
             }
             return response()->json($event->title, 201);
-        // } catch (Exception $e) {
-        //     abort(500, $e->getMessage());
-        // }
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
     }
 
     /**
@@ -109,8 +99,14 @@ class EventController extends Controller
      */
     public function destroy (Request $request) 
     {
-        $eventId = (int)$request->route('id');
-        $this->eventService->deleteEvent($eventId);
-        return response()->json($event, 201);
+        DB::beginTransaction();
+        try {
+            $eventId = (int)$request->route('id');
+            $this->eventService->deleteEvent($eventId);
+            $events = $this->eventService->getEvents();
+            return response()->json($events, 201);
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
     }
 }

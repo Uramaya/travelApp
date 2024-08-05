@@ -20,13 +20,27 @@ use App\Http\Requests\EventTitleRequest;
 class EventService implements EventRepository
 {
 
+     /**
+     * get the ongoing event list
+     * @return array
+     *
+     */
+    public function getEvents () {
+        $events = [
+            'ongoing' => $this->getOngoingEvents(),
+            'recent' => $this->getRecentEvents(),
+            'explore' => $this->getExploreEvents(),
+        ];
+        return $events;
+    }
+    
     /**
      * get the ongoing event list
      * @param 
      * @return array
      *
      */
-    public function getOngoingEvents ()
+    private function getOngoingEvents ()
     {
         $events = [];
         $user_events = $this->getCurrentUserEvents();
@@ -55,7 +69,7 @@ class EventService implements EventRepository
      * @return array
      *
      */
-    public function getRecentEvents () 
+    private function getRecentEvents () 
     {
         $events = [];
         $user_events = $this->getCurrentUserEvents();
@@ -82,7 +96,7 @@ class EventService implements EventRepository
      * @return array
      *
      */
-    public function getExploreEvents () 
+    private function getExploreEvents () 
     {
         $authService = new AuthService();
         $userId = $authService->getCurrentLoginUser()->id;
@@ -438,44 +452,43 @@ class EventService implements EventRepository
         $event = Event::where('id', '=', (int)$eventId)->first();
 
         if (empty($event)) {
-            return false;
+            abort(404, 'The event is not found.');
         } else {
-
-            $userIds = $user->users()->pluck('id')->all();
+            $userIds = $event->users()->pluck('users.id')->all();
             $event->users()->detach($userIds);
 
-            $authorIds = $user->authors()->pluck('id')->all();
+            $authorIds = $event->authors()->pluck('authors.id')->all();
             $event->authors()->detach($authorIds);
 
-            $imageIds = $event->images()->pluck('id')->all();
+            $imageIds = $event->images()->pluck('images.id')->all();
             $event->images()->sync([]);
             foreach($imageIds as $imageId) {
                 $image = Image::where('id', '=', (int)$imageId)->first();
                 $image->delete();
             }
 
-            $emailIds = $event->emails()->pluck('id')->all();
+            $emailIds = $event->emails()->pluck('emails.id')->all();
             $event->emails()->sync([]);
             foreach($emailIds as $emailId) {
                 $email = Email::where('id', '=', (int)$emailId)->first();
                 $email->delete();
             }
 
-            $pdfIds = $event->pdfs()->pluck('id')->all();
+            $pdfIds = $event->pdfs()->pluck('pdfs.id')->all();
             $event->pdfs()->sync([]);
             foreach($pdfIds as $pdfId) {
                 $pdf = Pdf::where('id', '=', (int)$pdfId)->first();
                 $pdf->delete();
             }
 
-            $locationIds = $event->locations()->pluck('id')->all();
+            $locationIds = $event->locations()->pluck('locations.id')->all();
             $event->locations()->sync([]);
             foreach($locationIds as $locationId) {
                 $location = Location::where('id', '=', (int)$locationId)->first();
                 $location->delete();
             }
 
-            $calendarEventIds = $event->calendarEvents()->pluck('id')->all();
+            $calendarEventIds = $event->calendarEvents()->pluck('calendarEvents.id')->all();
             $event->calendarEvents()->sync([]);
             foreach($calendarEventIds as $calendarEventId) {
                 $calendarEvent = CalendarEvent::where('id', '=', (int)$calendarEventId)->first();

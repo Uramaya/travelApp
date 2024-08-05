@@ -13,23 +13,7 @@ interface EventRepository
      * @return array
      *
      */
-    public function getOngoingEvents ();
-
-    /**
-     * get the recent event list
-     * @param 
-     * @return array
-     *
-     */
-    public function getRecentEvents ();
-
-    /**
-     * get the explore event list
-     * @param 
-     * @return array
-     *
-     */
-    public function getExploreEvents ();
+    public function getEvents ();
 
     /**
      * get the explore event list
