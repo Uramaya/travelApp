@@ -54,7 +54,7 @@ const Calendar = ({
   onClickPopoverBtn,
   onClosePopover,
   eventItem,
-
+  onDeletePopover,
 }: CalendarProps) => {
   const { formats } = useMemo(
     () => ({
@@ -106,11 +106,6 @@ const Calendar = ({
       },
     }
   }), [modalEventInfo, events])
-
-
-  const onDeletePopover = (eventInfo: EventInfo | null = null) => {
-
-  }
 
   const onEditPopover = useCallback((eventInfo: EventInfo | null = null): void => {
     // open the calendar event modal

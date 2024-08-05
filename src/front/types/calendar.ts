@@ -157,6 +157,7 @@ export type CalendarProps =  {
     onClickPopoverBtn: any
     onClosePopover: () => void
     eventItem: EventListItem
+    onDeletePopover: (id: number) => void
 }
 
 

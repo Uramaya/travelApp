@@ -235,35 +235,34 @@ class CalendarEventService implements CalendarEventRepository
     public function deleteCalendarEvent ($calendarEventId)
     {
         $calendarEvent = CalendarEvent::where('id', '=', (int)$calendarEventId)->first();
-
+        
         if (empty($calendarEvent)) {
             return false;
         } else {
-
-            $userIds = $user->users()->pluck('id')->all();
+            $userIds = $calendarEvent->users()->pluck('users.id')->all();
             $calendarEvent->users()->detach($userIds);
 
-            $authorIds = $user->authors()->pluck('id')->all();
+            $authorIds = $calendarEvent->authors()->pluck('authors.id')->all();
             $calendarEvent->authors()->detach($authorIds);
 
-            $imageIds = $event->images()->pluck('id')->all();
+            $imageIds = $calendarEvent->images()->pluck('images.id')->all();
             $calendarEvent->images()->sync([]);
             foreach($imageIds as $imageId) {
                 $image = Image::where('id', '=', (int)$imageId)->first();
                 $image->delete();
             }
 
-            $emailIds = $event->emails()->pluck('id')->all();
+            $emailIds = $calendarEvent->emails()->pluck('emails.id')->all();
             $calendarEvent->emails()->sync([]);
             foreach($emailIds as $emailId) {
                 $email = Email::where('id', '=', (int)$emailId)->first();
                 $email->delete();
             }
 
-            $pdfIds = $event->pdfs()->pluck('id')->all();
+            $pdfIds = $calendarEvent->pdfs()->pluck('pdfs.id')->all();
             $calendarEvent->pdfs()->sync([]);
             foreach($pdfIds as $pdfId) {
-                $pdf = Email::where('id', '=', (int)$pdfId)->first();
+                $pdfnjh7 = Email::where('id', '=', (int)$pdfId)->first();
                 $pdf->delete();
             }
 

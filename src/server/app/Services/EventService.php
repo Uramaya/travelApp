@@ -471,11 +471,11 @@ class EventService implements EventRepository
             $locationIds = $event->locations()->pluck('id')->all();
             $event->locations()->sync([]);
             foreach($locationIds as $locationId) {
-                $location = Location::where('id', '=', (int)$pdfId)->first();
+                $location = Location::where('id', '=', (int)$locationId)->first();
                 $location->delete();
             }
 
-            $pdfIds = $event->calendarEvents()->pluck('id')->all();
+            $calendarEventIds = $event->calendarEvents()->pluck('id')->all();
             $event->calendarEvents()->sync([]);
             foreach($calendarEventIds as $calendarEventId) {
                 $calendarEvent = CalendarEvent::where('id', '=', (int)$calendarEventId)->first();

@@ -42,7 +42,7 @@ const CalendarEventPopover = ({
   }
 
   const onDelete = (): void => {
-    onDeletePopover(eventInfo)
+    onDeletePopover(eventInfo.id)
   }
 
   // dynamic class name of the event-number

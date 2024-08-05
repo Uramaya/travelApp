@@ -19,7 +19,6 @@ export const createOrUpdateCalenderEvents = async (calendarEvent: EventInfo) => 
 };
 
 export const deleteCalenderEventsById = async (id: number) => {
-  // const response = await axios.delete(`/calenderEvents/${id}`);
-  // return response.data;
-  return id
+  const response = await axios.delete(`http://localhost:13000/api/calendarEvents/${id}`);
+  return response.data;
 };

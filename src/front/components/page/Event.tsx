@@ -102,6 +102,14 @@ const Event = ({ id }: { id: string }) => {
         })
     }, [dispatch, modalEventInfo, createOrUpdateCalenderEvents])
 
+    const onDeletePopover = useCallback((id: number) => {
+        deleteCalenderEventsById(id).then((result) => {
+            setEventItem(result.event)
+            const calendarEvents = arrangeCalendarEvents(result.calendar_events)
+            dispatch(setCalendarEvents(calendarEvents))
+        })
+    }, [dispatch, deleteCalenderEventsById, setEventItem])
+
     // update event item
     const updateEventItem = useCallback((eventItem: EventListItem) => {
         updateEventTitleById(id, eventItem.title).then(({ result }) => {
@@ -144,6 +152,7 @@ const Event = ({ id }: { id: string }) => {
                 popoverOpen={popoverOpen}
                 onClickPopoverBtn={onClickPopoverBtn}
                 onClosePopover={onClosePopover}
+                onDeletePopover={onDeletePopover}
             />
         </Box>
     }

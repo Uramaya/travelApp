@@ -67,8 +67,14 @@ class CalendarEventController extends Controller
      */
     public function destroy (Request $request) 
     {
-        $eventId = (int)$request->route('id');
-        $this->eventService->deleteCalendarEvent($eventId);
-        return response()->json($event, 201);
+        DB::beginTransaction();
+        try {
+            $eventId = (int)$request->route('id');
+            $event = $this->calendarEventService->deleteCalendarEvent($eventId);
+            return response()->json($event, 201);
+        } catch (Exception $e) {
+            DB::rollback();
+            abort(500, $e->getMessage());
+        }
     }
 }
