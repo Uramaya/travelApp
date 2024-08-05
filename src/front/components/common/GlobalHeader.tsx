@@ -23,7 +23,7 @@ const GlobalHeader = ({
 }: { 
     eventItem?: EventListItem,
     updateEventItem?: (eventItem: EventListItem) => void,
-    onCreateEvent: () => void,
+    onCreateEvent?: () => void,
     isHomePage: boolean
 }) => {
     const [isEditEventTitle, setIsEditEventTitle] = useState<boolean>(false)
@@ -67,7 +67,7 @@ const GlobalHeader = ({
                     variant="standard"
                     placeholder="Add title"
                     value={eventItem.title}
-                    onChange={(e) => { onChangeTitle(e) }}
+                    onBlur={(e) => { onChangeTitle(e) }}
                 />
             </FormControl>
         </ClickAwayListener>

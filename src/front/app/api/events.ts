@@ -26,12 +26,11 @@ export const updateEventsById = async (id: number | string, event: EventListItem
 };
 
 export const updateEventTitleById = async (id: number | string, title: string) => {
-  const response = await axios.post(`/events/updateTitle`, {id: Number(id), title: title});
+  const response = await axios.post(`http://localhost:13000/api/events/updateTitle`, {id: Number(id), title: title});
   return response.data;
 };
 
 export const deleteEventsById = async (id: number | string) => {
-  // const response = await axios.delete(`/events/${id}`);
-  // return response.data;
-  return Number(id)
+  const response = await axios.delete(`http://localhost:13000/api/events/${id}`);
+  return response.data;
 };

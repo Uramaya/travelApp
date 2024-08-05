@@ -2,7 +2,7 @@ import { JSXElementConstructor, useEffect, useCallback, useState } from 'react'
 import { Views } from 'react-big-calendar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faShare } from "@fortawesome/free-solid-svg-icons"
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons"
+import { faEllipsis, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import TextField from '@mui/material/TextField'
@@ -16,16 +16,25 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import moment from 'moment'
 import { VIEW_OPTIONS, GMT_OPTIONS } from '@/const'
 import SearchPlanInput from '@/components/common/SearchPlanInput'
+import Popover from '@mui/material/Popover';
 
 import { CalendarView } from '@/types'
 import { capitalized, getCountryFlagSVGByTimeZoneName } from '@/utils/utils'
 
-const GlobalToolBar = ({ view, timeZoneName, setView, onTodayClick, setTimeZoneName }: {
+const GlobalToolBar = ({
+    view,
+    timeZoneName,
+    setView,
+    onTodayClick,
+    setTimeZoneName,
+    onDeleteEvent,
+}: {
     view: CalendarView,
     timeZoneName: string,
     setView: React.Dispatch<React.SetStateAction<CalendarView>>,
-    onTodayClick: () => void
+    onTodayClick: () => void,
     setTimeZoneName: React.Dispatch<React.SetStateAction<string>>,
+    onDeleteEvent: () => void,
 }) => {
     const onChangeView = useCallback((event: SelectChangeEvent): void => {
         setView(event.target.value as CalendarView)
@@ -34,6 +43,23 @@ const GlobalToolBar = ({ view, timeZoneName, setView, onTodayClick, setTimeZoneN
     const onChangeTimeZone = useCallback((event: SelectChangeEvent): void => {
         setTimeZoneName(event.target.value as string)
     }, [setTimeZoneName])
+
+    const [anchorEventMenu, setAnchorEventMenu] = useState<null | HTMLButtonElement>(null);
+
+    const onOpenEventMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEventMenu(event.currentTarget);
+    };
+
+    const onCloseEventMenu = () => {
+        setAnchorEventMenu(null);
+    };
+
+    const onDelete = (): void => {
+        onDeleteEvent()
+    }
+
+    const openEventMenu = Boolean(anchorEventMenu);
+    const idEventMenu = openEventMenu ? 'event-menu-popup' : undefined;
 
     return (
         <div className='global-tool-bar'>
@@ -93,9 +119,25 @@ const GlobalToolBar = ({ view, timeZoneName, setView, onTodayClick, setTimeZoneN
                     </Button>
                 </FormControl>
                 <FormControl sx={{ m: 1, width: '10%', maxWidth: '90px', minWidth: '60px' }}>
-                    <IconButton className="icon-btn" >
+                    <IconButton className="icon-btn" aria-describedby={idEventMenu} onClick={onOpenEventMenu}>
                         <FontAwesomeIcon icon={faEllipsis} className="icon-ellipsis" color="#8B8989" />
                     </IconButton>
+                    <Popover
+                        id={idEventMenu}
+                        open={openEventMenu}
+                        anchorEl={anchorEventMenu}
+                        onClose={onCloseEventMenu}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        className='event-menu-popover'
+                    >
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} gap={1.5} className='event-menu-popover-item' >
+                            <FontAwesomeIcon icon={faTrashCan} className="icon-ellipsis" color="#8B8989" />
+                            <span>delete event</span>
+                        </Box>
+                    </Popover>
                 </FormControl>
             </Box>
         </div>

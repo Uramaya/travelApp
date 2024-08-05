@@ -66,14 +66,17 @@ class EventController extends Controller
      */
     public function updateTitle (EventTitleRequest $request) 
     {
+        DB::beginTransaction();
         try {
             $this->eventService->saveEventTitle($request);
             $event = $this->eventService->getEventDetail($request->id);
-            if(isEmpty($event)) {
+            if(empty($event)) {
                 abort(404, 'The updated event is not found');
             }
-            return response()->json($event->title, 201);
+            DB::commit();
+            return response()->json($event, 201);
         } catch (Exception $e) {
+            DB::rollback();
             abort(500, $e->getMessage());
         }
     }

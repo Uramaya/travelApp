@@ -115,10 +115,16 @@ const Event = ({ id }: { id: string }) => {
         updateEventTitleById(id, eventItem.title).then(({ result }) => {
             setEventItem({
                 ...eventItem,
-                title: result
+                title: result.event.title
             })
         })
     }, [setEventItem, updateEventsById])
+
+    const onDeleteEvent = useCallback(() => {
+        deleteEventsById(eventItem.id).then(() => {
+            window.location.href = '/home'
+        })
+    }, [dispatch, deleteEventsById])
 
     const calendar = () => {
         return <Box sx={{ width: '100%' }}>
@@ -171,6 +177,7 @@ const Event = ({ id }: { id: string }) => {
                 setView={setView}
                 onTodayClick={onTodayClick}
                 setTimeZoneName={setTimeZoneName}
+                onDeleteEvent={onDeleteEvent}
             />
             <Box
                 sx={{ height: '84vh', marginTop: '0px', gap: '10px' }}

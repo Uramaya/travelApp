@@ -433,9 +433,7 @@ class EventService implements EventRepository
             if(empty($event)) {
                 abort(404, 'The current event is not found');
             }
-    
-            $event->title = $request->title;
-            $event->save();
+            $event ->update(['title' => $request->title]);
         } catch (Exception $e) {
             abort(500, $e->getMessage());
         }
