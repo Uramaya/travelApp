@@ -164,7 +164,7 @@ const Event = ({ id }: { id: string }) => {
     }
     return (
         <>
-            <GlobalHeader eventItem={eventItem} updateEventItem={(eventItem) => {updateEventItem(eventItem)}} />
+            <GlobalHeader isHomePage={false} eventItem={eventItem} updateEventItem={(eventItem) => {updateEventItem(eventItem)}} />
             <GlobalToolBar
                 view={view}
                 timeZoneName={timeZoneName}

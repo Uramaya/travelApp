@@ -18,11 +18,13 @@ import IconButton from '@mui/material/IconButton'
 const GlobalHeader = ({ 
     eventItem,
     updateEventItem,
-    onCreateEvent
+    onCreateEvent,
+    isHomePage
 }: { 
     eventItem?: EventListItem,
     updateEventItem?: (eventItem: EventListItem) => void,
-    onCreateEvent: () => void
+    onCreateEvent: () => void,
+    isHomePage: boolean
 }) => {
     const [isEditEventTitle, setIsEditEventTitle] = useState<boolean>(false)
     const [eventTitle, setEventTitle] = useState<string>(eventItem?.title || '')
@@ -71,6 +73,14 @@ const GlobalHeader = ({
         </ClickAwayListener>
     }, [eventItem, isEditEventTitle, setIsEditEventTitle])
 
+    const addTipBtn = useCallback((): JSX.Element => {
+        if (isHomePage) return <AddTripBtn onCreateEvent={onCreateEvent} />
+    }, [isHomePage, onCreateEvent])
+
+    const searchPlanInput = useCallback((): JSX.Element => {
+        if (isHomePage) return <SearchPlanInput />
+    }, [isHomePage])
+
     return (
         <div className='global-header'>
             <Box sx={{ display: 'flex', width: '100%', height: '50px', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -81,8 +91,8 @@ const GlobalHeader = ({
                     {headerLogo()}
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }} gap={1}>
-                    <AddTripBtn onCreateEvent={onCreateEvent} />
-                    <SearchPlanInput />
+                    {addTipBtn()}
+                    {searchPlanInput()}
                     <GlobalHeaderUser />
                 </Box>
             </Box>

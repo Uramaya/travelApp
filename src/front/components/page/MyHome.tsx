@@ -44,7 +44,7 @@ const MyHome = () => {
 
     return (
         <>
-            <GlobalHeader onCreateEvent={onCreateEvent}/>
+            <GlobalHeader isHomePage={true} onCreateEvent={onCreateEvent}/>
             <Box className='my-home' sx={{ padding: '10px 24px' }}>
                 <Box className='home-title' sx={{ marginTop: '10px', marginBottom: '16px' }}>My History</Box>
 
