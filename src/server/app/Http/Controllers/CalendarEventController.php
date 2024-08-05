@@ -36,8 +36,8 @@ class CalendarEventController extends Controller
         try {
             $this->calendarEventService->saveCalendarEvent($request);
             $eventId = $request->event_id;
-            $event = $this->eventService->getEventDetail($eventId);
             DB::commit();
+            $event = $this->eventService->getEventDetail($eventId);
             return response()->json($event, 201);
         } catch (Exception $e) {
             DB::rollback();
@@ -72,6 +72,7 @@ class CalendarEventController extends Controller
             $calendarEventId = (int)$request->route('id');
             $eventId = $this->calendarEventService->deleteCalendarEvent($calendarEventId);
             $event = $this->eventService->getEventDetail($eventId);
+            DB::commit();
             return response()->json($event, 201);
         } catch (Exception $e) {
             DB::rollback();

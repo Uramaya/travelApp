@@ -103,6 +103,7 @@ class EventController extends Controller
         try {
             $eventId = (int)$request->route('id');
             $this->eventService->deleteEvent($eventId);
+            DB::commit();
             $events = $this->eventService->getEvents();
             return response()->json($events, 201);
         } catch (Exception $e) {
