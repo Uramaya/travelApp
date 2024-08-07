@@ -1,6 +1,7 @@
 // variables------------------
 $GLOBAL_TOOLBAR_SHARE_ICON_COLOR: #8B8989;
 $GLOBAL_TOOLBAR_POPOVER_ITEM_BG_HOVER_COLOR: #e4e4e4;
+$GLOBAL_TOOLBAR_POPOVER_FONT_COLOR: #3a3a3a;
 
 // ---------------------------
 .global-tool-bar {
@@ -22,14 +23,12 @@ $GLOBAL_TOOLBAR_POPOVER_ITEM_BG_HOVER_COLOR: #e4e4e4;
         box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
         border-radius: 10px;
         padding: 10px 0;
+        color: $GLOBAL_TOOLBAR_POPOVER_FONT_COLOR;
     }
-
-    .event-menu-popover-item {
-        padding: 10px 18px;
-        &:hover {
-            cursor: pointer;
-            background-color: $GLOBAL_TOOLBAR_POPOVER_ITEM_BG_HOVER_COLOR;
-        }
+    .MuiButtonBase-root.MuiButton-root {
+        padding: 10px 25px;
+        color: $GLOBAL_TOOLBAR_POPOVER_FONT_COLOR;
+        text-transform: none;
     }
 }
 

@@ -161,3 +161,10 @@ export type CalendarProps =  {
 }
 
 
+
+export type ConfirmModalObj =  {
+    modalTitle: string
+    saveBtnTitle: string
+    type: string
+    data: any
+}

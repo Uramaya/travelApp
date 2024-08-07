@@ -42,8 +42,7 @@ const GlobalHeader = ({
         setEventTitle(event.target.value)
     }, [eventItem, eventTitle, setEventTitle, isEditEventTitle, setIsEditEventTitle])
 
-    const onUpdateTitle = useCallback((
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+    const onUpdateTitle = useCallback((): void => {
         updateEventItem({
             ...eventItem,
             title: eventTitle,

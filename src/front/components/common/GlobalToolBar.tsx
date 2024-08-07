@@ -54,8 +54,9 @@ const GlobalToolBar = ({
         setAnchorEventMenu(null);
     };
 
-    const onDelete = (): void => {
+    const onDeleteEventMenu = (): void => {
         onDeleteEvent()
+        onCloseEventMenu()
     }
 
     const openEventMenu = Boolean(anchorEventMenu);
@@ -133,10 +134,19 @@ const GlobalToolBar = ({
                         }}
                         className='event-menu-popover'
                     >
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} gap={1.5} className='event-menu-popover-item' >
-                            <FontAwesomeIcon icon={faTrashCan} className="icon-ellipsis" color="#8B8989" />
-                            <span>delete event</span>
-                        </Box>
+                        <Button
+                            onClick={onDeleteEventMenu}
+                            sx={{
+                                ':hover': {
+                                    bgcolor: '#e4e4e4',
+                                },
+                            }}
+                        >
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} gap={1.5} className='event-menu-popover-item' >
+                                <FontAwesomeIcon icon={faTrashCan} className="icon-ellipsis" color="#8B8989" />
+                                <span>Delete Event</span>
+                            </Box>
+                        </Button>
                     </Popover>
                 </FormControl>
             </Box>

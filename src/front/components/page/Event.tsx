@@ -10,6 +10,7 @@ import { RootState } from '@/stores/store'
 import { AppDispatch } from "@/stores/store"
 import Calendar from "@/components/calendar/Calendar"
 import GlobalToolBar from "@/components/common/GlobalToolBar"
+import ConfirmModal from "@/components/common/ConfirmModal"
 import GoogleMap from "@/components/googleMap/GoogleMap"
 import Button from '@mui/material/Button'
 import useCalendar from '@/hooks/calendarHook'
@@ -20,7 +21,7 @@ import { INIT_CALENDAR_MODAL_EVENT_INFO, INIT_CALENDAR, All_USERS, EVENTLIST } f
 import Box from '@mui/material/Box'
 import '@/styles/Event.scss'
 import GlobalHeader from "@/components/common/GlobalHeader"
-import { EventListItem, EventInfo } from '@/types'
+import { EventListItem, EventInfo, ConfirmModalObj } from '@/types'
 import Splitter from "@/components/splitter/Splitter"
 
 const Event = ({ id }: { id: string }) => {
@@ -63,6 +64,14 @@ const Event = ({ id }: { id: string }) => {
         onClosePopover,
     } = useCalendarEventPopoverHook()
 
+    const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false)
+    const [confirmModalData, setConfirmModalData] = useState<ConfirmModalObj>({
+        modalTitle: '',
+        saveBtnTitle: '',
+        type: '',
+        data: null,
+    })
+
     const dispatch = useDispatch<AppDispatch>()
     const calendarEvents = useAppSelector((state: RootState) => state.calendarEventsReducer)
     useEffect(() => {
@@ -102,7 +111,19 @@ const Event = ({ id }: { id: string }) => {
         })
     }, [dispatch, modalEventInfo, createOrUpdateCalenderEvents])
 
-    const onDeletePopover = useCallback((id: number) => {
+    const onConfirmDeleteCalendarEvent = useCallback((id: number) => {
+        setConfirmModalData({
+            modalTitle: 'Are you sure to delete the calendar event?',
+            saveBtnTitle: 'Delete',
+            type: 'delete',
+            data: {
+                id: id,
+                type: 'deleteCalendarEvent',
+            },
+        })
+    }, [dispatch, confirmModalData, setConfirmModalData])
+
+    const onDeleteCalendarEvent = useCallback((id: number) => {
         deleteCalenderEventsById(id).then((result) => {
             setEventItem(result.event)
             const calendarEvents = arrangeCalendarEvents(result.calendar_events)
@@ -161,7 +182,7 @@ const Event = ({ id }: { id: string }) => {
                 popoverOpen={popoverOpen}
                 onClickPopoverBtn={onClickPopoverBtn}
                 onClosePopover={onClosePopover}
-                onDeletePopover={onDeletePopover}
+                onDeletePopover={onConfirmDeleteCalendarEvent}
             />
         </Box>
     }
@@ -171,6 +192,47 @@ const Event = ({ id }: { id: string }) => {
             <GoogleMap />
         </div>
     }
+
+    const onCancelConfirmModal = () => {
+        setOpenConfirmModal(false)
+    }
+
+    const onConfirmDeleteEvent = () => {
+        setOpenConfirmModal(true)
+        setConfirmModalData({
+            modalTitle: 'Are you sure to delete the event?',
+            saveBtnTitle: 'Delete',
+            type: 'delete',
+            data: {
+                type: 'deleteEvent',
+            },
+        })
+    }
+
+    const onSaveConfirmModal = (data: {type: string, id?: number}) => {
+        switch (data.type) {
+            case 'deleteEvent':
+                onDeleteEvent()
+              break;
+            case 'deleteCalendarEvent':
+                onDeleteCalendarEvent(data.id)
+              break;
+        }
+        setOpenConfirmModal(false)
+    }
+
+    const confirmModal = useCallback((): JSX.Element => {
+        return <ConfirmModal
+            openConfirmModal={openConfirmModal}
+            modalTitle={confirmModalData.modalTitle}
+            saveBtnTitle={confirmModalData.saveBtnTitle}
+            type={confirmModalData.type}
+            data={confirmModalData.data}
+            onSave={onSaveConfirmModal}
+            onCancel={onCancelConfirmModal}
+        />
+      }, [openConfirmModal])
+
     return (
         <>
             <GlobalHeader isHomePage={false} eventItem={eventItem} updateEventItem={(eventItem) => {updateEventItem(eventItem)}} />
@@ -180,7 +242,7 @@ const Event = ({ id }: { id: string }) => {
                 setView={setView}
                 onTodayClick={onTodayClick}
                 setTimeZoneName={setTimeZoneName}
-                onDeleteEvent={onDeleteEvent}
+                onDeleteEvent={onConfirmDeleteEvent}
             />
             <Box
                 sx={{ height: '84vh', marginTop: '0px', gap: '10px' }}
@@ -237,6 +299,7 @@ const Event = ({ id }: { id: string }) => {
                     <GoogleMap />
                 </Box>
             </Box> */}
+            {confirmModal()}
         </>
     )
 }
