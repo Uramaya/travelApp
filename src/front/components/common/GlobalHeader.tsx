@@ -33,21 +33,30 @@ const GlobalHeader = ({
         setIsEditEventTitle(true)
     }, [isEditEventTitle, setIsEditEventTitle])
 
+    useEffect(() => {
+        setEventTitle(eventItem?.title || '')
+    }, [eventItem])
+
     const onChangeTitle = useCallback((
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-            updateEventItem({
-            ...eventItem,
-            title: event.target.value,
-        })
         setEventTitle(event.target.value)
-    }, [eventItem, eventTitle, setEventTitle, updateEventItem, setIsEditEventTitle])
+    }, [eventItem, eventTitle, setEventTitle, isEditEventTitle, setIsEditEventTitle])
+
+    const onUpdateTitle = useCallback((
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
+        updateEventItem({
+            ...eventItem,
+            title: eventTitle,
+        })
+        // setEventTitle(event.target.value)
+    }, [eventItem, eventTitle, setEventTitle, updateEventItem, isEditEventTitle, setIsEditEventTitle])
 
     const onClickAwayEventTitle = useCallback((): void => {
         setIsEditEventTitle(false)
     }, [eventItem, eventTitle, setEventTitle, updateEventItem, setIsEditEventTitle])
 
     const headerLogo = useCallback((): JSX.Element => {
-        if (eventItem && !isEditEventTitle) return <Button
+        if (!isEditEventTitle) return <Button
             onClick={onClickEventTitle}
             className='global-header-title'
             sx={{
@@ -57,21 +66,22 @@ const GlobalHeader = ({
                 },
             }}
         >
-            {eventItem.title}
+            {eventTitle}
         </Button>
-        else if (eventItem && isEditEventTitle) return <ClickAwayListener onClickAway={onClickAwayEventTitle}>
+        else return <ClickAwayListener onClickAway={onClickAwayEventTitle}>
             <FormControl sx={{ m: 1 }}>
                 <TextField
                     className="title-input"
                     label="Title"
                     variant="standard"
                     placeholder="Add title"
-                    value={eventItem.title}
-                    onBlur={(e) => { onChangeTitle(e) }}
+                    value={eventTitle}
+                    onChange={(e) => { onChangeTitle(e) }}
+                    onBlur={(e) => { onUpdateTitle(e) }}
                 />
             </FormControl>
         </ClickAwayListener>
-    }, [eventItem, isEditEventTitle, setIsEditEventTitle])
+    }, [eventTitle, setEventTitle, isEditEventTitle, setIsEditEventTitle])
 
     const addTipBtn = useCallback((): JSX.Element => {
         if (isHomePage) return <AddTripBtn onCreateEvent={onCreateEvent} />
