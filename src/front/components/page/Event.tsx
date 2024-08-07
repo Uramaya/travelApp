@@ -112,13 +112,16 @@ const Event = ({ id }: { id: string }) => {
 
     // update event item
     const updateEventItem = useCallback((eventItem: EventListItem) => {
-        updateEventTitleById(id, eventItem.title).then(({ result }) => {
-            setEventItem({
-                ...eventItem,
-                title: result.event.title
+        updateEventTitleById(id, eventItem.title).then(() => {
+            getEventById(id).then((result) => {
+                if(result) {
+                    setEventItem(result.event)
+                    const calendarEvents = arrangeCalendarEvents(result.calendar_events)
+                    dispatch(setCalendarEvents(calendarEvents))
+                }
             })
         })
-    }, [setEventItem, updateEventsById])
+    }, [setEventItem, updateEventsById, getEventById, id, arrangeCalendarEvents])
 
     const onDeleteEvent = useCallback(() => {
         deleteEventsById(eventItem.id).then(() => {
