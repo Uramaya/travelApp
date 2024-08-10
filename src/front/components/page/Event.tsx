@@ -17,6 +17,7 @@ import useCalendar from '@/hooks/calendarHook'
 import useCalendarEventList from '@/hooks/calendarEventListHook'
 import useCalendarEventModal from '@/hooks/calendarEventModalHook'
 import useCalendarEventPopoverHook from '@/hooks/calendarEventPopoverHook'
+import useCalendarEventTypeListHook from '@/hooks/calendarEventTypeListHook'
 import { INIT_CALENDAR_MODAL_EVENT_INFO, INIT_CALENDAR, All_USERS, EVENTLIST } from '@/const'
 import Box from '@mui/material/Box'
 import '@/styles/Event.scss'
@@ -63,6 +64,11 @@ const Event = ({ id }: { id: string }) => {
         onClickPopoverBtn,
         onClosePopover,
     } = useCalendarEventPopoverHook()
+
+
+    const {
+        calendarEventTypeMenuList,
+    } = useCalendarEventTypeListHook()
 
     const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false)
     const [confirmModalData, setConfirmModalData] = useState<ConfirmModalObj>({
@@ -183,6 +189,7 @@ const Event = ({ id }: { id: string }) => {
                 onClickPopoverBtn={onClickPopoverBtn}
                 onClosePopover={onClosePopover}
                 onDeletePopover={onConfirmDeleteCalendarEvent}
+                calendarEventTypeMenuList={calendarEventTypeMenuList}
             />
         </Box>
     }

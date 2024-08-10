@@ -1,5 +1,5 @@
 import { useCallback, useState, useRef, useEffect } from "react"
-import { EventInfo, EventInfoKeys, UserInfo } from '@/types'
+import { EventInfo, EventInfoKeys, UserInfo, EventTypeInfo } from '@/types'
 import '@/styles/calendar/CalendarEventModal.scss'
 import '@/styles/Quill.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -48,6 +48,7 @@ const CalendarEventModal = ({
   allUsers,
   onOpenModal,
   onCloseModal,
+  calendarEventTypeMenuList,
 }: {
   modalEventInfo: EventInfo,
   openCalendarEventModal: boolean,
@@ -57,6 +58,7 @@ const CalendarEventModal = ({
   allUsers: UserInfo[]
   onOpenModal: (eventInfo?: EventInfo) => void,
   onCloseModal: () => void,
+  calendarEventTypeMenuList: EventTypeInfo[],
 }) => {
   library.add(fas, fab)
   const onSaveClick = () => {
@@ -438,6 +440,7 @@ const CalendarEventModal = ({
                   setModalEventInfo={setModalEventInfo}
                   openEventTypeMenu={openEventTypeMenu}
                   setOpenEventTypeMenu={setOpenEventTypeMenu}
+                  calendarEventTypeMenuList={calendarEventTypeMenuList}
                 />
                 {/* Calendar Event Title Input */}
                 <FormControl sx={{ m: 1, width: '100%' }}>

@@ -42,3 +42,4 @@ Route::group([
 
 Route::middleware('cors')->get('languages', 'LanguageController@index');
 Route::middleware('cors')->get('markers', 'MarkerController@index');
+Route::middleware('cors')->get('eventTypes', 'EventTypeController@index');
