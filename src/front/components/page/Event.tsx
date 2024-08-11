@@ -24,6 +24,7 @@ import '@/styles/Event.scss'
 import GlobalHeader from "@/components/common/GlobalHeader"
 import { EventListItem, EventInfo, ConfirmModalObj, UserInfo } from '@/types'
 import Splitter from "@/components/splitter/Splitter"
+import dayjs from "dayjs"
 
 const Event = ({ id }: { id: string }) => {
     const {
@@ -115,7 +116,9 @@ const Event = ({ id }: { id: string }) => {
         if (!calendarEvents) {
             return []
         }
-        return calendarEvents.map((event, index) => {
+        return calendarEvents.sort((a,b) => {
+            return dayjs(a.start).valueOf() - dayjs(b.start).valueOf()
+        }).map((event, index) => {
             return {
                 ...event,
                 start: new Date(event.start),

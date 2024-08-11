@@ -60,7 +60,7 @@ const GoogleMapArea = () => {
     priceTag.textContent = '$2.5M';
 
     return <div className='google-map-area'>
-    <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+    {/* <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
             <Map
                 defaultCenter={position}
                 defaultZoom={3}
@@ -78,7 +78,7 @@ const GoogleMapArea = () => {
                     </div>
                 </AdvancedMarker>
             </Map>
-        </APIProvider>
+        </APIProvider> */}
     </div>
 }
 
