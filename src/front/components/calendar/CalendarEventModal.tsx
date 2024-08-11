@@ -435,6 +435,81 @@ const CalendarEventModal = ({
     </Box>
   }, [modalEventInfo, setModalEventInfo])
 
+
+  const titleInput = useCallback((): JSX.Element => {
+    return <FormControl sx={{ m: 1, width: '100%' }}>
+    <TextField
+      className="title-input"
+      label="Title"
+      variant="standard"
+      placeholder="Add title"
+      value={modalEventInfo?.title}
+      onChange={(e) => { onChangeForm(e, 'title') }}
+    />
+  </FormControl>
+  }, [modalEventInfo, setModalEventInfo, onChangeForm])
+
+  const locationInput = useCallback((): JSX.Element => {
+    return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
+    <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
+    <FormControl sx={{ m: 1, width: '100%' }}>
+      <TextField
+        label="Search Place"
+        className="mui-customize"
+        size="small"
+        value={modalEventInfo?.location}
+        onChange={(e) => { onChangeForm(e, 'location') }}
+      />
+    </FormControl>
+  </Box>
+  }, [modalEventInfo, setModalEventInfo, onChangeForm])
+
+  const googleMapBtn = useCallback((): JSX.Element => {
+    return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
+    <Button className='map-location-btn mui-customize' variant="contained" size="small">
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className="" >
+        <FontAwesomeIcon icon={faMapLocationDot} className="icon-map-location" color="#A2A2A2" />
+        <div className='title-map-location'>Open Google Map</div>
+      </Box>
+    </Button>
+  </Box>
+  }, [modalEventInfo, setModalEventInfo])
+
+  const calendarEventTypeBtn = useCallback((): JSX.Element => {
+    return <Box sx={{ display: 'flex', alignItems: 'center' }} className='title-icon-outer-wrapper'>
+    <Button onClick={onClickEventTypeBtn} >
+      <div className='title-icon-wrapper' style={{ border: `1.5px solid ${modalEventInfo?.event_type?.color}` }}>
+        <FontAwesomeIcon icon={modalEventInfo?.event_type?.icon} className="icon" color={modalEventInfo?.event_type?.color} />
+      </div>
+      <FontAwesomeIcon icon={['fas', 'chevron-down']} className="icon-chevron-down" color="#A2A2A2" />
+    </Button>
+  </Box>
+  }, [
+    modalEventInfo,
+    setModalEventInfo,
+    openEventTypeMenu,
+    setOpenEventTypeMenu,
+    onClickEventTypeBtn,
+    calendarEventTypeMenuList,
+  ])
+
+  const calendarEventTypeMenu = useCallback((): JSX.Element => {
+    return <CalendarEventTypeMenu
+    modalEventInfo={modalEventInfo}
+    setModalEventInfo={setModalEventInfo}
+    openEventTypeMenu={openEventTypeMenu}
+    setOpenEventTypeMenu={setOpenEventTypeMenu}
+    calendarEventTypeMenuList={calendarEventTypeMenuList}
+  />
+  }, [
+    modalEventInfo,
+    setModalEventInfo,
+    openEventTypeMenu,
+    setOpenEventTypeMenu,
+    onClickEventTypeBtn,
+    calendarEventTypeMenuList,
+  ])
+
   // Quill toolbar options
   const modules = {
     toolbar: toolbarOptions,
@@ -453,36 +528,12 @@ const CalendarEventModal = ({
                 {iconLocationPin()}
 
                 {/* Calendar Event Type Select Button */}
-                <Box sx={{ display: 'flex', alignItems: 'center' }} className='title-icon-outer-wrapper'>
-                  <Button onClick={onClickEventTypeBtn} >
-                    <div className='title-icon-wrapper' style={{ border: `1.5px solid ${modalEventInfo?.event_type?.color}` }}>
-                      <FontAwesomeIcon icon={modalEventInfo?.event_type?.icon} className="icon" color={modalEventInfo?.event_type?.color} />
-                    </div>
-                    <FontAwesomeIcon icon={['fas', 'chevron-down']} className="icon-chevron-down" color="#A2A2A2" />
-                  </Button>
-                </Box>
+                {calendarEventTypeBtn()}
+                {calendarEventTypeMenu()}
 
-                {/* Calendar Event Type Select Menu */}
-                <CalendarEventTypeMenu
-                  modalEventInfo={modalEventInfo}
-                  setModalEventInfo={setModalEventInfo}
-                  openEventTypeMenu={openEventTypeMenu}
-                  setOpenEventTypeMenu={setOpenEventTypeMenu}
-                  calendarEventTypeMenuList={calendarEventTypeMenuList}
-                />
                 {/* Calendar Event Title Input */}
-                <FormControl sx={{ m: 1, width: '100%' }}>
-                  <TextField
-                    className="title-input"
-                    label="Title"
-                    variant="standard"
-                    placeholder="Add title"
-                    value={modalEventInfo?.title}
-                    onChange={(e) => { onChangeForm(e, 'title') }}
-                  />
-                </FormControl>
+                {titleInput()}
               </div>
-
 
               <div className="content-outer-wrapper">
                 {/* Tool Bar */}
@@ -493,29 +544,10 @@ const CalendarEventModal = ({
 
                 {/* Location Area*/}
                 <Box>
-                  <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
-                    <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
-                    <FormControl sx={{ m: 1, width: '100%' }}>
-                      <TextField
-                        label="Search Place"
-                        className="mui-customize"
-                        size="small"
-                        value={modalEventInfo?.location}
-                        onChange={(e) => { onChangeForm(e, 'location') }}
-                      />
-                    </FormControl>
-                  </Box>
-
+                  {locationInput()}
 
                   {/* Google Map Button */}
-                  <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
-                    <Button className='map-location-btn mui-customize' variant="contained" size="small">
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className="" >
-                        <FontAwesomeIcon icon={faMapLocationDot} className="icon-map-location" color="#A2A2A2" />
-                        <div className='title-map-location'>Open Google Map</div>
-                      </Box>
-                    </Button>
-                  </Box>
+                  {googleMapBtn()}
                 </Box>
 
                 {/* Description Area */}
