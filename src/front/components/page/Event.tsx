@@ -125,7 +125,6 @@ const Event = ({ id }: { id: string }) => {
     }
     // when click save button on the calendar edit modal
     const onSaveCalendarModal = useCallback(() => {
-        console.log(modalEventInfo)
         // create or update the event
         createOrUpdateCalenderEvents(modalEventInfo).then((result) => {
             setEventItem(result.event)

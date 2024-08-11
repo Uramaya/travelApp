@@ -194,6 +194,7 @@ const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => 
         onSave={onSave}
         allUsers={allUsers}
         eventItem={eventItem}
+        events={events}
       />
     </>
   )

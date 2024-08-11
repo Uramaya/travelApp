@@ -36,7 +36,6 @@ import Avatar from '@mui/material/Avatar'
 import Stack from '@mui/material/Stack'
 import dayjs, { Dayjs } from 'dayjs'
 import ReactQuill from 'react-quill'
-import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import 'react-quill/dist/quill.snow.css'
 
 const CalendarEventModal = ({
@@ -96,15 +95,27 @@ const CalendarEventModal = ({
   // on change switch
   const onChangeFormSwitch = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
     const eventInfo: EventInfo = {...modalEventInfo}
-    eventInfo.is_all_day = event.target.checked ? 1 : 0
-    setModalEventInfo({ ...eventInfo })
+    const isAllDay = event.target.checked ? 1 : 0;
+
+    setModalEventInfo({ 
+      ...eventInfo,
+      is_all_day: isAllDay,
+      end: isAllDay ? eventInfo.end : eventInfo.start,
+    })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change date
   const onChangeFormDate = useCallback((datetime: React.ChangeEvent<Dayjs> | Dayjs, formName: string): void => {
     const eventInfo: EventInfo = {...modalEventInfo}
-    eventInfo[formName] = (datetime as Dayjs).toDate()
-    console.log('eventInfo', eventInfo)
+    if (!eventInfo.is_all_day && formName === 'start') {
+      eventInfo.start = (datetime as Dayjs).toDate()
+      const startDate = dayjs(eventInfo.start).format('YYYY-MM-DD')
+      const endTime = dayjs(eventInfo.end).format('HH:mm:ss')
+      eventInfo.end = dayjs(`${startDate} ${endTime}`).toDate()
+    } else {
+      eventInfo[formName] = (datetime as Dayjs).toDate()
+    }
+    
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
@@ -161,7 +172,7 @@ const CalendarEventModal = ({
       <FontAwesomeIcon icon={faLocationPin} className={`icon-location-pin ${iconLocationClass()}`} color="#39635E" />
       <div className={`event-number ${iconLocationClass()}`}>{modalEventInfo.index}</div>
     </div>
-  }, [modalEventInfo])
+  }, [modalEventInfo, setModalEventInfo])
 
   const toolBar = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', marginBottom: '-50px', alignItems: 'center', justifyContent: 'flex-end' }} className="content-user" >
@@ -172,14 +183,14 @@ const CalendarEventModal = ({
         <FontAwesomeIcon icon={faCopy} className="icon-tool-bar" color="#A2A2A2" />
       </IconButton>
     </Box>
-  }, [modalEventInfo])
+  }, [modalEventInfo, setModalEventInfo])
 
   const dateFrom = useCallback((): JSX.Element => {
     if (modalEventInfo?.is_all_day) return <DatePicker
       label="From"
       className="mui-customize mui-customize-datetime-picker"
       value={dayjs(modalEventInfo?.start)}
-      maxDate={dayjs(modalEventInfo?.end)}
+      maxDate={dayjs(modalEventInfo?.end).add(1, 'day')}
       format='D MMM YYYY(ddd)'
       onChange={(datetime) => { onChangeFormDate(datetime, 'start') }}
     />
@@ -187,7 +198,7 @@ const CalendarEventModal = ({
       label="From"
       className="mui-customize mui-customize-datetime-picker"
       value={dayjs(modalEventInfo?.start)}
-      maxDateTime={dayjs(modalEventInfo?.end)}
+      maxDateTime={dayjs(modalEventInfo?.end).add(1, 'day')}
       format='D MMM YYYY(ddd) H:mm'
       onAccept={(datetime) => { onChangeFormDate(datetime, 'start') }}
     />
@@ -207,6 +218,7 @@ const CalendarEventModal = ({
       className="mui-customize mui-customize-datetime-picker"
       value={dayjs(modalEventInfo?.end)}
       minDateTime={dayjs(modalEventInfo?.start)}
+      maxDateTime={dayjs(modalEventInfo?.start).endOf('day')}
       format='D MMM YYYY(ddd) H:mm'
       onAccept={(datetime) => { onChangeFormDate(datetime, 'end') }}
     />
@@ -279,7 +291,7 @@ const CalendarEventModal = ({
       </Box>
     </Box>
 
-  }, [modalEventInfo])
+  }, [modalEventInfo, setModalEventInfo])
   const userIcon = useCallback((user: UserInfo): JSX.Element => {
     if (!user.icon_url) return <IconDefaultUser width="25px" height="25px" iconSize="14px" />
     return <Box
@@ -307,7 +319,7 @@ const CalendarEventModal = ({
         </Box>
       </MenuItem>
     })
-  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers])
+  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers, onChangeFormSwitch, setModalEventInfo])
 
   const userChip = useCallback((user: UserInfo | undefined): JSX.Element => {
     if(!user) return
@@ -330,7 +342,7 @@ const CalendarEventModal = ({
       onDelete={() => { onDeleteFormUsers(user.id) }}
       onMouseDown={(e) => e.stopPropagation()}
     />
-  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers])
+  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers, setModalEventInfo])
 
   const users = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="content-user" >
@@ -364,7 +376,7 @@ const CalendarEventModal = ({
         </FormControl>
       </Box>
     </Box>
-  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers])
+  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers, setModalEventInfo])
 
   const photo = useCallback((): JSX.Element => {
     return <Box className="photo" >
@@ -401,7 +413,7 @@ const CalendarEventModal = ({
         </Box>
       </Box>
     </Box>
-  }, [modalEventInfo])
+  }, [modalEventInfo, onChangeFormSwitch, setModalEventInfo])
 
   const closeBtn = useCallback((): JSX.Element => {
     return <div>
@@ -411,7 +423,7 @@ const CalendarEventModal = ({
         </IconButton>
       </div>
     </div>
-  }, [modalEventInfo])
+  }, [modalEventInfo, setModalEventInfo])
 
   const saveBtn = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="save-btn-wrapper" >
@@ -421,7 +433,7 @@ const CalendarEventModal = ({
         </Button>
       </FormControl>
     </Box>
-  }, [modalEventInfo])
+  }, [modalEventInfo, setModalEventInfo])
 
   // Quill toolbar options
   const modules = {

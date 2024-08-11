@@ -17,7 +17,6 @@ export const createOrUpdateCalenderEvents = async (calendarEvent: EventInfo) => 
     start: dayjs(calendarEvent.start).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
     end: dayjs(calendarEvent.end).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
   }
-  console.log('param', param)
   const response = await axios.post('http://localhost:13000/api/calendarEvents', param);
   return response.data;
 };
