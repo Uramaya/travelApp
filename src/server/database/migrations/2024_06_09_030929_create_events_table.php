@@ -18,8 +18,8 @@ class CreateEventsTable extends Migration
             $table->bigIncrements('id')->index();
             $table->string('title', 70)->default('');
             $table->string('time_zone_name', 50);
-            $table->date('start')->default(Carbon::now()->setTimezone('utc'));
-            $table->date('end')->default(Carbon::now()->setTimezone('utc')->addHours(1));
+            $table->timestamp('start')->default(Carbon::now()->setTimezone('utc'));
+            $table->timestamp('end')->default(Carbon::now()->setTimezone('utc')->addHours(1));
             $table->integer('watch')->default(0);
             $table->integer('like')->default(0);
             $table->unsignedBigInteger('location_id')->nullable()->default(null)->index();
