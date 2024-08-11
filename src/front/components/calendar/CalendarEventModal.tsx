@@ -48,6 +48,7 @@ const CalendarEventModal = ({
   onOpenModal,
   onCloseModal,
   calendarEventTypeMenuList,
+  onDeleteModal,
 }: {
   modalEventInfo: EventInfo,
   openCalendarEventModal: boolean,
@@ -58,6 +59,7 @@ const CalendarEventModal = ({
   onOpenModal: (eventInfo?: EventInfo) => void,
   onCloseModal: () => void,
   calendarEventTypeMenuList: EventTypeInfo[],
+  onDeleteModal: (id: number) => void,
 }) => {
   library.add(fas, fab)
   const onSaveClick = () => {
@@ -175,14 +177,16 @@ const CalendarEventModal = ({
   }, [modalEventInfo, setModalEventInfo])
 
   const toolBar = useCallback((): JSX.Element => {
-    return <Box sx={{ display: 'flex', width: '100%', marginBottom: '-50px', alignItems: 'center', justifyContent: 'flex-end' }} className="content-user" >
-      <IconButton className='tool-bar-icon-btn'>
-        <FontAwesomeIcon icon={faTrashCan} className="icon-tool-bar" color="#A2A2A2" />
-      </IconButton>
-      <IconButton className='tool-bar-icon-btn'>
-        <FontAwesomeIcon icon={faCopy} className="icon-tool-bar" color="#A2A2A2" />
-      </IconButton>
-    </Box>
+    if(modalEventInfo.id) {
+      return <Box sx={{ display: 'flex', width: '100%', marginBottom: '-50px', alignItems: 'center', justifyContent: 'flex-end' }} className="content-user" >
+        <IconButton className='tool-bar-icon-btn' onClick={onDelete}>
+          <FontAwesomeIcon icon={faTrashCan} className="icon-tool-bar" color="#A2A2A2" />
+        </IconButton>
+        <IconButton className='tool-bar-icon-btn' onClick={onCopy}>
+          <FontAwesomeIcon icon={faCopy} className="icon-tool-bar" color="#A2A2A2" />
+        </IconButton>
+      </Box>
+    }
   }, [modalEventInfo, setModalEventInfo])
 
   const dateFrom = useCallback((): JSX.Element => {
@@ -509,6 +513,18 @@ const CalendarEventModal = ({
     onClickEventTypeBtn,
     calendarEventTypeMenuList,
   ])
+
+  const onCopy = useCallback((): void => {
+    setModalEventInfo({
+      ...modalEventInfo,
+      id: 0,
+      title: `${modalEventInfo.title}(2)`
+    })
+  }, [modalEventInfo, setModalEventInfo])
+
+  const onDelete = useCallback((): void => {
+    onDeleteModal(modalEventInfo.id)
+  }, [modalEventInfo, setModalEventInfo])
 
   // Quill toolbar options
   const modules = {

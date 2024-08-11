@@ -19,6 +19,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 const ConfirmModal = ({
   openConfirmModal,
   modalTitle,
+  modalContent,
   saveBtnTitle,
   type,
   data,
@@ -27,6 +28,7 @@ const ConfirmModal = ({
 }: {
   openConfirmModal: boolean,
   modalTitle?: string,
+  modalContent?: string,
   saveBtnTitle?: string,
   type?: string,
   data?: any,
@@ -75,6 +77,9 @@ const ConfirmModal = ({
           {modalTitle || 'Are you sure?' }
         </DialogTitle>
         <DialogContent>
+          <DialogContentText>
+            {modalContent || '' }
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           {saveBtn()}

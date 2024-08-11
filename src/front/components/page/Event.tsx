@@ -73,6 +73,7 @@ const Event = ({ id }: { id: string }) => {
     const [openConfirmModal, setOpenConfirmModal] = useState<boolean>(false)
     const [confirmModalData, setConfirmModalData] = useState<ConfirmModalObj>({
         modalTitle: '',
+        modalContent: '',
         saveBtnTitle: '',
         type: '',
         data: null,
@@ -145,14 +146,16 @@ const Event = ({ id }: { id: string }) => {
 
     const onConfirmDeleteCalendarEvent = useCallback((id: number) => {
         setConfirmModalData({
-            modalTitle: 'Are you sure to delete the calendar event?',
+            modalTitle: 'Are you sure?',
             saveBtnTitle: 'Delete',
+            modalContent: 'Are you sure to delete the event?',
             type: 'delete',
             data: {
                 id: id,
                 type: 'deleteCalendarEvent',
             },
         })
+        setOpenConfirmModal(true)
     }, [dispatch, confirmModalData, setConfirmModalData])
 
     const onDeleteCalendarEvent = useCallback((id: number) => {
@@ -160,6 +163,7 @@ const Event = ({ id }: { id: string }) => {
             setEventItem(result.event)
             const calendarEvents = arrangeCalendarEvents(result.calendar_events)
             dispatch(setCalendarEvents(calendarEvents))
+            setOpenCalendarEventModal(false)
         })
     }, [dispatch, deleteCalenderEventsById, setEventItem])
 
@@ -217,6 +221,7 @@ const Event = ({ id }: { id: string }) => {
                 onClosePopover={onClosePopover}
                 onDeletePopover={onConfirmDeleteCalendarEvent}
                 calendarEventTypeMenuList={calendarEventTypeMenuList}
+                onDeleteModal={onConfirmDeleteCalendarEvent}
             />
         </Box>
     }
@@ -232,15 +237,16 @@ const Event = ({ id }: { id: string }) => {
     }
 
     const onConfirmDeleteEvent = () => {
-        setOpenConfirmModal(true)
         setConfirmModalData({
-            modalTitle: 'Are you sure to delete the event?',
+            modalTitle: 'Are you sure?',
             saveBtnTitle: 'Delete',
+            modalContent: 'Are you sure to delete the event?',
             type: 'delete',
             data: {
                 type: 'deleteEvent',
             },
         })
+        setOpenConfirmModal(true)
     }
 
     const onSaveConfirmModal = (data: {type: string, id?: number}) => {
@@ -259,6 +265,7 @@ const Event = ({ id }: { id: string }) => {
         return <ConfirmModal
             openConfirmModal={openConfirmModal}
             modalTitle={confirmModalData.modalTitle}
+            modalContent={confirmModalData.modalContent}
             saveBtnTitle={confirmModalData.saveBtnTitle}
             type={confirmModalData.type}
             data={confirmModalData.data}

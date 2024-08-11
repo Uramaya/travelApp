@@ -81,10 +81,6 @@ const CalendarEventPopover = ({
     </div>
   }, [eventInfo])
 
-  const getModalUserInfo = (userId: number): UserInfo | undefined => {
-    return getUserInfoById(userId, All_USERS)
-  }
-
   const userChip = useCallback((user: UserInfo): JSX.Element => {
     if (!user) {
       return <></>

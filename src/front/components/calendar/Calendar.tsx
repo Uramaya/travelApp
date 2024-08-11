@@ -56,6 +56,7 @@ const Calendar = ({
   eventItem,
   onDeletePopover,
   calendarEventTypeMenuList,
+  onDeleteModal,
 }: CalendarProps) => {
   const { formats } = useMemo(
     () => ({
@@ -118,7 +119,11 @@ const Calendar = ({
 const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => {
     // open the calendar event modal
     onClosePopover()
-    onOpenModal({...eventInfo, id: 0})
+    onOpenModal({
+      ...eventInfo,
+      id: 0,
+      title: `${eventInfo.title}(2)`
+    })
   }, [events])
 
   // select calendar slot(cell)
@@ -151,6 +156,7 @@ const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => 
       onSave={onSave}
       allUsers={allUsers}
       calendarEventTypeMenuList={calendarEventTypeMenuList}
+      onDeleteModal={onDeleteModal}
     />
   }, [openCalendarEventModal, modalEventInfo])
 

@@ -159,12 +159,14 @@ export type CalendarProps =  {
     eventItem: EventListItem
     onDeletePopover: (id: number) => void
     calendarEventTypeMenuList: EventTypeInfo[]
+    onDeleteModal: (id: number) => void
 }
 
 
 
 export type ConfirmModalObj =  {
     modalTitle: string
+    modalContent: string
     saveBtnTitle: string
     type: string
     data: any

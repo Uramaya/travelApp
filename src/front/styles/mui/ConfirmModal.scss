@@ -16,9 +16,6 @@ $CONFIRM_MODAL_TITLE_FONT_COLOR: #4c4c4c;
         border-radius: 12px;
         padding: 18px 0px;
     }
-    & .MuiDialogContent-root {
-        display: none;
-    }
 
     & .MuiButtonBase-root.MuiButton-root.MuiButton-colorPrimary {
         border: none;
@@ -31,12 +28,10 @@ $CONFIRM_MODAL_TITLE_FONT_COLOR: #4c4c4c;
         &.save-btn {
             background-color: $BUTTON_SAVE_BG_COLOR; 
             color: $BUTTON_SAVE_FONT_COLOR;
-            width: 60%;
         }
         &.save-btn.delete {
             background-color: $BUTTON_DELETE_BG_COLOR; 
             color: $BUTTON_DELETE_FONT_COLOR;
-            width: 60%;
         }
     }
     & .MuiDialogTitle-root {
