@@ -2,6 +2,7 @@
 import axios from '@/utils/api';
 import { EventInfo } from '@/types'
 import { TEST_EVENTS } from '@/const'
+import dayjs from "dayjs"
 
 export const getCalenderEvents = async () => {
   // const response = await axios.get('/calenderEvents');
@@ -13,7 +14,10 @@ export const createOrUpdateCalenderEvents = async (calendarEvent: EventInfo) => 
   const param = {
     ... calendarEvent,
     is_all_day: Number(calendarEvent.is_all_day),
+    start: dayjs(calendarEvent.start).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
+    end: dayjs(calendarEvent.end).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
   }
+  console.log('param', param)
   const response = await axios.post('http://localhost:13000/api/calendarEvents', param);
   return response.data;
 };
