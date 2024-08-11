@@ -294,52 +294,6 @@ const Event = ({ id }: { id: string }) => {
                     rightComponent={googleMap()}
                 />
             </Box>
-
-            {/* <GlobalHeader eventItem={eventItem} updateEventItem={(eventItem) => {updateEventItem(eventItem)}} />
-            <GlobalToolBar
-                view={view}
-                timeZoneName={timeZoneName}
-                setView={setView}
-                onTodayClick={onTodayClick}
-                setTimeZoneName={setTimeZoneName}
-            />
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', height: '84vh', marginTop: '0px', gap: '10px'}} className='my-event-container'>
-                <Box sx={{ overflow: 'auto', resize: 'both', width: '70%' }} className='calendar-area'>
-                    <Calendar
-                        date={date}
-                        view={view}
-                        events={calendarEvents}
-                        width='100%'
-                        height='100vh'
-                        setDate={setDate}
-                        setView={setView}
-                        onNavigate={onNavigate}
-                        onView={onView}
-                        onTodayClick={onTodayClick}
-                        onNextClick={onNextClick}
-                        onPrevClick={onPrevClick}
-                        openCalendarEventModal={openCalendarEventModal}
-                        setOpenCalendarEventModal={setOpenCalendarEventModal}
-                        modalEventInfo={modalEventInfo}
-                        setModalEventInfo={setModalEventInfo}
-                        onOpenModal={onOpenModal}
-                        onCloseModal={onCloseModal}
-                        onClickAddPhoto={onClickAddPhoto}
-                        onUploadPhoto={onUploadPhoto}
-                        onSave={onSaveCalendarModal}
-                        allUsers={All_USERS}
-                        popoverId={popoverId}
-                        popoverAnchorEl={popoverAnchorEl}
-                        setPopoverAnchorEl={setPopoverAnchorEl}
-                        popoverOpen={popoverOpen}
-                        onClickPopoverBtn={onClickPopoverBtn}
-                        onClosePopover={onClosePopover}
-                    />
-                </Box>
-                <Box sx={{ overflow: 'auto', resize: 'both', height: '84vh', flex: 3 }} className='google-map-area'>
-                    <GoogleMap />
-                </Box>
-            </Box> */}
             {confirmModal()}
         </>
     )

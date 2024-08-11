@@ -2,4 +2,24 @@
     & > div > div {
         border-radius: 20px;
     }
+    .google-map-pin-icon {
+        width: 2.2rem;
+        height: 2.2rem;
+    }
+
+    .google-map-pin-num {
+        position: relative;
+        color: white;
+        left: 0.82rem;
+        bottom: 1.8rem;
+        font-size: 1rem;
+    }
+}
+
+.splitter__second {
+    & > div {
+        width: 100%;
+        height: 100vh;
+        padding-left: 10px;
+    }
 }
