@@ -68,6 +68,19 @@ const CalendarEventModal = ({
 
   // control event type menu
   const [openEventTypeMenu, setOpenEventTypeMenu] = useState<boolean>(false)
+  const [allModalUsers, setAllModalUsers] = useState<UserInfo[]>(allUsers)
+
+  useEffect(() => {
+    if (!modalEventInfo) {
+        return
+    }
+    const modalUsers = modalEventInfo.users.concat(modalEventInfo.authors)
+    setAllModalUsers(Array.from(new Set(allUsers.concat(modalUsers))))
+}, [
+    modalEventInfo,
+    allUsers,
+    setAllModalUsers
+])
 
   // on change input, select box
   const onChangeForm = useCallback((
@@ -81,16 +94,17 @@ const CalendarEventModal = ({
   }, [modalEventInfo, setModalEventInfo])
 
   // on change switch
-  const onChangeFormSwitch = useCallback((event: React.ChangeEvent<HTMLInputElement>, fromName: string): void => {
+  const onChangeFormSwitch = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
     const eventInfo: EventInfo = {...modalEventInfo}
-    eventInfo[fromName] = event.target.checked
+    eventInfo.is_all_day = event.target.checked ? 1 : 0
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change date
-  const onChangeFormDate = useCallback((datetime: React.ChangeEvent<Dayjs> | Dayjs, fromName: string): void => {
+  const onChangeFormDate = useCallback((datetime: React.ChangeEvent<Dayjs> | Dayjs, formName: string): void => {
     const eventInfo: EventInfo = {...modalEventInfo}
-    eventInfo[fromName] = (datetime as Dayjs).toDate()
+    eventInfo[formName] = (datetime as Dayjs).toDate()
+    console.log('eventInfo', eventInfo)
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
@@ -104,12 +118,14 @@ const CalendarEventModal = ({
   // on change users
   const onChangeFormUsers = useCallback((event: SelectChangeEvent<UserInfo[]>): void => {
     const eventInfo: EventInfo = {...modalEventInfo}
-    const users = event.target.value as UserInfo[]
+    const userIds = event.target.value as UserInfo[]
+    const addUsers = allModalUsers.filter(user => userIds.includes(user.id))
+    const users = Array.from(new Set(eventInfo.users.concat(addUsers)))
     setModalEventInfo({
       ...eventInfo,
       users: users
     })
-  }, [modalEventInfo, setModalEventInfo])
+  }, [modalEventInfo, setModalEventInfo, allModalUsers, allUsers, setAllModalUsers])
 
   // on change users
   const onDeleteFormUsers = useCallback((userId: number): void => {
@@ -224,7 +240,7 @@ const CalendarEventModal = ({
           label="time zone"
           size="small"
           IconComponent={(props) => (<IconChevronDownForMuiSelect props={props} />)}
-          onChange={(e) => { onChangeForm(e, 'timeZoneName') }}
+          onChange={(e) => { onChangeForm(e, 'time_zone_name') }}
         >
           <MenuItem disabled value="">
             <em>time zone</em>
@@ -276,11 +292,11 @@ const CalendarEventModal = ({
       }}
       src={user.icon_url}
     />
-  }, [modalEventInfo])
+  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers])
+
 
   const userItems = useCallback((): JSX.Element[] => {
-    if (!allUsers) return
-    return allUsers.map((user) => {
+    return allModalUsers.map((user) => {
       if (user) return <MenuItem value={user.id} key={user.id} className="user-select-box">
         <Box
           sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }}
@@ -291,7 +307,7 @@ const CalendarEventModal = ({
         </Box>
       </MenuItem>
     })
-  }, [modalEventInfo])
+  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers])
 
   const userChip = useCallback((user: UserInfo | undefined): JSX.Element => {
     if(!user) return
@@ -314,7 +330,7 @@ const CalendarEventModal = ({
       onDelete={() => { onDeleteFormUsers(user.id) }}
       onMouseDown={(e) => e.stopPropagation()}
     />
-  }, [modalEventInfo])
+  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers])
 
   const users = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="content-user" >
@@ -348,7 +364,7 @@ const CalendarEventModal = ({
         </FormControl>
       </Box>
     </Box>
-  }, [modalEventInfo])
+  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers])
 
   const photo = useCallback((): JSX.Element => {
     return <Box className="photo" >

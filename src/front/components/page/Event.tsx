@@ -18,11 +18,11 @@ import useCalendarEventList from '@/hooks/calendarEventListHook'
 import useCalendarEventModal from '@/hooks/calendarEventModalHook'
 import useCalendarEventPopoverHook from '@/hooks/calendarEventPopoverHook'
 import useCalendarEventTypeListHook from '@/hooks/calendarEventTypeListHook'
-import { INIT_CALENDAR_MODAL_EVENT_INFO, INIT_CALENDAR, All_USERS, EVENTLIST } from '@/const'
+import { INIT_CALENDAR_MODAL_EVENT_INFO, INIT_CALENDAR, } from '@/const'
 import Box from '@mui/material/Box'
 import '@/styles/Event.scss'
 import GlobalHeader from "@/components/common/GlobalHeader"
-import { EventListItem, EventInfo, ConfirmModalObj } from '@/types'
+import { EventListItem, EventInfo, ConfirmModalObj, UserInfo } from '@/types'
 import Splitter from "@/components/splitter/Splitter"
 
 const Event = ({ id }: { id: string }) => {
@@ -77,6 +77,7 @@ const Event = ({ id }: { id: string }) => {
         type: '',
         data: null,
     })
+    const [allUsers, setAllUsers] = useState<UserInfo[]>([])
 
     const dispatch = useDispatch<AppDispatch>()
     const calendarEvents = useAppSelector((state: RootState) => state.calendarEventsReducer)
@@ -89,7 +90,24 @@ const Event = ({ id }: { id: string }) => {
                 dispatch(setCalendarEvents(calendarEvents))
             }
         })
-    }, [dispatch, getCalenderEvents, getEvents, getEventById, setEvents, setEventItem])
+    }, [
+        dispatch,
+        getCalenderEvents,
+        getEvents,
+        getEventById,
+        setEvents,
+        setEventItem,
+    ])
+    useEffect(() => {
+        if (!eventItem) {
+            return
+        }
+        setAllUsers(Array.from(new Set(eventItem.users.concat(eventItem.authors))))
+    }, [
+        eventItem,
+        allUsers,
+        setAllUsers
+    ])
 
     // add index to the calendar events
     const arrangeCalendarEvents = (calendarEvents: EventInfo[]) => {
@@ -102,12 +120,12 @@ const Event = ({ id }: { id: string }) => {
                 start: new Date(event.start),
                 end: new Date(event.end),
                 index: index + 1,
-                event_id: Number(id) || 0,
             }
         })
     }
     // when click save button on the calendar edit modal
     const onSaveCalendarModal = useCallback(() => {
+        console.log(modalEventInfo)
         // create or update the event
         createOrUpdateCalenderEvents(modalEventInfo).then((result) => {
             setEventItem(result.event)
@@ -115,7 +133,16 @@ const Event = ({ id }: { id: string }) => {
             dispatch(setCalendarEvents(calendarEvents))
             onCloseModal()
         })
-    }, [dispatch, modalEventInfo, createOrUpdateCalenderEvents])
+    }, [
+        dispatch,
+        modalEventInfo,
+        setModalEventInfo,
+        createOrUpdateCalenderEvents,
+        eventItem,
+        setEventItem,
+        calendarEvents,
+        setCalendarEvents,
+    ])
 
     const onConfirmDeleteCalendarEvent = useCallback((id: number) => {
         setConfirmModalData({
@@ -156,6 +183,7 @@ const Event = ({ id }: { id: string }) => {
         })
     }, [dispatch, deleteEventsById])
 
+
     const calendar = () => {
         return <Box sx={{ width: '100%' }}>
             <Calendar
@@ -181,7 +209,7 @@ const Event = ({ id }: { id: string }) => {
                 onClickAddPhoto={onClickAddPhoto}
                 onUploadPhoto={onUploadPhoto}
                 onSave={onSaveCalendarModal}
-                allUsers={All_USERS}
+                allUsers={allUsers}
                 popoverId={popoverId}
                 popoverAnchorEl={popoverAnchorEl}
                 setPopoverAnchorEl={setPopoverAnchorEl}
