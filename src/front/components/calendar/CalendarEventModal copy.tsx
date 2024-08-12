@@ -37,22 +37,6 @@ import Stack from '@mui/material/Stack'
 import dayjs, { Dayjs } from 'dayjs'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import PlaceAutocomplete from "@/components/googleMap/PlaceAutocomplete"
-import MapHandler from '@/components/googleMap/MapHandler';
-import {
-  APIProvider,
-  Map,
-  Marker,
-  AdvancedMarker,
-  Pin,
-  InfoWindow,
-  useAdvancedMarkerRef,
-  useMap,
-  useMapsLibrary,
-  ControlPosition,
-  MapControl,
-} from '@vis.gl/react-google-maps'
-import '@/styles/googleMap/GoogleMap.scss'
 
 const CalendarEventModal = ({
   modalEventInfo,
@@ -91,15 +75,15 @@ const CalendarEventModal = ({
 
   useEffect(() => {
     if (!modalEventInfo) {
-      return
+        return
     }
     const modalUsers = modalEventInfo.users.concat(modalEventInfo.authors)
     setAllModalUsers(Array.from(new Set(allUsers.concat(modalUsers))))
-  }, [
+}, [
     modalEventInfo,
     allUsers,
     setAllModalUsers
-  ])
+])
 
   // on change input, select box
   const onChangeForm = useCallback((
@@ -107,17 +91,17 @@ const CalendarEventModal = ({
       SelectChangeEvent<string> |
       SelectChangeEvent<number[]>,
     fromName: string): void => {
-    const eventInfo: EventInfo = { ...modalEventInfo }
+    const eventInfo: EventInfo = {...modalEventInfo}
     eventInfo[fromName] = event.target.value
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change switch
   const onChangeFormSwitch = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
-    const eventInfo: EventInfo = { ...modalEventInfo }
+    const eventInfo: EventInfo = {...modalEventInfo}
     const isAllDay = event.target.checked ? 1 : 0;
 
-    setModalEventInfo({
+    setModalEventInfo({ 
       ...eventInfo,
       is_all_day: isAllDay,
       end: isAllDay ? eventInfo.end : eventInfo.start,
@@ -126,7 +110,7 @@ const CalendarEventModal = ({
 
   // on change date
   const onChangeFormDate = useCallback((datetime: React.ChangeEvent<Dayjs> | Dayjs, formName: string): void => {
-    const eventInfo: EventInfo = { ...modalEventInfo }
+    const eventInfo: EventInfo = {...modalEventInfo}
     if (!eventInfo.is_all_day && formName === 'start') {
       eventInfo.start = (datetime as Dayjs).toDate()
       const startDate = dayjs(eventInfo.start).format('YYYY-MM-DD')
@@ -135,20 +119,20 @@ const CalendarEventModal = ({
     } else {
       eventInfo[formName] = (datetime as Dayjs).toDate()
     }
-
+    
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change description
   const onChangeFormDescription = useCallback((description: string): void => {
-    const eventInfo: EventInfo = { ...modalEventInfo }
+    const eventInfo: EventInfo = {...modalEventInfo}
     eventInfo['description'] = description
     setModalEventInfo({ ...eventInfo })
   }, [modalEventInfo, setModalEventInfo])
 
   // on change users
   const onChangeFormUsers = useCallback((event: SelectChangeEvent<UserInfo[]>): void => {
-    const eventInfo: EventInfo = { ...modalEventInfo }
+    const eventInfo: EventInfo = {...modalEventInfo}
     const userIds = event.target.value as UserInfo[]
     const addUsers = allModalUsers.filter(user => userIds.includes(user.id))
     const users = Array.from(new Set(eventInfo.users.concat(addUsers)))
@@ -160,7 +144,7 @@ const CalendarEventModal = ({
 
   // on change users
   const onDeleteFormUsers = useCallback((userId: number): void => {
-    const eventInfo: EventInfo = { ...modalEventInfo }
+    const eventInfo: EventInfo = {...modalEventInfo}
     const users = modalEventInfo.users.filter((user) => user.id !== userId)
     setModalEventInfo({
       ...eventInfo,
@@ -195,7 +179,7 @@ const CalendarEventModal = ({
   }, [modalEventInfo, setModalEventInfo])
 
   const toolBar = useCallback((): JSX.Element => {
-    if (modalEventInfo.id) {
+    if(modalEventInfo.id) {
       return <Box sx={{ display: 'flex', width: '100%', marginBottom: '-50px', alignItems: 'center', justifyContent: 'flex-end' }} className="content-user" >
         <IconButton className='tool-bar-icon-btn' onClick={onDelete}>
           <FontAwesomeIcon icon={faTrashCan} className="icon-tool-bar" color="#A2A2A2" />
@@ -344,7 +328,7 @@ const CalendarEventModal = ({
   }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers, onChangeFormSwitch, setModalEventInfo])
 
   const userChip = useCallback((user: UserInfo | undefined): JSX.Element => {
-    if (!user) return
+    if(!user) return
     const userIcon = user?.icon_url
     if (!userIcon) return <Chip
       className="mui-customize"
@@ -460,52 +444,52 @@ const CalendarEventModal = ({
 
   const titleInput = useCallback((): JSX.Element => {
     return <FormControl sx={{ m: 1, width: '100%' }}>
-      <TextField
-        className="title-input"
-        label="Title"
-        variant="standard"
-        placeholder="Add title"
-        value={modalEventInfo?.title}
-        onChange={(e) => { onChangeForm(e, 'title') }}
-      />
-    </FormControl>
+    <TextField
+      className="title-input"
+      label="Title"
+      variant="standard"
+      placeholder="Add title"
+      value={modalEventInfo?.title}
+      onChange={(e) => { onChangeForm(e, 'title') }}
+    />
+  </FormControl>
   }, [modalEventInfo, setModalEventInfo, onChangeForm])
 
   const locationInput = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
-      <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
-      <FormControl sx={{ m: 1, width: '100%' }}>
-        <TextField
-          label="Search Place"
-          className="mui-customize"
-          size="small"
-          value={modalEventInfo?.location}
-          onChange={(e) => { onChangeForm(e, 'location') }}
-        />
-      </FormControl>
-    </Box>
+    <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
+    <FormControl sx={{ m: 1, width: '100%' }}>
+      <TextField
+        label="Search Place"
+        className="mui-customize"
+        size="small"
+        value={modalEventInfo?.location}
+        onChange={(e) => { onChangeForm(e, 'location') }}
+      />
+    </FormControl>
+  </Box>
   }, [modalEventInfo, setModalEventInfo, onChangeForm])
 
   const googleMapBtn = useCallback((): JSX.Element => {
     return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
-      <Button className='map-location-btn mui-customize' variant="contained" size="small">
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className="" >
-          <FontAwesomeIcon icon={faMapLocationDot} className="icon-map-location" color="#A2A2A2" />
-          <div className='title-map-location'>Open Google Map</div>
-        </Box>
-      </Button>
-    </Box>
+    <Button className='map-location-btn mui-customize' variant="contained" size="small">
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className="" >
+        <FontAwesomeIcon icon={faMapLocationDot} className="icon-map-location" color="#A2A2A2" />
+        <div className='title-map-location'>Open Google Map</div>
+      </Box>
+    </Button>
+  </Box>
   }, [modalEventInfo, setModalEventInfo])
 
   const calendarEventTypeBtn = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', alignItems: 'center' }} className='title-icon-outer-wrapper'>
-      <Button onClick={onClickEventTypeBtn} >
-        <div className='title-icon-wrapper' style={{ border: `1.5px solid ${modalEventInfo?.event_type?.color}` }}>
-          <FontAwesomeIcon icon={modalEventInfo?.event_type?.icon} className="icon" color={modalEventInfo?.event_type?.color} />
-        </div>
-        <FontAwesomeIcon icon={['fas', 'chevron-down']} className="icon-chevron-down" color="#A2A2A2" />
-      </Button>
-    </Box>
+    <Button onClick={onClickEventTypeBtn} >
+      <div className='title-icon-wrapper' style={{ border: `1.5px solid ${modalEventInfo?.event_type?.color}` }}>
+        <FontAwesomeIcon icon={modalEventInfo?.event_type?.icon} className="icon" color={modalEventInfo?.event_type?.color} />
+      </div>
+      <FontAwesomeIcon icon={['fas', 'chevron-down']} className="icon-chevron-down" color="#A2A2A2" />
+    </Button>
+  </Box>
   }, [
     modalEventInfo,
     setModalEventInfo,
@@ -517,12 +501,12 @@ const CalendarEventModal = ({
 
   const calendarEventTypeMenu = useCallback((): JSX.Element => {
     return <CalendarEventTypeMenu
-      modalEventInfo={modalEventInfo}
-      setModalEventInfo={setModalEventInfo}
-      openEventTypeMenu={openEventTypeMenu}
-      setOpenEventTypeMenu={setOpenEventTypeMenu}
-      calendarEventTypeMenuList={calendarEventTypeMenuList}
-    />
+    modalEventInfo={modalEventInfo}
+    setModalEventInfo={setModalEventInfo}
+    openEventTypeMenu={openEventTypeMenu}
+    setOpenEventTypeMenu={setOpenEventTypeMenu}
+    calendarEventTypeMenuList={calendarEventTypeMenuList}
+  />
   }, [
     modalEventInfo,
     setModalEventInfo,
@@ -549,129 +533,81 @@ const CalendarEventModal = ({
     toolbar: toolbarOptions,
   }
 
-  const position = { lat: 35.658584, lng: 139.745433 }
-  const [markerRef, marker] = useAdvancedMarkerRef();
-
-  const onClickMarker = (e: google.maps.MapMouseEvent, info: string): void => {
-    console.log('onClickMarker', e)
-    console.log('onClickMarker info', info)
-  }
-
-  const [selectedPlace, setSelectedPlace] =
-    useState<google.maps.places.PlaceResult | null>(null)
-
   if (openCalendarEventModal) return (
     <Box className='calendar-event-modal'>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
         <div className='calendar-event-modal-content'>
-          <div className='google-map-area'>
-            <APIProvider
-              apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-              solutionChannel='GMP_devsite_samples_v3_rgmautocomplete'
-            >
-              <Map
-                defaultCenter={position}
-                defaultZoom={3}
-                mapId={process.env.NEXT_PUBLIC_MAP_ID}
-                disableDefaultUI={true}
-              >
-                {/* <AdvancedMarker
-                      position={position}
-                      title='Tokyo Tower'
-                      onClick={(e) => { onClickMarker(e, "custom info") }}
-                      ref={markerRef}
-                  >
-                      <div className='google-map-pin'>
-                          <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
-                          <div className='google-map-pin-num'>1</div>
-                      </div>
-                  </AdvancedMarker> */}
-                <AdvancedMarker ref={markerRef} position={null} />
-              </Map>
-              <MapControl position={ControlPosition.LEFT_TOP}>
-                <div className="autocomplete-control">
-                  <div className="content">
-                    {/* Title Area */}
-                    <div className='title-wrapper'>
-                      {/* Location Icon*/}
-                      {iconLocationPin()}
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '65%' }}>
+            <div className="content">
 
-                      {/* Calendar Event Type Select Button */}
-                      {calendarEventTypeBtn()}
-                      {calendarEventTypeMenu()}
+              {/* Title Area */}
+              <div className='title-wrapper'>
+                {/* Location Icon*/}
+                {iconLocationPin()}
 
-                      {/* Calendar Event Title Input */}
-                      {titleInput()}
-                    </div>
+                {/* Calendar Event Type Select Button */}
+                {calendarEventTypeBtn()}
+                {calendarEventTypeMenu()}
 
-                    <div className="content-outer-wrapper">
-                      {/* Tool Bar */}
-                      {toolBar()}
+                {/* Calendar Event Title Input */}
+                {titleInput()}
+              </div>
 
-                      {/* Time Label Area */}
-                      {timeLabel()}
+              <div className="content-outer-wrapper">
+                {/* Tool Bar */}
+                {toolBar()}
 
-                      {/* Location Area*/}
-                      <Box>
-                        <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
-                          <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
-                          <FormControl sx={{ m: 1, width: '100%' }}>
-                            <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
-                            {/* <TextField
-                          label="Search Place"
-                          className="mui-customize"
-                          size="small"
-                          value={modalEventInfo?.location}
-                          onChange={(e) => { onChangeForm(e, 'location') }}
-                        /> */}
-                          </FormControl>
-                        </Box>
+                {/* Time Label Area */}
+                {timeLabel()}
 
-                        {/* {locationInput()} */}
+                {/* Location Area*/}
+                <Box>
+                  {locationInput()}
 
-                        {/* Google Map Button */}
-                        {googleMapBtn()}
-                      </Box>
+                  {/* Google Map Button */}
+                  {googleMapBtn()}
+                </Box>
 
-                      {/* Description Area */}
-                      <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="content-user" >
-                        <FontAwesomeIcon icon={faAlignLeft} className="icon-content" color="#A2A2A2" />
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} >
-                          <FormControl sx={{ m: 1 }}>
-                            <ReactQuill
-                              theme="snow"
-                              value={modalEventInfo.description}
-                              onChange={onChangeFormDescription}
-                              modules={modules}
-                            />
-                          </FormControl>
-                        </Box>
-                      </Box>
+                {/* Description Area */}
+                <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="content-user" >
+                  <FontAwesomeIcon icon={faAlignLeft} className="icon-content" color="#A2A2A2" />
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} >
+                    <FormControl sx={{ m: 1 }}>
+                      <ReactQuill
+                        theme="snow"
+                        value={modalEventInfo.description}
+                        onChange={onChangeFormDescription}
+                        modules={modules}
+                      />
+                    </FormControl>
+                  </Box>
+                </Box>
 
-                      {/* Mail Area */}
-                      {mail()}
+                {/* Mail Area */}
+                {mail()}
 
-                      {/* User Area */}
-                      {users()}
+                {/* User Area */}
+                {users()}
 
-                      {/* Photo Area */}
-                      {photo()}
-                    </div>
+                {/* Photo Area */}
+                {photo()}
+              </div>
 
-                    {/* Save Button */}
-                    {saveBtn()}
-                  </div>
+              {/* Save Button */}
+              {saveBtn()}
+            </div>
 
-                </div>
-              </MapControl>
-              <MapHandler place={selectedPlace} marker={marker} />
-              {/* Close Button */}
-              {closeBtn()}
-            </APIProvider>
-          </div>
+            {/* Close Button */}
+            {closeBtn()}
+          </Box>
+
+          {/* Google Map Area */}
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '35%' }}>
+            <GoogleMapAutoComplete events={events} />
+          </Box>
         </div>
       </Box>
-    </Box >
+    </Box>
   )
 }
 

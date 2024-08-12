@@ -157,6 +157,7 @@ const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => 
       allUsers={allUsers}
       calendarEventTypeMenuList={calendarEventTypeMenuList}
       onDeleteModal={onDeleteModal}
+      events={events}
     />
   }, [openCalendarEventModal, modalEventInfo])
 

@@ -26,7 +26,7 @@ import Box from '@mui/material/Box'
 import '@/styles/googleMap/GoogleMap.scss'
 
 
-const GoogleMapArea = ({
+const GoogleMapAutoComplete = ({
     events,
 }: {
     events: EventInfo[],
@@ -67,7 +67,7 @@ const GoogleMapArea = ({
                 </AdvancedMarker> */}
                 <AdvancedMarker ref={markerRef} position={null} />
             </Map>
-            <MapControl position={ControlPosition.TOP}>
+            <MapControl position={ControlPosition.LEFT_TOP}>
                 <div className="autocomplete-control">
                     <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
                 </div>
@@ -77,4 +77,4 @@ const GoogleMapArea = ({
     </div>
 }
 
-export default GoogleMapArea
+export default GoogleMapAutoComplete

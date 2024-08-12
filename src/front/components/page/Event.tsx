@@ -231,7 +231,7 @@ const Event = ({ id }: { id: string }) => {
 
     const googleMap = () => {
         return <div>
-            <GoogleMap />
+            {/* <GoogleMap events={calendarEvents}/> */}
         </div>
     }
 
