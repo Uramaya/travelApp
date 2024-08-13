@@ -1,6 +1,6 @@
 import { JSXElementConstructor, useEffect, useCallback, useState, useRef } from 'react'
 import { createRoot } from 'react-dom/client'
-import { EventInfo, EventInfoKeys, UserInfo, EventTypeInfo } from '@/types'
+import { EventInfo, EventInfoKeys, UserInfo, EventTypeInfo, LocationsComponent } from '@/types'
 import { Views } from 'react-big-calendar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
@@ -33,6 +33,7 @@ const GoogleMapAutoComplete = ({
 }) => {
     const position = { lat: 35.658584, lng: 139.745433 }
     const [markerRef, marker] = useAdvancedMarkerRef();
+    const [location, setLocation] = useState(null);
 
     const onClickMarker = (e: google.maps.MapMouseEvent, info: string): void => {
         console.log('onClickMarker', e)
@@ -69,7 +70,7 @@ const GoogleMapAutoComplete = ({
             </Map>
             <MapControl position={ControlPosition.LEFT_TOP}>
                 <div className="autocomplete-control">
-                    <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
+                    <PlaceAutocomplete onPlaceSelect={setSelectedPlace} setLocation={setLocation}/>
                 </div>
             </MapControl>
             <MapHandler place={selectedPlace} marker={marker} />

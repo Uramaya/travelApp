@@ -15,8 +15,6 @@ const MapHandler = ({ place, marker }: MapHandlerProps) => {
     if (place.geometry?.viewport) {
       map.fitBounds(place.geometry?.viewport);
     }
-    console.log('place', place)
-    console.log('place.geometry?.location', place.geometry?.location)
     marker.position = place.geometry?.location;
   }, [map, place, marker]);
 

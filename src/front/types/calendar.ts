@@ -34,7 +34,7 @@ export type ImageInfo =  {
 export type LocationInfo =  {
     id: number
     google_map_url: string
-    google_map_json: LocationsComponent[]
+    google_map_json: LocationsComponent
 }
 
 export type EventInfo =  {
@@ -98,9 +98,10 @@ export type UserInfo =  {
 }
 
 export type LocationsComponent = {
-    long_name: string
-    short_name: string
-    types: LocationType[]
+    lat: number | null
+    lng: number | null
+    name: string | null
+    formatted_address: string | null
 }
 
 export type LocationType = 'political' | 'street_number' | 'route' | 'locality' | 'administrative_area_level_2' | 'administrative_area_level_1' | 'country' | 'postal_code'

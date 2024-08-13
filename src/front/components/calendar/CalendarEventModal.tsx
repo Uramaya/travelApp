@@ -1,5 +1,5 @@
 import { useCallback, useState, useRef, useEffect } from "react"
-import { EventInfo, EventInfoKeys, UserInfo, EventTypeInfo } from '@/types'
+import { EventInfo, EventInfoKeys, UserInfo, EventTypeInfo, LocationsComponent } from '@/types'
 import '@/styles/calendar/CalendarEventModal.scss'
 import '@/styles/Quill.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -38,7 +38,8 @@ import dayjs, { Dayjs } from 'dayjs'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import PlaceAutocomplete from "@/components/googleMap/PlaceAutocomplete"
-import MapHandler from '@/components/googleMap/MapHandler';
+import MapHandler from '@/components/googleMap/MapHandler'
+import GoogleMapsLink from "@/components/googleMap/GoogleMapsLink"
 import {
   APIProvider,
   Map,
@@ -123,6 +124,14 @@ const CalendarEventModal = ({
       end: isAllDay ? eventInfo.end : eventInfo.start,
     })
   }, [modalEventInfo, setModalEventInfo])
+
+  // google map autocomplete location info
+  const [location, setLocation] = useState<LocationsComponent>({
+    lat: null,
+    lng: null,
+    name: null,
+    formatted_address: null,
+  });
 
   // on change date
   const onChangeFormDate = useCallback((datetime: React.ChangeEvent<Dayjs> | Dayjs, formName: string): void => {
@@ -488,12 +497,10 @@ const CalendarEventModal = ({
 
   const googleMapBtn = useCallback((): JSX.Element => {
     return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
-      <Button className='map-location-btn mui-customize' variant="contained" size="small">
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className="" >
-          <FontAwesomeIcon icon={faMapLocationDot} className="icon-map-location" color="#A2A2A2" />
-          <div className='title-map-location'>Open Google Map</div>
-        </Box>
-      </Button>
+      <GoogleMapsLink
+        lat={modalEventInfo?.location?.google_map_json?.lat || null}
+        lng={modalEventInfo?.location?.google_map_json?.lng || null}
+      />
     </Box>
   }, [modalEventInfo, setModalEventInfo])
 
@@ -560,6 +567,26 @@ const CalendarEventModal = ({
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null)
 
+  const [isAutoComplete, setIsAutoComplete] =
+    useState<boolean>(false)
+
+
+  const advanceMarker = (): JSX.Element => {
+    if (!isAutoComplete) {
+      return <AdvancedMarker
+      position={position}
+      title='Tokyo Tower'
+      onClick={(e) => { onClickMarker(e, "custom info") }}
+      ref={markerRef}
+    >
+      <div className='google-map-pin'>
+        <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
+        <div className='google-map-pin-num'>1</div>
+      </div>
+    </AdvancedMarker>
+    }
+  }
+
   if (openCalendarEventModal) return (
     <Box className='calendar-event-modal'>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
@@ -586,6 +613,8 @@ const CalendarEventModal = ({
                           <div className='google-map-pin-num'>1</div>
                       </div>
                   </AdvancedMarker> */}
+                  {/* <MapHandler place={selectedPlace} marker={marker} /> */}
+                  {advanceMarker()}
                 <AdvancedMarker ref={markerRef} position={null} />
               </Map>
               <MapControl position={ControlPosition.LEFT_TOP}>
@@ -616,18 +645,16 @@ const CalendarEventModal = ({
                         <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
                           <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
                           <FormControl sx={{ m: 1, width: '100%' }}>
-                            <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
-                            {/* <TextField
-                          label="Search Place"
-                          className="mui-customize"
-                          size="small"
-                          value={modalEventInfo?.location}
-                          onChange={(e) => { onChangeForm(e, 'location') }}
-                        /> */}
+                            <PlaceAutocomplete
+                              onPlaceSelect={setSelectedPlace}
+                              modalEventInfo={modalEventInfo}
+                              setModalEventInfo={setModalEventInfo}
+                              setIsAutoComplete={setIsAutoComplete}
+                            />
                           </FormControl>
                         </Box>
 
-                        {/* {locationInput()} */}
+                        {/* {locationInput()} */}                        
 
                         {/* Google Map Button */}
                         {googleMapBtn()}
