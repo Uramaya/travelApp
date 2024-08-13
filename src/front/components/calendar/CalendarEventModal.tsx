@@ -561,14 +561,38 @@ const CalendarEventModal = ({
 
   const [isAutoComplete, setIsAutoComplete] =
     useState<boolean>(false)
-
+  const calendarEventsAdvanceMarkers = (): JSX.Element => {
+    return <>{events.map((event) => {
+      const position = { 
+        lat: event.location?.google_map_json?.lat,
+        lng: event.location?.google_map_json?.lng }
+      if (!event.location?.google_map_json?.lat || !event.location?.google_map_json?.lng) {
+        return
+      }
+      const title = event.location.google_map_json.name
+      return <AdvancedMarker
+        position={position}
+        title={title}
+        onClick={(e) => { onClickMarker(e, event) }}
+        ref={markerRef}
+      >
+        <div className='google-map-pin'>
+          <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
+          <div className='google-map-pin-num'>{event.index || 1}</div>
+        </div>
+      </AdvancedMarker>
+    })}</>
+  }
 
   const advanceMarker = (): JSX.Element => {
     if (!isAutoComplete && modalEventInfo) {
 
       const position = { 
-        lat: modalEventInfo.location.google_map_json.lat,
-        lng: modalEventInfo.location.google_map_json.lng }
+        lat: modalEventInfo.location?.google_map_json?.lat,
+        lng: modalEventInfo.location?.google_map_json?.lng }
+      if (!modalEventInfo.location?.google_map_json?.lat || !modalEventInfo.location?.google_map_json?.lng) {
+        return
+      }
       const title = modalEventInfo.location.google_map_json.name
       return <AdvancedMarker
         position={position}
@@ -578,7 +602,7 @@ const CalendarEventModal = ({
       >
         <div className='google-map-pin'>
           <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
-          <div className='google-map-pin-num'>1</div>
+          <div className='google-map-pin-num'>{modalEventInfo.index || 1}</div>
         </div>
       </AdvancedMarker>
     }
@@ -600,6 +624,7 @@ const CalendarEventModal = ({
                 disableDefaultUI={true}
               >
                   {advanceMarker()}
+                  {calendarEventsAdvanceMarkers()}
                 <AdvancedMarker ref={markerRef} position={null} />
               </Map>
               <MapControl position={ControlPosition.LEFT_TOP}>

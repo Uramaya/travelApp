@@ -28,9 +28,33 @@ export const INIT_CALENDAR_MODAL_EVENT_INFO: EventInfo = {
     color: '#39635E',
     background_color: 'E9F5F5',
   },
-  location: null,
-  location_from: null,
-  location_to: null,
+  location: {
+    id: 0,
+    google_map_json: {
+      lat: null,
+      lng: null,
+      name: null,
+      formatted_address: null,
+    }
+  },
+  location_from: {
+    id: 0,
+    google_map_json: {
+      lat: null,
+      lng: null,
+      name: null,
+      formatted_address: null,
+    }
+  },
+  location_to: {
+    id: 0,
+    google_map_json: {
+      lat: null,
+      lng: null,
+      name: null,
+      formatted_address: null,
+    }
+  },
   images: [],
   time_zone_name: userTimeZone, // Guessing user zone
   description: '',

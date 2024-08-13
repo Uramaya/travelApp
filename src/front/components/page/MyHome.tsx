@@ -1,9 +1,10 @@
 "use client"
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from "@/stores/store"
-import { setEvents, addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
-import { getEvents, createEvent, updateEventsById, deleteEventsById } from "@/app/api/events"
+import { setEvents,addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
+import { getEvents, getCurrentUserAllEvents, createEvent, updateEventsById, deleteEventsById } from "@/app/api/events"
+import { EventInfo } from '@/types'
 import { useRouter } from 'next/router'
 import Calendar from "@/components/calendar/Calendar"
 import GlobalToolBar from "@/components/common/GlobalToolBar"
@@ -23,11 +24,17 @@ import GlobalHeader from "@/components/common/GlobalHeader"
 
 
 const MyHome = () => {
+    const [currentUserEvents, seturrentUserEvents] = useState<EventInfo[]>([])
     const dispatch = useDispatch<AppDispatch>()
     const events = useAppSelector((state) => state.eventsReducer)
     useEffect(() => {
         // Fetch event list on component mount
         getEvents().then((events) => dispatch(setEvents(events)))
+    }, [dispatch])
+
+    useEffect(() => {
+        // Fetch event list on component mount
+        getCurrentUserAllEvents().then((events) => seturrentUserEvents(events))
     }, [dispatch])
 
     // when click add trip button on the home page
@@ -50,7 +57,7 @@ const MyHome = () => {
 
                 {/* Google Map */}
                 <Box sx={{ width: '100%', height: '400px' }} className='google-map-area'>
-                    <GoogleMap />
+                    <GoogleMap events={currentUserEvents}/>
                 </Box>
 
                 <Box sx={{ width: '100%', marginTop: '10px' }} display="flex" justifyContent="flex-end">

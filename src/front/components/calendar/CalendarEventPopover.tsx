@@ -15,6 +15,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { getPopOverLocationLabel } from '@/utils/utils'
+import GoogleMapsLink from "@/components/googleMap/GoogleMapsLink"
 
 const CalendarEventPopover = ({ 
   eventInfo,
@@ -147,12 +148,10 @@ const CalendarEventPopover = ({
         </Box>
         {/* location button */}
         <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
-          <Button className='map-location-btn mui-customize' variant="contained" size="small">
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className="" >
-              <FontAwesomeIcon icon={faMapLocationDot} className="icon-map-location" color="#A2A2A2" />
-              <div className='title-map-location'>Open Google Map</div>
-            </Box>
-          </Button>
+        <GoogleMapsLink
+          lat={eventInfo?.location?.google_map_json?.lat || null}
+          lng={eventInfo?.location?.google_map_json?.lng || null}
+        />
         </Box>
       </Box>
 

@@ -20,9 +20,21 @@ class EventController extends Controller
     {
         $this->eventService = $eventService;
     }
+    /**
+     * get the event list.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function index () 
     {
         $events = $this->eventService->getEvents();
+        return response()->json($events, 200);
+    }
+
+    public function getUserEvents () 
+    {
+        $events = $this->eventService->getCurrentUserAllEvents();
         return response()->json($events, 200);
     }
 

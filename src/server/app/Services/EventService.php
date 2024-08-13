@@ -20,7 +20,7 @@ use App\Http\Requests\EventTitleRequest;
 class EventService implements EventRepository
 {
 
-     /**
+    /**
      * get the ongoing event list
      * @return array
      *
@@ -235,6 +235,31 @@ class EventService implements EventRepository
      * @return array|object
      *
      */
+    public function getCurrentUserAllEvents ()
+    {
+        $authService = new AuthService();
+        $user = $authService->getCurrentLoginUser();
+        if (empty($user)) {
+            abort(404, 'current user is not found');
+        }
+        return $user->events()->get()->map(function ($event) {
+            $location = null;
+            if ($event['location_id']) {
+                $location = Location::where('id', '=', (int)$event['location_id'])->first();
+            }
+            $event['location'] = (object)[
+                'id' => $location['id'],
+                'google_map_json' => json_decode($location['google_map_json']),
+            ];
+            return $event;
+        });
+    }
+
+    /**
+     * get current user events
+     * @return array|object
+     *
+     */
     private function getCurrentUserEvents ()
     {
         $authService = new AuthService();
@@ -242,7 +267,7 @@ class EventService implements EventRepository
         if (empty($user)) {
             abort(404, 'current user is not found');
         }
-        return $authService->getCurrentLoginUser()->events();
+        return $user->events();
     }
 
     /**

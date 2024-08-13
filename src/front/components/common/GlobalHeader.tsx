@@ -90,13 +90,17 @@ const GlobalHeader = ({
         if (isHomePage) return <SearchPlanInput />
     }, [isHomePage])
 
+    const returnBtn = useCallback((): JSX.Element => {
+        if (!isHomePage) return <IconButton className="btn-back" href='/home' >
+            <FontAwesomeIcon icon={faChevronLeft} className="icon-back" color="#676565" aria-label="previous" />
+        </IconButton>
+    }, [isHomePage])
+
     return (
         <div className='global-header'>
             <Box sx={{ display: 'flex', width: '100%', height: '50px', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }} gap={1}>
-                    <IconButton className="btn-back" href='/home' >
-                        <FontAwesomeIcon icon={faChevronLeft} className="icon-back" color="#676565" aria-label="previous" />
-                    </IconButton>
+                    {returnBtn()}
                     {headerLogo()}
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }} gap={1}>

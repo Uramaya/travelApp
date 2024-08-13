@@ -28,6 +28,7 @@ Route::group([
     Route::post('/updateTitle', 'EventController@updateTitle');
     Route::post('/', 'EventController@store');
     Route::delete('/{id}', 'EventController@destroy');
+    Route::get('/userEvents', 'EventController@getUserEvents');
     Route::get('/{id}', 'EventController@show');
     Route::get('/', 'EventController@index');
 });

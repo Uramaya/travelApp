@@ -16,6 +16,13 @@ interface EventRepository
     public function getEvents ();
 
     /**
+     * get user event list
+     * @return array
+     *
+     */
+    public function getCurrentUserAllEvents ();
+
+    /**
      * get the explore event list
      * @param $eventId event id
      * @return array|object

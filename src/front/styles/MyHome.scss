@@ -7,4 +7,11 @@
     .event-card-list {
         padding: 8px 10px 20px;
     }
+
+    .google-map-area {
+        height: 500px;
+        > div > div {
+            border-radius: 12px;
+        }
+    }
 }

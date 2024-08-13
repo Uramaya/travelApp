@@ -32,16 +32,35 @@ const GoogleMapArea = ({
     events: EventInfo[],
 }) => {
     const position = { lat: 35.658584, lng: 139.745433 }
-    const [markerRef, marker] = useAdvancedMarkerRef();
+    const [markerRef, marker] = useAdvancedMarkerRef()
 
-    const onClickMarker = (e: google.maps.MapMouseEvent, info: string): void => {
+    const onClickMarker = (e: google.maps.MapMouseEvent, eventInfo: EventInfo): void => {
         console.log('onClickMarker', e)
-        console.log('onClickMarker info', info)
-    }
+        console.log('onClickMarker info', eventInfo)
+      }
 
-    const [selectedPlace, setSelectedPlace] =
-        useState<google.maps.places.PlaceResult | null>(null)
-
+    const calendarEventsAdvanceMarkers = (): JSX.Element => {
+        return <>{events.map((event) => {
+            const position = { 
+                lat: event.location?.google_map_json?.lat,
+                lng: event.location?.google_map_json?.lng }
+            if (!event.location?.google_map_json?.lat || !event.location?.google_map_json?.lng) {
+                return
+            }
+            const title = event.location.google_map_json.name
+            return <AdvancedMarker
+                position={position}
+                title={title}
+                onClick={(e) => { onClickMarker(e, event) }}
+                ref={markerRef}
+                >
+                <div className='google-map-pin'>
+                    <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
+                    <div className='google-map-pin-num'>{event.index || 1}</div>
+                </div>
+            </AdvancedMarker>
+        })}</>
+        }
 
     return <div className='google-map-area'>
         <APIProvider
@@ -54,25 +73,8 @@ const GoogleMapArea = ({
                 mapId={process.env.NEXT_PUBLIC_MAP_ID}
                 disableDefaultUI={true}
             >
-                {/* <AdvancedMarker
-                    position={position}
-                    title='Tokyo Tower'
-                    onClick={(e) => { onClickMarker(e, "custom info") }}
-                    ref={markerRef}
-                >
-                    <div className='google-map-pin'>
-                        <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
-                        <div className='google-map-pin-num'>1</div>
-                    </div>
-                </AdvancedMarker> */}
-                <AdvancedMarker ref={markerRef} position={null} />
+                {calendarEventsAdvanceMarkers()}
             </Map>
-            <MapControl position={ControlPosition.TOP}>
-                <div className="autocomplete-control">
-                    <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
-                </div>
-            </MapControl>
-            <MapHandler place={selectedPlace} marker={marker} />
         </APIProvider>
     </div>
 }

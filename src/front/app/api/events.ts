@@ -7,6 +7,11 @@ export const getEvents = async () => {
   return response.data;
 };
 
+export const getCurrentUserAllEvents = async () => {
+  const response = await axios.get('http://localhost:13000/api/events/userEvents');
+  return response.data;
+};
+
 export const getEventById = async (id: number | string ) => {
   const response = await axios.get(`http://localhost:13000/api/events/${id}`);
   return response.data;
