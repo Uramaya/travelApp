@@ -33,7 +33,6 @@ export type ImageInfo =  {
 
 export type LocationInfo =  {
     id: number
-    google_map_url: string
     google_map_json: LocationsComponent
 }
 

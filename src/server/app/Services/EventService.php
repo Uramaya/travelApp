@@ -276,7 +276,6 @@ class EventService implements EventRepository
             $locations = $locations->map(function ($location) {
                 return (object)[
                     'id' => $location->id,
-                    'google_map_url' => $location->google_map_url,
                     'google_map_json' => json_decode($location->google_map_json),
                 ];
             });
@@ -296,7 +295,6 @@ class EventService implements EventRepository
         if (isset($location) && count($location)) {
             return (object)[
                 'id' => $location[0]["id"],
-                'google_map_url' => $location[0]["google_map_url"],
                 'google_map_json' => json_decode($location[0]["google_map_json"]),
             ];
        } else {
@@ -378,7 +376,6 @@ class EventService implements EventRepository
                     $location = Location::where('id', '=', (int)$locationItem['id'])->first();
                     if(!$image) {
                         $location = new Location;
-                        $location->google_map_url = $locationItem['google_map_url'];
                         $location->google_map_json = $locationItem['google_map_json'];
                         $location->save();
                     }

@@ -1,8 +1,6 @@
 "use"
 import axios from '@/utils/api';
 import { EventList, EventListItem } from '@/types'
-import { EVENTLIST } from '@/const'
-import { getEventDetail } from '@/utils/utils'
 
 export const getEvents = async () => {
   const response = await axios.get('http://localhost:13000/api/events/');

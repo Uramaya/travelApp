@@ -70,7 +70,6 @@ class CalendarEventService implements CalendarEventRepository
                     $location = new Location;
                 }
     
-                $location->google_map_url = $request->location['google_map_url'];
                 $location->google_map_json = json_encode($request->location['google_map_json']);
                 $location->save();
 
@@ -88,7 +87,6 @@ class CalendarEventService implements CalendarEventRepository
                     $locationFrom = new Location;
                 }
 
-                $locationFrom->google_map_url = $request->location_from['google_map_url'];
                 $locationFrom->google_map_json = json_encode($request->location_from['google_map_json']);
                 $locationFrom->save();
 
@@ -106,7 +104,6 @@ class CalendarEventService implements CalendarEventRepository
                     $locationTo = new Location;
                 }
 
-                $locationTo->google_map_url = $request->location_to['google_map_url'];
                 $locationTo->google_map_json = json_encode($request->location_to['google_map_json']);
                 $locationTo->save();
                 

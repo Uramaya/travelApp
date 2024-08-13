@@ -58,7 +58,7 @@ const PlaceAutocomplete = ({
 
   return (
     <div className="autocomplete-container">
-      <input className="map-autocomplete-input" ref={inputRef} />
+      <input className="map-autocomplete-input" ref={inputRef} value={modalEventInfo.location.google_map_json.name}/>
     </div>
   );
 };

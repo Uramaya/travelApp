@@ -125,14 +125,6 @@ const CalendarEventModal = ({
     })
   }, [modalEventInfo, setModalEventInfo])
 
-  // google map autocomplete location info
-  const [location, setLocation] = useState<LocationsComponent>({
-    lat: null,
-    lng: null,
-    name: null,
-    formatted_address: null,
-  });
-
   // on change date
   const onChangeFormDate = useCallback((datetime: React.ChangeEvent<Dayjs> | Dayjs, formName: string): void => {
     const eventInfo: EventInfo = { ...modalEventInfo }
@@ -556,12 +548,12 @@ const CalendarEventModal = ({
     toolbar: toolbarOptions,
   }
 
-  const position = { lat: 35.658584, lng: 139.745433 }
+  const defaultCenter = { lat: 35.658584, lng: 139.745433 }
   const [markerRef, marker] = useAdvancedMarkerRef();
 
-  const onClickMarker = (e: google.maps.MapMouseEvent, info: string): void => {
+  const onClickMarker = (e: google.maps.MapMouseEvent, eventInfo: EventInfo): void => {
     console.log('onClickMarker', e)
-    console.log('onClickMarker info', info)
+    console.log('onClickMarker info', eventInfo)
   }
 
   const [selectedPlace, setSelectedPlace] =
@@ -572,18 +564,23 @@ const CalendarEventModal = ({
 
 
   const advanceMarker = (): JSX.Element => {
-    if (!isAutoComplete) {
+    if (!isAutoComplete && modalEventInfo) {
+
+      const position = { 
+        lat: modalEventInfo.location.google_map_json.lat,
+        lng: modalEventInfo.location.google_map_json.lng }
+      const title = modalEventInfo.location.google_map_json.name
       return <AdvancedMarker
-      position={position}
-      title='Tokyo Tower'
-      onClick={(e) => { onClickMarker(e, "custom info") }}
-      ref={markerRef}
-    >
-      <div className='google-map-pin'>
-        <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
-        <div className='google-map-pin-num'>1</div>
-      </div>
-    </AdvancedMarker>
+        position={position}
+        title={title}
+        onClick={(e) => { onClickMarker(e, modalEventInfo) }}
+        ref={markerRef}
+      >
+        <div className='google-map-pin'>
+          <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
+          <div className='google-map-pin-num'>1</div>
+        </div>
+      </AdvancedMarker>
     }
   }
 
@@ -597,23 +594,11 @@ const CalendarEventModal = ({
               solutionChannel='GMP_devsite_samples_v3_rgmautocomplete'
             >
               <Map
-                defaultCenter={position}
+                defaultCenter={defaultCenter}
                 defaultZoom={3}
                 mapId={process.env.NEXT_PUBLIC_MAP_ID}
                 disableDefaultUI={true}
               >
-                {/* <AdvancedMarker
-                      position={position}
-                      title='Tokyo Tower'
-                      onClick={(e) => { onClickMarker(e, "custom info") }}
-                      ref={markerRef}
-                  >
-                      <div className='google-map-pin'>
-                          <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
-                          <div className='google-map-pin-num'>1</div>
-                      </div>
-                  </AdvancedMarker> */}
-                  {/* <MapHandler place={selectedPlace} marker={marker} /> */}
                   {advanceMarker()}
                 <AdvancedMarker ref={markerRef} position={null} />
               </Map>
