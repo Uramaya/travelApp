@@ -242,7 +242,9 @@ class EventService implements EventRepository
         if (empty($user)) {
             abort(404, 'current user is not found');
         }
-        return $user->events()->get()->map(function ($event) {
+        $userEvents = $this->getCurrentUserEvents();
+        $authorEvents = $this->getCurrentAuthorEvents();
+        $userEventsList = $userEvents->get()->map(function ($event) {
             $location = null;
             if ($event['location_id']) {
                 $location = Location::where('id', '=', (int)$event['location_id'])->first();
@@ -252,7 +254,19 @@ class EventService implements EventRepository
                 'google_map_json' => json_decode($location['google_map_json']),
             ];
             return $event;
-        });
+        })->toArray();
+        $authorEventsList = $authorEvents->get()->map(function ($event) {
+            $location = null;
+            if ($event['location_id']) {
+                $location = Location::where('id', '=', (int)$event['location_id'])->first();
+            }
+            $event['location'] = (object)[
+                'id' => $location['id'],
+                'google_map_json' => json_decode($location['google_map_json']),
+            ];
+            return $event;
+        })->toArray();
+        return array_merge($authorEventsList, $userEventsList);
     }
 
     /**
