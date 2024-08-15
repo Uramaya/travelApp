@@ -2,7 +2,6 @@ import { useCallback, useState, useEffect } from "react"
 import { EventInfo, EventTypeInfo } from '@/types'
 import '@/styles/calendar/CalendarEventTypeMenu.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-// import { } from "@fortawesome/free-solid-svg-icons"
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -17,12 +16,14 @@ const CalendarEventTypeMenu = ({
   openEventTypeMenu,
   setOpenEventTypeMenu,
   calendarEventTypeMenuList,
+  setIsCommerce
 }: {
   modalEventInfo: EventInfo,
   setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>,
   openEventTypeMenu: boolean,
   setOpenEventTypeMenu: React.Dispatch<React.SetStateAction<boolean>>,
   calendarEventTypeMenuList: EventTypeInfo[],
+  setIsCommerce: (status: boolean) => void,
 }) => {
 
   library.add(fas, fab)
@@ -52,6 +53,7 @@ const CalendarEventTypeMenu = ({
     }
     // update event info
     setModalEventInfo(updateInfo)
+    // setIsCommerce(eventTypeItem?.type === 'commute')
 
     // close all event type menu
     setOpenEventTypeMenu(false)

@@ -1,39 +1,26 @@
-import React, {useRef, useEffect, useState} from 'react'
-import {useMapsLibrary} from '@vis.gl/react-google-maps'
+import React, { useRef, useEffect, useState } from 'react'
+import { useMapsLibrary } from '@vis.gl/react-google-maps'
 import { EventInfo } from '@/types'
+import { Autocomplete } from '@react-google-maps/api'
 
 interface Props {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void
   modalEventInfo: EventInfo
   setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo>>
   setIsAutoComplete: React.Dispatch<React.SetStateAction<boolean>>
-  type: 'location' | 'location_from' | 'location_to'
-  placeholder?: string
 }
 
-const PlaceAutocomplete = ({
+const PlaceAutocompleteForRoute = ({
   onPlaceSelect,
   modalEventInfo,
   setModalEventInfo,
-  setIsAutoComplete,
-  type = 'location',
-  placeholder,
+  setIsAutoComplete
 }: Props) => {
-  const [value, setValue] =
-  useState<string | null>(null)
-
-  useEffect(() => {
-    const initLocation = modalEventInfo[type]?.google_map_json?.name || modalEventInfo[type]?.google_map_json?.formatted_address
-    console.log('initLocation', initLocation)
-    if (initLocation) {
-      setValue(initLocation)
-    }
-  }, [modalEventInfo, type]);
-
   const [placeAutocomplete, setPlaceAutocomplete] =
-    useState<google.maps.places.Autocomplete | null>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const places = useMapsLibrary('places')
+    useState<google.maps.places.Autocomplete | null>(null);
+  const startRef = useRef<HTMLInputElement>(null);
+  const endRef = useRef<HTMLInputElement>(null);
+  const places = useMapsLibrary('places');
 
   useEffect(() => {
     if (!places || !inputRef.current) return;
@@ -45,7 +32,6 @@ const PlaceAutocomplete = ({
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
   }, [places]);
 
-  const onChangeLocation = (e) => setValue(e.target.value)
 
   useEffect(() => {
     if (!placeAutocomplete) return;
@@ -60,14 +46,12 @@ const PlaceAutocomplete = ({
           name: place.name || null,
           formatted_address: place.formatted_address || null,
         }
-
-        const modalInfo = { ...modalEventInfo }
-        modalInfo[type] = {
-          id: modalEventInfo.location.id || 0,
-          google_map_json: googleMapJson,
-        }
         setModalEventInfo({
-          ...modalInfo
+          ...modalEventInfo,
+          location: {
+            id: modalEventInfo.location.id || 0,
+            google_map_json: googleMapJson,
+          }
         })
       }
       setIsAutoComplete(true)
@@ -75,16 +59,24 @@ const PlaceAutocomplete = ({
   }, [onPlaceSelect, placeAutocomplete, modalEventInfo, setModalEventInfo]);
 
   return (
+    <>
     <div className="autocomplete-container">
       <input
         className="map-autocomplete-input"
-        ref={inputRef}
-        value={value}
-        onChange={onChangeLocation}
-        placeholder={placeholder || 'Search the location'}
+        ref={startRef}
+        value={modalEventInfo?.location?.google_map_json?.name || null}
       />
     </div>
+
+      <div className="autocomplete-container">
+        <input
+          className="map-autocomplete-input"
+          ref={endRef}
+          value={modalEventInfo?.location?.google_map_json?.name || null}
+        />
+      </div>
+    </>
   );
 };
 
-export default PlaceAutocomplete
+export default PlaceAutocompleteForRoute

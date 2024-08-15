@@ -55,6 +55,8 @@ const Event = ({ id }: { id: string }) => {
         onClickAddPhoto,
         onUploadPhoto,
         // onSave,
+        isCommerce,
+        setIsCommerce,
     } = useCalendarEventModal(INIT_CALENDAR_MODAL_EVENT_INFO)
 
     const {
@@ -225,13 +227,15 @@ const Event = ({ id }: { id: string }) => {
                 onDeletePopover={onConfirmDeleteCalendarEvent}
                 calendarEventTypeMenuList={calendarEventTypeMenuList}
                 onDeleteModal={onConfirmDeleteCalendarEvent}
+                isCommerce={isCommerce}
+                setIsCommerce={setIsCommerce}
             />
         </Box>
     }
 
     const googleMap = () => {
         return <div className='event-google-map'>
-            <GoogleMap events={calendarEvents}/>
+            {/* <GoogleMap events={calendarEvents}/> */}
         </div>
     }
 

@@ -160,6 +160,8 @@ export type CalendarProps =  {
     onDeletePopover: (id: number) => void
     calendarEventTypeMenuList: EventTypeInfo[]
     onDeleteModal: (id: number) => void
+    isCommerce: boolean
+    setIsCommerce: (status: boolean) => void
 }
 
 

@@ -3,7 +3,7 @@ import { EventInfo, EventInfoKeys, UserInfo, EventTypeInfo, LocationsComponent }
 import '@/styles/calendar/CalendarEventModal.scss'
 import '@/styles/Quill.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXmark, faLocationPin, faClock, faLocationDot, faUsers, faAlignLeft, faCircleDot, faMapLocationDot, faEnvelope, faLightbulb, faTrashCan, faCopy, faPlus } from "@fortawesome/free-solid-svg-icons"
+import { faXmark, faLocationPin, faClock, faLocationDot, faUsers, faAlignLeft, faCircleDot, faMapLocationDot, faEnvelope, faLightbulb, faTrashCan, faCopy, faPlus, faCar, faTrain, faWalking , faBicycle } from "@fortawesome/free-solid-svg-icons"
 import { numDigits, getCalendarEventPopoverTimeLabel, getUserInfoById } from '@/utils/utils'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
@@ -39,6 +39,7 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import PlaceAutocomplete from "@/components/googleMap/PlaceAutocomplete"
 import MapHandler from '@/components/googleMap/MapHandler'
+import MapDirection from '@/components/googleMap/MapDirection'
 import GoogleMapsLink from "@/components/googleMap/GoogleMapsLink"
 import {
   APIProvider,
@@ -52,7 +53,14 @@ import {
   useMapsLibrary,
   ControlPosition,
   MapControl,
+  // GoogleMap,
+  // useLoadScript,
 } from '@vis.gl/react-google-maps'
+import {
+  Autocomplete,
+  GoogleMap,
+  useLoadScript,
+} from '@react-google-maps/api'
 import '@/styles/googleMap/GoogleMap.scss'
 
 const CalendarEventModal = ({
@@ -67,6 +75,8 @@ const CalendarEventModal = ({
   calendarEventTypeMenuList,
   onDeleteModal,
   events,
+  isCommerce,
+  setIsCommerce,
 }: {
   modalEventInfo: EventInfo,
   openCalendarEventModal: boolean,
@@ -79,6 +89,8 @@ const CalendarEventModal = ({
   calendarEventTypeMenuList: EventTypeInfo[],
   onDeleteModal: (id: number) => void,
   events: EventInfo[],
+  isCommerce: boolean,
+  setIsCommerce: (status: boolean) => void,
 }) => {
   library.add(fas, fab)
   const onSaveClick = () => {
@@ -89,6 +101,11 @@ const CalendarEventModal = ({
   // control event type menu
   const [openEventTypeMenu, setOpenEventTypeMenu] = useState<boolean>(false)
   const [allModalUsers, setAllModalUsers] = useState<UserInfo[]>(allUsers)
+
+  // google map
+  const [routeIndex, setRouteIndex] = useState<number>(0)
+  const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([])
+  const [travelMode, setTravelMode] = useState<google.maps.TravelMode>()
 
   useEffect(() => {
     if (!modalEventInfo) {
@@ -472,21 +489,6 @@ const CalendarEventModal = ({
     </FormControl>
   }, [modalEventInfo, setModalEventInfo, onChangeForm])
 
-  const locationInput = useCallback((): JSX.Element => {
-    return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
-      <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
-      <FormControl sx={{ m: 1, width: '100%' }}>
-        <TextField
-          label="Search Place"
-          className="mui-customize"
-          size="small"
-          value={modalEventInfo?.location}
-          onChange={(e) => { onChangeForm(e, 'location') }}
-        />
-      </FormControl>
-    </Box>
-  }, [modalEventInfo, setModalEventInfo, onChangeForm])
-
   const googleMapBtn = useCallback((): JSX.Element => {
     return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
       <GoogleMapsLink
@@ -518,6 +520,7 @@ const CalendarEventModal = ({
     return <CalendarEventTypeMenu
       modalEventInfo={modalEventInfo}
       setModalEventInfo={setModalEventInfo}
+      setIsCommerce={setIsCommerce}
       openEventTypeMenu={openEventTypeMenu}
       setOpenEventTypeMenu={setOpenEventTypeMenu}
       calendarEventTypeMenuList={calendarEventTypeMenuList}
@@ -559,13 +562,20 @@ const CalendarEventModal = ({
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null)
 
+  const [selectedStartPlace, setSelectedStartPlace] =
+    useState<google.maps.places.PlaceResult | null>(null)
+
+  const [selectedEndPlace, setSelectedEndPlace] =
+    useState<google.maps.places.PlaceResult | null>(null)
+
   const [isAutoComplete, setIsAutoComplete] =
     useState<boolean>(false)
   const calendarEventsAdvanceMarkers = (): JSX.Element => {
     return <>{events.map((event) => {
-      const position = { 
+      const position = {
         lat: event.location?.google_map_json?.lat,
-        lng: event.location?.google_map_json?.lng }
+        lng: event.location?.google_map_json?.lng
+      }
       if (!event.location?.google_map_json?.lat || !event.location?.google_map_json?.lng) {
         return
       }
@@ -587,9 +597,10 @@ const CalendarEventModal = ({
   const advanceMarker = (): JSX.Element => {
     if (!isAutoComplete && modalEventInfo) {
 
-      const position = { 
+      const position = {
         lat: modalEventInfo.location?.google_map_json?.lat,
-        lng: modalEventInfo.location?.google_map_json?.lng }
+        lng: modalEventInfo.location?.google_map_json?.lng
+      }
       if (!modalEventInfo.location?.google_map_json?.lat || !modalEventInfo.location?.google_map_json?.lng) {
         return
       }
@@ -608,6 +619,91 @@ const CalendarEventModal = ({
     }
   }
 
+  const onSelectTravelMode = (mode: string) => {
+
+    setTravelMode(window.google.maps.TravelMode.DRIVING)
+    switch (mode) {
+      case 'driving':
+        setTravelMode(window.google.maps.TravelMode.DRIVING)
+        break
+      case 'transit':
+        setTravelMode(window.google.maps.TravelMode.TRANSIT)
+        break
+      case 'walking':
+        setTravelMode(window.google.maps.TravelMode.WALKING)
+        break
+      case 'bicycling':
+        setTravelMode(window.google.maps.TravelMode.BICYCLING)
+        break
+    }
+    
+  }
+
+  const travelModel = useCallback((): JSX.Element => {
+    if (isCommerce) {
+      return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-start' }} className="travel-mode-wrapper" gap={1.5}>
+      <IconButton className='travel-mode-icon-btn' onClick={() => onSelectTravelMode('driving')}>
+        <FontAwesomeIcon icon={faCar} className="icon-travel-mode" color="#A2A2A2" />
+      </IconButton>
+      <IconButton className='travel-mode-icon-btn' onClick={() => onSelectTravelMode('transit')}>
+        <FontAwesomeIcon icon={faTrain} className="icon-travel-mode" color="#A2A2A2" />
+      </IconButton>
+      <IconButton className='travel-mode-icon-btn' onClick={() => onSelectTravelMode('walking')}>
+        <FontAwesomeIcon icon={faWalking} className="icon-travel-mode" color="#A2A2A2" />
+      </IconButton>
+      <IconButton className='travel-mode-icon-btn' onClick={() => onSelectTravelMode('bicycling')}>
+        <FontAwesomeIcon icon={faBicycle} className="icon-travel-mode" color="#A2A2A2" />
+      </IconButton>
+    </Box>
+    }
+  }, [modalEventInfo, setModalEventInfo])
+
+  const locationInput = (): JSX.Element => {
+    if (isCommerce) {
+      return <>
+        <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
+          <FontAwesomeIcon icon={faCircleDot} className="icon-content" color="#A2A2A2" />
+          <FormControl sx={{ m: 1, width: '100%' }}>
+            <PlaceAutocomplete
+              onPlaceSelect={setSelectedStartPlace}
+              modalEventInfo={modalEventInfo}
+              setModalEventInfo={setModalEventInfo}
+              setIsAutoComplete={setIsAutoComplete}
+              placeholder="Enter start location"
+              type="location_from"
+            />
+          </FormControl>
+        </Box>
+        <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
+          <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
+          <FormControl sx={{ m: 1, width: '100%' }}>
+            <PlaceAutocomplete
+              onPlaceSelect={setSelectedEndPlace}
+              modalEventInfo={modalEventInfo}
+              setModalEventInfo={setModalEventInfo}
+              setIsAutoComplete={setIsAutoComplete}
+              placeholder="Enter destination"
+              type="location_to"
+            />
+          </FormControl>
+        </Box>
+      </>
+    } else {
+      return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
+        <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
+        <FormControl sx={{ m: 1, width: '100%' }}>
+          <PlaceAutocomplete
+            onPlaceSelect={setSelectedPlace}
+            modalEventInfo={modalEventInfo}
+            setModalEventInfo={setModalEventInfo}
+            setIsAutoComplete={setIsAutoComplete}
+            type="location"
+          />
+        </FormControl>
+      </Box>
+    }
+  }
+
   if (openCalendarEventModal) return (
     <Box className='calendar-event-modal'>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
@@ -619,13 +715,24 @@ const CalendarEventModal = ({
             >
               <Map
                 defaultCenter={defaultCenter}
-                defaultZoom={3}
+                defaultZoom={9}
                 mapId={process.env.NEXT_PUBLIC_MAP_ID}
                 disableDefaultUI={true}
               >
-                  {advanceMarker()}
-                  {calendarEventsAdvanceMarkers()}
+                {advanceMarker()}
+                {calendarEventsAdvanceMarkers()}
                 <AdvancedMarker ref={markerRef} position={null} />
+                {/* {mapDirection()} */}
+                <MapDirection
+                  selectedStartPlace={selectedStartPlace}
+                  selectedEndPlace={selectedEndPlace}
+                  isCommerce={isCommerce}
+                  routeIndex={routeIndex}
+                  setRouteIndex={setRouteIndex}
+                  routes={routes}
+                  setRoutes={setRoutes}
+                  travelMode={travelMode}
+                />
               </Map>
               <MapControl position={ControlPosition.LEFT_TOP}>
                 <div className="autocomplete-control">
@@ -652,19 +759,8 @@ const CalendarEventModal = ({
 
                       {/* Location Area*/}
                       <Box>
-                        <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
-                          <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
-                          <FormControl sx={{ m: 1, width: '100%' }}>
-                            <PlaceAutocomplete
-                              onPlaceSelect={setSelectedPlace}
-                              modalEventInfo={modalEventInfo}
-                              setModalEventInfo={setModalEventInfo}
-                              setIsAutoComplete={setIsAutoComplete}
-                            />
-                          </FormControl>
-                        </Box>
-
-                        {/* {locationInput()} */}                        
+                        {locationInput()}
+                        {travelModel()}
 
                         {/* Google Map Button */}
                         {googleMapBtn()}
@@ -701,7 +797,11 @@ const CalendarEventModal = ({
 
                 </div>
               </MapControl>
-              <MapHandler place={selectedPlace} marker={marker} />
+              <MapHandler
+                place={selectedPlace}
+                marker={marker}
+                isCommerce={isCommerce}
+              />
               {/* Close Button */}
               {closeBtn()}
             </APIProvider>

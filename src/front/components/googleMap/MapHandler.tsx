@@ -2,15 +2,16 @@ import {useMap} from '@vis.gl/react-google-maps';
 import React, {useEffect} from 'react';
 
 interface MapHandlerProps {
-  place: google.maps.places.PlaceResult | null;
-  marker: google.maps.marker.AdvancedMarkerElement | null;
+  place: google.maps.places.PlaceResult | null
+  marker: google.maps.marker.AdvancedMarkerElement | null
+  isCommerce: Boolean
 }
 
-const MapHandler = ({ place, marker }: MapHandlerProps) => {
+const MapHandler = ({ place, marker, isCommerce }: MapHandlerProps) => {
   const map = useMap();
 
   useEffect(() => {
-    if (!map || !place || !marker) return;
+    if (!map || !place || !marker || isCommerce) return;
 
     if (place.geometry?.viewport) {
       map.fitBounds(place.geometry?.viewport);

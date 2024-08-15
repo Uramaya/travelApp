@@ -14,6 +14,7 @@ $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
 $CALENDAR_EVENT_MODAL_BLACK_BG_COLOR: rgba(0, 0, 0, 0.3);
 $CALENDAR_EVENT_MODAL_USER_SELECT_FONT_COLOR: #676565;
 $CALENDAR_EVENT_MODAL_USER_SELECT_ITEM_BG_COLOR: #FFFFFF;
+$CALENDAR_EVENT_MODAL_TRAVEL_MODE_BG_COLOR: #F6F5F5;
 // ---------------------------
 
 .calendar-event-modal {
@@ -367,5 +368,21 @@ $CALENDAR_EVENT_MODAL_USER_SELECT_ITEM_BG_COLOR: #FFFFFF;
         background-color: $CALENDAR_EVENT_MODAL_USER_SELECT_ITEM_BG_COLOR;
         border-radius: 20px;
         padding: 5px 10px;
+    }
+}
+
+.travel-mode-wrapper {
+    padding-left: 24px;
+}
+
+.travel-mode-icon-btn.MuiIconButton-root.MuiButtonBase {
+    background-color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_BG_COLOR;
+    border-radius: 100%;
+    width: 34px;
+    height: 34px;
+
+    .icon-travel-mode {
+        width: 16px;
+        height: 16px;
     }
 }
