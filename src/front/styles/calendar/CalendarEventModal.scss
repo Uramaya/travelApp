@@ -15,6 +15,10 @@ $CALENDAR_EVENT_MODAL_BLACK_BG_COLOR: rgba(0, 0, 0, 0.3);
 $CALENDAR_EVENT_MODAL_USER_SELECT_FONT_COLOR: #676565;
 $CALENDAR_EVENT_MODAL_USER_SELECT_ITEM_BG_COLOR: #FFFFFF;
 $CALENDAR_EVENT_MODAL_TRAVEL_MODE_BG_COLOR: #F6F5F5;
+$CALENDAR_EVENT_MODAL_TRAVEL_MODE_ICON_COLOR: #A2A2A2;
+$CALENDAR_EVENT_MODAL_TRAVEL_MODE_ACTIVE_BG_COLOR: #E8FAFF;
+$CALENDAR_EVENT_MODAL_TRAVEL_MODE_ACTIVE_ICON_COLOR: #3E9DD6;
+$CALENDAR_EVENT_MODAL_ICON_CIRCLE_DOT_BG_COLOR: #A2A2A2;
 // ---------------------------
 
 .calendar-event-modal {
@@ -298,7 +302,8 @@ $CALENDAR_EVENT_MODAL_TRAVEL_MODE_BG_COLOR: #F6F5F5;
         background-color: white;
         top: calc(100% - 60px);
         z-index: 200;
-        width: 85%;
+        width: 95%;
+        left: 0;
     }
 
     .photo-title {
@@ -375,14 +380,30 @@ $CALENDAR_EVENT_MODAL_TRAVEL_MODE_BG_COLOR: #F6F5F5;
     padding-left: 24px;
 }
 
-.travel-mode-icon-btn.MuiIconButton-root.MuiButtonBase {
+.travel-mode-icon-btn.MuiButtonBase-root.MuiIconButton-root {
     background-color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_BG_COLOR;
     border-radius: 100%;
     width: 34px;
     height: 34px;
+    &.active {
+        background-color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_ACTIVE_BG_COLOR;
+    }
 
     .icon-travel-mode {
         width: 16px;
         height: 16px;
+        color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_ICON_COLOR;
+        &.active {
+            background-color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_ACTIVE_ICON_COLOR;
+        }
     }
+}
+
+.icon-circle-dot {
+    background-color: $CALENDAR_EVENT_MODAL_ICON_CIRCLE_DOT_BG_COLOR;
+    border-radius: 100%;
+}
+
+.icon-ellipses {
+    transform: rotate(90deg);
 }

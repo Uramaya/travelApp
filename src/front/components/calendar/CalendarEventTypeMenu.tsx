@@ -16,7 +16,8 @@ const CalendarEventTypeMenu = ({
   openEventTypeMenu,
   setOpenEventTypeMenu,
   calendarEventTypeMenuList,
-  setIsCommerce
+  setIsCommerce,
+  setTravelMode,
 }: {
   modalEventInfo: EventInfo,
   setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>,
@@ -24,6 +25,7 @@ const CalendarEventTypeMenu = ({
   setOpenEventTypeMenu: React.Dispatch<React.SetStateAction<boolean>>,
   calendarEventTypeMenuList: EventTypeInfo[],
   setIsCommerce: (status: boolean) => void,
+  setTravelMode: (value: SetStateAction<google.maps.TravelMode>) => void
 }) => {
 
   library.add(fas, fab)
@@ -53,8 +55,38 @@ const CalendarEventTypeMenu = ({
     }
     // update event info
     setModalEventInfo(updateInfo)
-    // setIsCommerce(eventTypeItem?.type === 'commute')
-
+    setIsCommerce(eventTypeItem?.type === 'commute')
+    if (eventTypeItem.type === 'commute') {
+      if (eventTypeItem.icon === 'car-side' || eventTypeItem.icon === 'car' || eventTypeItem.icon === 'taxi') {
+        setTravelMode(window.google.maps.TravelMode.DRIVING)
+      } else if (eventTypeItem.icon === 'train'
+        || eventTypeItem.icon === 'train-subway'
+        || eventTypeItem.icon === 'bus'
+        || eventTypeItem.icon === 'plane'
+        || eventTypeItem.icon === 'ship'
+        || eventTypeItem.icon === 'ferry'
+      ) {
+        setTravelMode(window.google.maps.TravelMode.TRANSIT)
+      } else if (eventTypeItem.icon === 'person-walking') {
+        setTravelMode(window.google.maps.TravelMode.TRANSIT)
+      } else if (eventTypeItem.icon === 'bicycle' || eventTypeItem.icon === 'motorcycle') {
+        setTravelMode(window.google.maps.TravelMode.BICYCLING)
+      }
+      switch (eventTypeItem.icon) {
+        case 'car-side':
+          setTravelMode(window.google.maps.TravelMode.DRIVING)
+          break
+        case 'train':
+          setTravelMode(window.google.maps.TravelMode.TRANSIT)
+          break
+        case 'person':
+          setTravelMode(window.google.maps.TravelMode.WALKING)
+          break
+        case 'bicycle':
+          setTravelMode(window.google.maps.TravelMode.BICYCLING)
+          break
+      }  
+    }
     // close all event type menu
     setOpenEventTypeMenu(false)
     setOpenChildEventTypeMenu(false)

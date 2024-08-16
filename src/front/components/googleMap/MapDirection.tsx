@@ -1,15 +1,18 @@
-import {useMap, useMapsLibrary} from '@vis.gl/react-google-maps';
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import {useMap, useMapsLibrary} from '@vis.gl/react-google-maps'
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
+import { EventInfo } from '@/types'
 
 interface MapDirectionProps {
   selectedStartPlace: google.maps.places.PlaceResult | null
   selectedEndPlace: google.maps.places.PlaceResult | null
-  isCommerce: Boolean
+  isCommerce: boolean
   routeIndex: number
   setRouteIndex: Dispatch<SetStateAction<number>>
   routes: google.maps.DirectionsRoute[]
   setRoutes: Dispatch<SetStateAction<google.maps.DirectionsRoute[]>>
   travelMode: google.maps.TravelMode
+  modalEventInfo: EventInfo
+  setModalEventInfo: Dispatch<SetStateAction<EventInfo>>
 }
 
 const MapDirection = ({
@@ -21,6 +24,8 @@ const MapDirection = ({
     routes,
     setRoutes,
     travelMode,
+    modalEventInfo,
+    setModalEventInfo,
   }: MapDirectionProps) => {
     const map = useMap()
     const routesLibrary = useMapsLibrary("routes")
@@ -44,19 +49,48 @@ const MapDirection = ({
 
     useEffect(() => {
       if (!directionService || !directionRenderer || !selectedStartPlace || !selectedEndPlace) return
-
       directionService.route({
         origin: selectedStartPlace.geometry?.location,
         destination: selectedEndPlace.geometry?.location,
         travelMode: travelMode || window.google.maps.TravelMode.DRIVING,
         provideRouteAlternatives: true,
+        transitOptions: {
+          departureTime: new Date(modalEventInfo.start), // Set a specific departure time
+          // arrivalTime: new Date('2024-08-16T09:00:00'), // Alternatively, set an arrival time
+        }
       }).then(response => {
-        console.log('response', response)
+
         directionRenderer.setDirections(response)
         setRoutes(response.routes)
+
+        setModalEventInfo({
+          ...modalEventInfo,
+          location: {
+            ...modalEventInfo.location_to,
+            google_map_json: {
+              ...modalEventInfo.location_to.google_map_json,
+              travel_mode: response.request.travelMode,
+            },
+          },
+          location_from: {
+            ...modalEventInfo.location_from,
+            google_map_json: {
+              ...modalEventInfo.location_from.google_map_json,
+              travel_mode: response.request.travelMode,
+            },
+          },
+          location_to: {
+            ...modalEventInfo.location_to,
+            google_map_json: {
+              ...modalEventInfo.location_to.google_map_json,
+              travel_mode: response.request.travelMode,
+            },
+          },
+        })
+      }).catch(err => {
+        console.log('map direction err:', err)
       })
-      console.log('routes', routes)
-    }, [directionService, directionRenderer, selectedStartPlace, selectedEndPlace])
+    }, [directionService, directionRenderer, selectedStartPlace, selectedEndPlace, travelMode])
 
     return null
 }

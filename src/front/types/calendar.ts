@@ -101,6 +101,7 @@ export type LocationsComponent = {
     lng: number | null
     name: string | null
     formatted_address: string | null
+    travel_mode?: google.maps.TravelMode
 }
 
 export type LocationType = 'political' | 'street_number' | 'route' | 'locality' | 'administrative_area_level_2' | 'administrative_area_level_1' | 'country' | 'postal_code'

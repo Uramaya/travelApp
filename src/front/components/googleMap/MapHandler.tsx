@@ -4,7 +4,7 @@ import React, {useEffect} from 'react';
 interface MapHandlerProps {
   place: google.maps.places.PlaceResult | null
   marker: google.maps.marker.AdvancedMarkerElement | null
-  isCommerce: Boolean
+  isCommerce: boolean
 }
 
 const MapHandler = ({ place, marker, isCommerce }: MapHandlerProps) => {

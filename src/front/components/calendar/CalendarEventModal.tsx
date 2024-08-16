@@ -3,7 +3,7 @@ import { EventInfo, EventInfoKeys, UserInfo, EventTypeInfo, LocationsComponent }
 import '@/styles/calendar/CalendarEventModal.scss'
 import '@/styles/Quill.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXmark, faLocationPin, faClock, faLocationDot, faUsers, faAlignLeft, faCircleDot, faMapLocationDot, faEnvelope, faLightbulb, faTrashCan, faCopy, faPlus, faCar, faTrain, faWalking , faBicycle } from "@fortawesome/free-solid-svg-icons"
+import { faXmark, faLocationPin, faClock, faLocationDot, faUsers, faAlignLeft, faCircleDot, faMapLocationDot, faEnvelope, faLightbulb, faTrashCan, faCopy, faPlus, faCar, faTrain, faWalking , faBicycle, faEllipsis } from "@fortawesome/free-solid-svg-icons"
 import { numDigits, getCalendarEventPopoverTimeLabel, getUserInfoById } from '@/utils/utils'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
@@ -41,6 +41,7 @@ import PlaceAutocomplete from "@/components/googleMap/PlaceAutocomplete"
 import MapHandler from '@/components/googleMap/MapHandler'
 import MapDirection from '@/components/googleMap/MapDirection'
 import GoogleMapsLink from "@/components/googleMap/GoogleMapsLink"
+import GoogleMapsLinkRoute from "@/components/googleMap/GoogleMapsLinkRoute"
 import {
   APIProvider,
   Map,
@@ -467,7 +468,7 @@ const CalendarEventModal = ({
 
   const saveBtn = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="save-btn-wrapper" >
-      <FormControl sx={{ m: 1, width: '10%', maxWidth: '90px', minWidth: '60px' }}>
+      <FormControl sx={{ m: 1, maxWidth: '90px', minWidth: '60px' }}>
         <Button variant="contained" size="small" className="mui-customize color-primary" onClick={onSaveClick}>
           Save
         </Button>
@@ -490,12 +491,37 @@ const CalendarEventModal = ({
   }, [modalEventInfo, setModalEventInfo, onChangeForm])
 
   const googleMapBtn = useCallback((): JSX.Element => {
-    return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
+    if (isCommerce) {
+      const position = {
+        from: {
+          lat: modalEventInfo?.location_from?.google_map_json?.lat,
+          lng: modalEventInfo?.location_from?.google_map_json?.lng,
+        },
+        to: {
+          lat: modalEventInfo?.location_to?.google_map_json?.lat,
+          lng: modalEventInfo?.location_to?.google_map_json?.lng,
+        },
+      }
+      return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
+      <GoogleMapsLinkRoute
+        position={position}
+        travelMode={modalEventInfo?.location_from?.google_map_json.travel_mode  || window.google.maps.TravelMode.DRIVING}
+        departureTime={modalEventInfo?.start}
+      />
+    </Box>
+    } else {
+      return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
       <GoogleMapsLink
         lat={modalEventInfo?.location?.google_map_json?.lat || null}
         lng={modalEventInfo?.location?.google_map_json?.lng || null}
+        departureTime={modalEventInfo?.start}
       />
     </Box>
+    }
+    
+    
+
+
   }, [modalEventInfo, setModalEventInfo])
 
   const calendarEventTypeBtn = useCallback((): JSX.Element => {
@@ -524,6 +550,7 @@ const CalendarEventModal = ({
       openEventTypeMenu={openEventTypeMenu}
       setOpenEventTypeMenu={setOpenEventTypeMenu}
       calendarEventTypeMenuList={calendarEventTypeMenuList}
+      setTravelMode={setTravelMode}
     />
   }, [
     modalEventInfo,
@@ -619,40 +646,60 @@ const CalendarEventModal = ({
     }
   }
 
-  const onSelectTravelMode = (mode: string) => {
-
-    setTravelMode(window.google.maps.TravelMode.DRIVING)
+  const onSelectTravelMode = (mode: google.maps.TravelMode) => {
+    setTravelMode(mode || window.google.maps.TravelMode.DRIVING)
+    const commuteMenuTypes = calendarEventTypeMenuList.find(menu => menu.title === 'Commute')?.childMenus
+    let eventTypeItem = commuteMenuTypes.find(typeItem => typeItem.icon === 'car-side')
     switch (mode) {
-      case 'driving':
-        setTravelMode(window.google.maps.TravelMode.DRIVING)
+      case window.google.maps.TravelMode.DRIVING:
+        eventTypeItem = commuteMenuTypes.find(typeItem => typeItem.icon === 'car-side')
         break
-      case 'transit':
-        setTravelMode(window.google.maps.TravelMode.TRANSIT)
+      case window.google.maps.TravelMode.TRANSIT:
+        eventTypeItem = commuteMenuTypes.find(typeItem => typeItem.icon === 'train')
         break
-      case 'walking':
-        setTravelMode(window.google.maps.TravelMode.WALKING)
+      case window.google.maps.TravelMode.WALKING:
+        eventTypeItem = commuteMenuTypes.find(typeItem => typeItem.icon === 'person-walking')
         break
-      case 'bicycling':
-        setTravelMode(window.google.maps.TravelMode.BICYCLING)
+      case window.google.maps.TravelMode.BICYCLING:
+        eventTypeItem = commuteMenuTypes.find(typeItem => typeItem.icon === 'bicycle')
         break
     }
-    
+
+    if (eventTypeItem) {
+      const updateInfo = {
+        ...modalEventInfo,
+        event_type: eventTypeItem,
+      }
+      setModalEventInfo(updateInfo)
+    }
   }
 
   const travelModel = useCallback((): JSX.Element => {
     if (isCommerce) {
       return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-start' }} className="travel-mode-wrapper" gap={1.5}>
-      <IconButton className='travel-mode-icon-btn' onClick={() => onSelectTravelMode('driving')}>
-        <FontAwesomeIcon icon={faCar} className="icon-travel-mode" color="#A2A2A2" />
+      <IconButton
+        className={`travel-mode-icon-btn ${travelMode === google.maps.TravelMode.DRIVING ? 'active' : ''}`}
+        onClick={() => onSelectTravelMode(google.maps.TravelMode.DRIVING)}
+      >
+        <FontAwesomeIcon icon={faCar} className="icon-travel-mode" />
       </IconButton>
-      <IconButton className='travel-mode-icon-btn' onClick={() => onSelectTravelMode('transit')}>
-        <FontAwesomeIcon icon={faTrain} className="icon-travel-mode" color="#A2A2A2" />
+      <IconButton
+        className={`travel-mode-icon-btn ${travelMode === google.maps.TravelMode.TRANSIT ? 'active' : ''}`}
+        onClick={() => onSelectTravelMode(google.maps.TravelMode.TRANSIT)}
+      >
+        <FontAwesomeIcon icon={faTrain} className="icon-travel-mode" />
       </IconButton>
-      <IconButton className='travel-mode-icon-btn' onClick={() => onSelectTravelMode('walking')}>
-        <FontAwesomeIcon icon={faWalking} className="icon-travel-mode" color="#A2A2A2" />
+      <IconButton
+        className={`travel-mode-icon-btn ${travelMode === google.maps.TravelMode.WALKING ? 'active' : ''}`}
+        onClick={() => onSelectTravelMode(google.maps.TravelMode.WALKING)}
+      >
+        <FontAwesomeIcon icon={faWalking} className="icon-travel-mode" />
       </IconButton>
-      <IconButton className='travel-mode-icon-btn' onClick={() => onSelectTravelMode('bicycling')}>
-        <FontAwesomeIcon icon={faBicycle} className="icon-travel-mode" color="#A2A2A2" />
+      <IconButton
+        className={`travel-mode-icon-btn ${travelMode === google.maps.TravelMode.BICYCLING ? 'active' : ''}`}
+        onClick={() => onSelectTravelMode(google.maps.TravelMode.BICYCLING)}
+      >
+        <FontAwesomeIcon icon={faBicycle} className="icon-travel-mode" />
       </IconButton>
     </Box>
     }
@@ -662,7 +709,7 @@ const CalendarEventModal = ({
     if (isCommerce) {
       return <>
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
-          <FontAwesomeIcon icon={faCircleDot} className="icon-content" color="#A2A2A2" />
+          <FontAwesomeIcon icon={faCircleDot} className="icon-content icon-circle-dot" color="#EBE8E8" />
           <FormControl sx={{ m: 1, width: '100%' }}>
             <PlaceAutocomplete
               onPlaceSelect={setSelectedStartPlace}
@@ -674,6 +721,7 @@ const CalendarEventModal = ({
             />
           </FormControl>
         </Box>
+        <FontAwesomeIcon icon={faEllipsis} className="icon-content icon-ellipses" color="#A2A2A2" />
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
           <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
           <FormControl sx={{ m: 1, width: '100%' }}>
@@ -732,6 +780,8 @@ const CalendarEventModal = ({
                   routes={routes}
                   setRoutes={setRoutes}
                   travelMode={travelMode}
+                  modalEventInfo={modalEventInfo}
+                  setModalEventInfo={setModalEventInfo}
                 />
               </Map>
               <MapControl position={ControlPosition.LEFT_TOP}>

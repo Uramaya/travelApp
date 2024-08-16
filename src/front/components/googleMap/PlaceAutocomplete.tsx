@@ -20,11 +20,10 @@ const PlaceAutocomplete = ({
   placeholder,
 }: Props) => {
   const [value, setValue] =
-  useState<string | null>(null)
+  useState<string | null>('')
 
   useEffect(() => {
     const initLocation = modalEventInfo[type]?.google_map_json?.name || modalEventInfo[type]?.google_map_json?.formatted_address
-    console.log('initLocation', initLocation)
     if (initLocation) {
       setValue(initLocation)
     }

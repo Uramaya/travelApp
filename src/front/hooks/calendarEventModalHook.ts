@@ -6,16 +6,16 @@ import moment from 'moment'
 const calendarEventModal = (initEventInfo: EventInfo) => {
 
   // basic calendar event add modal setting
-  const [openCalendarEventModal, setOpenCalendarEventModal] = useState<Boolean>(false)
+  const [openCalendarEventModal, setOpenCalendarEventModal] = useState<boolean>(false)
   const [modalEventInfo, setModalEventInfo] = useState<EventInfo | null>(initEventInfo)
-  // const [isCommerce, setIsCommerce] = useState<Boolean>(modalEventInfo?.event_type?.type === 'commute')
-  const [isCommerce, setIsCommerce] = useState<Boolean>(true)
+  // const [isCommerce, setIsCommerce] = useState<boolean>(modalEventInfo?.event_type?.type === 'commute')
+  const [isCommerce, setIsCommerce] = useState<boolean>(true)
 
   // open modal
   const onOpenModal = useCallback((eventInfo: EventInfo | null = null): void => {
       setOpenCalendarEventModal(true)
       setModalEventInfo(eventInfo)
-      // setIsCommerce(eventInfo?.event_type?.type === 'commute')
+      setIsCommerce(eventInfo?.event_type?.type === 'commute')
   }, [openCalendarEventModal])
 
   // close modal

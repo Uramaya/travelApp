@@ -57,7 +57,10 @@ const MyHome = () => {
 
                 {/* Google Map */}
                 <Box sx={{ width: '100%', height: '400px' }} className='google-map-area'>
-                    <GoogleMap events={currentUserEvents}/>
+                    <GoogleMap
+                        events={currentUserEvents}
+                        isNotShowNum={true}
+                    />
                 </Box>
 
                 <Box sx={{ width: '100%', marginTop: '10px' }} display="flex" justifyContent="flex-end">

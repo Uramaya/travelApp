@@ -44,6 +44,7 @@ export const INIT_CALENDAR_MODAL_EVENT_INFO: EventInfo = {
       lng: null,
       name: null,
       formatted_address: null,
+      travel_mode: null,
     }
   },
   location_to: {
@@ -53,6 +54,7 @@ export const INIT_CALENDAR_MODAL_EVENT_INFO: EventInfo = {
       lng: null,
       name: null,
       formatted_address: null,
+      travel_mode: null,
     }
   },
   images: [],

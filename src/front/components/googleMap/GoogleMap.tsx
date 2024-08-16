@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons"
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons"
-import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
+import { faLocationPin, faLocationDot } from "@fortawesome/free-solid-svg-icons"
 import PlaceAutocomplete from "@/components/googleMap/PlaceAutocomplete"
 import MapHandler from '@/components/googleMap/MapHandler';
 import {
@@ -28,8 +28,10 @@ import '@/styles/googleMap/GoogleMap.scss'
 
 const GoogleMapArea = ({
     events,
+    isNotShowNum = false,
 }: {
     events: EventInfo[],
+    isNotShowNum?: boolean,
 }) => {
     const position = { lat: 35.658584, lng: 139.745433 }
     const [markerRef, marker] = useAdvancedMarkerRef()
@@ -54,13 +56,23 @@ const GoogleMapArea = ({
                 onClick={(e) => { onClickMarker(e, event) }}
                 ref={markerRef}
                 >
-                <div className='google-map-pin'>
-                    <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
-                    <div className='google-map-pin-num'>{event.index || 1}</div>
-                </div>
+                {pin(event)}
             </AdvancedMarker>
         })}</>
+    }
+
+    const pin = (event: EventInfo): JSX.Element => {
+        if (isNotShowNum) {
+            return <div className='google-map-pin'>
+                <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationDot} color="#D84949" />
+            </div>
+        } else {
+            return <div className='google-map-pin'>
+                <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
+                <div className='google-map-pin-num'>{event.index || 1}</div>
+            </div>
         }
+    }
 
     return <div className='google-map-area'>
         <APIProvider

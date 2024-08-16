@@ -8,21 +8,30 @@ import { faMapLocationDot } from "@fortawesome/free-solid-svg-icons"
 import dayjs from 'dayjs'
 
 interface Props {
-  lat: number | null
-  lng: number | null
+  position: {
+    from: {
+      lat: number | null
+      lng: number | null
+    },
+    to: {
+      lat: number | null
+      lng: number | null
+    },
+  },
+  travelMode: google.maps.TravelMode
   departureTime: Date
   zoom?: number | null
 }
 
-const GoogleMapsLink = ({
-  lat, lng, departureTime, zoom = 15
+const GoogleMapsLinkRoute = ({
+  position, travelMode, departureTime, zoom = 15
 }: Props) => {
 
   const departureTimeUnix = dayjs(departureTime).unix()
 
   // Construct the Google Maps URL
-  const googleMapsUrl = (lat && lng) ? 
-  `https://www.google.com/maps?q=${lat},${lng}&departure_time=${departureTimeUnix}` : 'https://www.google.com/maps'
+  const googleMapsUrl = (position?.from?.lat && position?.from?.lng && position?.to?.lat && position?.to?.lng) ? 
+  `https://www.google.com/maps/dir/?api=1&origin=${position.from.lat},${position.from.lng}&destination=${position.to.lat},${position.to.lng}&travelmode=${travelMode}&departure_time=${departureTimeUnix}` : 'https://www.google.com/maps'
 
   return (
     <a href={googleMapsUrl} target="_blank" rel="noopener noreferrer">
@@ -36,4 +45,4 @@ const GoogleMapsLink = ({
   );
 };
 
-export default GoogleMapsLink
+export default GoogleMapsLinkRoute

@@ -41,7 +41,7 @@ const CalendarEventAddBtn = ({
         onCloseModal()
     }, [openCalendarEventModal, setOpenCalendarEventModal, eventItem])
 
-    return (
+    if (!openCalendarEventModal) return (
         <div className='calendar-event-add-btn'>
             <Button
                 variant="text"
