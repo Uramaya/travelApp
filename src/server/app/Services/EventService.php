@@ -20,6 +20,15 @@ use App\Http\Requests\EventTitleRequest;
 class EventService implements EventRepository
 {
 
+    protected $authService;
+
+    public function __construct(
+        AuthService $authService
+    )
+    {
+        $this->authService = $authService;
+    }
+    
     /**
      * get the ongoing event list
      * @return array
@@ -98,8 +107,7 @@ class EventService implements EventRepository
      */
     private function getExploreEvents () 
     {
-        $authService = new AuthService();
-        $userId = $authService->getCurrentLoginUser()->id;
+        $userId = $this->authService->getCurrentLoginUser()->id;
         $user_events = [];
         $users = User::where('id', '!=', $userId)->get();
         if ($users->count() > 20) {
@@ -237,8 +245,7 @@ class EventService implements EventRepository
      */
     public function getCurrentUserAllEvents ()
     {
-        $authService = new AuthService();
-        $user = $authService->getCurrentLoginUser();
+        $user = $this->authService->getCurrentLoginUser();
         if (empty($user)) {
             abort(404, 'current user is not found');
         }
@@ -276,8 +283,7 @@ class EventService implements EventRepository
      */
     private function getCurrentUserEvents ()
     {
-        $authService = new AuthService();
-        $user = $authService->getCurrentLoginUser();
+        $user = $this->authService->getCurrentLoginUser();
         if (empty($user)) {
             abort(404, 'current user is not found');
         }
@@ -291,8 +297,7 @@ class EventService implements EventRepository
      */
     private function getCurrentAuthorEvents ()
     {
-        $authService = new AuthService();
-        $user = $authService->getCurrentLoginUser();
+        $user = $this->authService->getCurrentLoginUser();
         if (empty($user)) {
             abort(404, 'current user is not found');
         }

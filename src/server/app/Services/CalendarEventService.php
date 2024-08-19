@@ -19,6 +19,15 @@ use Exception;
 
 class CalendarEventService implements CalendarEventRepository
 {
+    protected $authService;
+
+    public function __construct(
+        AuthService $authService
+    )
+    {
+        $this->authService = $authService;
+    }
+    
     /**
      * save calendar events
      * @param \App\Http\Requests\CalendarEventRequest  $request
@@ -115,8 +124,7 @@ class CalendarEventService implements CalendarEventRepository
             }
 
             // get current author
-            $authService = new AuthService();
-            $currentAuthorId = $authService->getCurrentLoginUser()->id;
+            $currentAuthorId = $this->authService->getCurrentLoginUser()->id;
             if(empty($currentAuthorId)) {
                 abort(404, 'The current user is not found');
             }

@@ -94,19 +94,6 @@ class EventController extends Controller
     }
 
     /**
-     * update the event.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update (Request $request) 
-    {
-        $this->eventService->saveEvent($request);
-        $event = $this->eventService->getEventDetail($request->id);
-        return response()->json($event, 201);
-    }
-
-    /**
      * delete the event.
      *
      * @param  \Illuminate\Http\Request  $request

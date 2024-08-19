@@ -46,20 +46,6 @@ class CalendarEventController extends Controller
     }
 
     /**
-     * update the event.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update (Request $request) 
-    {
-        $this->eventService->saveCalendarEvent($request);
-        $eventId = $request->event_id;
-        $event = $this->eventService->getEventDetail($eventId);
-        return response()->json($event, 201);
-    }
-
-    /**
      * delete the event.
      *
      * @param  \Illuminate\Http\Request  $request

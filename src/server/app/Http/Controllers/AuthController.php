@@ -7,10 +7,18 @@ use App\Services\AuthService;
 
 class AuthController extends Controller
 {   
+    protected $authService;
+
+    public function __construct(
+        AuthService $authService
+    )
+    {
+        $this->authService = $authService;
+    }
+    
     public function currentUser () 
     {
-        $authService = new AuthService();
-        $user =  $authService->getCurrentLoginUser();
+        $user =  $this->authService->getCurrentLoginUser();
         return json($user, 200);
     }
 }
