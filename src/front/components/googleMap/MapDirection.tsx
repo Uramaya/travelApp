@@ -48,6 +48,29 @@ const MapDirection = ({
     }, [routesLibrary, map])
 
     useEffect(() => {
+      const initLocationFrom = modalEventInfo['location_from']?.google_map_json?.name || modalEventInfo['location_from']?.google_map_json?.formatted_address
+      const initLocationTo = modalEventInfo['location_to']?.google_map_json?.name || modalEventInfo['location_to']?.google_map_json?.formatted_address
+      if (!directionService || !directionRenderer || !initLocationFrom || !initLocationTo) return
+      directionService.route({
+        origin: initLocationFrom,
+        destination: initLocationTo,
+        travelMode: travelMode || window.google.maps.TravelMode.DRIVING,
+        provideRouteAlternatives: true,
+        transitOptions: {
+          departureTime: new Date(modalEventInfo.start), // Set a specific departure time
+          // arrivalTime: new Date('2024-08-16T09:00:00'), // Alternatively, set an arrival time
+        }
+      }).then(response => {
+
+        directionRenderer.setDirections(response)
+        setRoutes(response.routes)
+      }).catch(err => {
+        console.log('map direction err:', err)
+      })
+
+    }, [directionService, directionRenderer, modalEventInfo])
+
+    useEffect(() => {
       if (!directionService || !directionRenderer || !selectedStartPlace || !selectedEndPlace) return
       directionService.route({
         origin: selectedStartPlace.geometry?.location,

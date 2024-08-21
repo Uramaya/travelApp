@@ -22,17 +22,19 @@ const PlaceAutocomplete = ({
   const [value, setValue] =
   useState<string | null>('')
 
-  useEffect(() => {
-    const initLocation = modalEventInfo[type]?.google_map_json?.name || modalEventInfo[type]?.google_map_json?.formatted_address
-    if (initLocation) {
-      setValue(initLocation)
-    }
-  }, [modalEventInfo, type]);
-
   const [placeAutocomplete, setPlaceAutocomplete] =
     useState<google.maps.places.Autocomplete | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const places = useMapsLibrary('places')
+
+  useEffect(() => {
+    const initLocation = modalEventInfo[type]?.google_map_json?.name || modalEventInfo[type]?.google_map_json?.formatted_address
+    if (initLocation) {
+      setValue(initLocation)
+      // Set the default value
+      inputRef.current.value = initLocation
+    }
+  }, [modalEventInfo, type, inputRef]);
 
   useEffect(() => {
     if (!places || !inputRef.current) return;
@@ -42,7 +44,7 @@ const PlaceAutocomplete = ({
     };
 
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
-  }, [places]);
+  }, [places, inputRef]);
 
   const onChangeLocation = (e) => setValue(e.target.value)
 
@@ -71,7 +73,7 @@ const PlaceAutocomplete = ({
       }
       setIsAutoComplete(true)
     });
-  }, [onPlaceSelect, placeAutocomplete, modalEventInfo, setModalEventInfo]);
+  }, [onPlaceSelect, placeAutocomplete, modalEventInfo, setModalEventInfo, inputRef]);
 
   return (
     <div className="autocomplete-container">
