@@ -518,9 +518,6 @@ const CalendarEventModal = ({
       />
     </Box>
     }
-    
-    
-
 
   }, [modalEventInfo, setModalEventInfo])
 
@@ -770,7 +767,6 @@ const CalendarEventModal = ({
                 {advanceMarker()}
                 {calendarEventsAdvanceMarkers()}
                 <AdvancedMarker ref={markerRef} position={null} />
-                {/* {mapDirection()} */}
                 <MapDirection
                   selectedStartPlace={selectedStartPlace}
                   selectedEndPlace={selectedEndPlace}

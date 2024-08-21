@@ -16,6 +16,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { getPopOverLocationLabel } from '@/utils/utils'
 import GoogleMapsLink from "@/components/googleMap/GoogleMapsLink"
+import GoogleMapsLinkRoute from "@/components/googleMap/GoogleMapsLinkRoute"
 
 const CalendarEventPopover = ({ 
   eventInfo,
@@ -23,12 +24,14 @@ const CalendarEventPopover = ({
   onCopyPopover,
   onDeletePopover,
   onClosePopover,
+  isCommerce,
 }: { 
   eventInfo: EventInfo,
   onEditPopover: any,
   onCopyPopover: any,
   onDeletePopover: any,
-  onClosePopover: any
+  onClosePopover: any,
+  isCommerce: boolean,
 }) => {
   library.add(fas, fab)
 
@@ -132,6 +135,58 @@ const CalendarEventPopover = ({
     </Box>
   }, [eventInfo])
 
+  const googleMapBtn = useCallback((): JSX.Element => {
+    if (isCommerce) {
+      const position = {
+        from: {
+          lat: eventInfo?.location_from?.google_map_json?.lat,
+          lng: eventInfo?.location_from?.google_map_json?.lng,
+        },
+        to: {
+          lat: eventInfo?.location_to?.google_map_json?.lat,
+          lng: eventInfo?.location_to?.google_map_json?.lng,
+        },
+      }
+      return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
+      <GoogleMapsLinkRoute
+        position={position}
+        travelMode={eventInfo?.location_from?.google_map_json.travel_mode  || window.google.maps.TravelMode.DRIVING}
+        departureTime={eventInfo?.start}
+      />
+    </Box>
+    } else {
+      return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
+      <GoogleMapsLink
+        lat={eventInfo?.location?.google_map_json?.lat || null}
+        lng={eventInfo?.location?.google_map_json?.lng || null}
+        departureTime={eventInfo?.start}
+      />
+    </Box>
+    }
+
+  }, [eventInfo])
+
+  const locationLabel = useCallback((): JSX.Element => {
+    if (isCommerce) {
+      return <>
+      <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
+          <FontAwesomeIcon icon={faCircleDot} className="icon-content icon-circle-dot" color="#EBE8E8" />
+          <div className='title-content'>{getPopOverLocationLabel(eventInfo.location_from)}</div>
+        </Box>
+        <FontAwesomeIcon icon={faEllipsis} className="icon-content icon-ellipses icon-route-ellipses" color="#A2A2A2" />
+        <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
+          <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
+          <div className='title-content'>{getPopOverLocationLabel(eventInfo.location_to)}</div>
+        </Box>
+      </>
+    } else {
+      return <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
+      <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
+      <div className='title-content'>{getPopOverLocationLabel(eventInfo.location)}</div>
+    </Box>
+    }
+  }, [eventInfo, isCommerce, getPopOverLocationLabel])
+
   const content = useCallback((): JSX.Element => {
     return <>
       {/* time */}
@@ -142,16 +197,10 @@ const CalendarEventPopover = ({
 
       {/* location */}
       <Box>
-        <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
-          <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
-          <div className='title-content'>{getPopOverLocationLabel(eventInfo.location)}</div>
-        </Box>
+        {locationLabel()}
         {/* location button */}
         <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
-        <GoogleMapsLink
-          lat={eventInfo?.location?.google_map_json?.lat || null}
-          lng={eventInfo?.location?.google_map_json?.lng || null}
-        />
+        {googleMapBtn()}
         </Box>
       </Box>
 

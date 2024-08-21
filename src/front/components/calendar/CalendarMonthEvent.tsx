@@ -14,11 +14,13 @@ const CalendarMonthEvent = ({
     onEditPopover,
     onCopyPopover,
     onDeletePopover,
+    isCommerce,
 }: { eventInfo: EventInfo,
     view:CalendarView,
     onEditPopover: any,
     onCopyPopover: any,
     onDeletePopover: any,
+    isCommerce: boolean,
 }) => {
     
 
@@ -60,6 +62,7 @@ const CalendarMonthEvent = ({
                 onEditPopover={onEditPopover}
                 onCopyPopover={onCopyPopover}
                 onDeletePopover={onDeletePopover}
+                isCommerce={isCommerce}
             />
         </>
     )

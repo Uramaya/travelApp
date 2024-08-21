@@ -14,12 +14,14 @@ const CalendarEvent = ({
     onEditPopover,
     onCopyPopover,
     onDeletePopover,
+    isCommerce,
 }: {button: ReactNode,
     eventInfo: EventInfo,
     view: CalendarView,
     onEditPopover: any,
     onCopyPopover: any,
     onDeletePopover: any,
+    isCommerce: boolean,
 }) => {
     const [popoverAnchorEl, setPopoverAnchorEl] = useState<HTMLButtonElement | null>(null)
     const buttonDom = useRef(null)
@@ -132,6 +134,7 @@ const CalendarEvent = ({
                     onEditPopover={onEditPopover}
                     onCopyPopover={onCopyPopover}
                     onDeletePopover={onDeletePopover}
+                    isCommerce={isCommerce}
                  />
             </Popover>
     </div>

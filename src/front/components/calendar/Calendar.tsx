@@ -81,6 +81,7 @@ const Calendar = ({
           onEditPopover={onEditPopover}
           onCopyPopover={onCopyPopover}
           onDeletePopover={onDeletePopover}
+          isCommerce={isCommerce}
         />
       },
     },
@@ -95,6 +96,7 @@ const Calendar = ({
             onEditPopover={onEditPopover}
             onCopyPopover={onCopyPopover}
             onDeletePopover={onDeletePopover}
+            isCommerce={isCommerce}
           />
       },
     },
@@ -106,6 +108,7 @@ const Calendar = ({
           onEditPopover={onEditPopover}
           onCopyPopover={onCopyPopover}
           onDeletePopover={onDeletePopover}
+          isCommerce={isCommerce}
         />
       },
     }

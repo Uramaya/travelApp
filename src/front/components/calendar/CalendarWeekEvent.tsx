@@ -14,11 +14,13 @@ const CalendarWeekEvent = ({
     onEditPopover,
     onCopyPopover,
     onDeletePopover,
+    isCommerce,
 }: { eventInfo: EventInfo,
     view: CalendarView,
     onEditPopover: any,
     onCopyPopover: any,
     onDeletePopover: any,
+    isCommerce: boolean,
 }) => {
     const [label, setLabel] = useState<string>('')
     // dynamic class name of the event-number
@@ -71,6 +73,7 @@ const CalendarWeekEvent = ({
                 onEditPopover={onEditPopover}
                 onCopyPopover={onCopyPopover}
                 onDeletePopover={onDeletePopover}
+                isCommerce={isCommerce}
             />
         </>
     )
