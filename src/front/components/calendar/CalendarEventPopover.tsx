@@ -136,7 +136,7 @@ const CalendarEventPopover = ({
   }, [eventInfo])
 
   const googleMapBtn = useCallback((): JSX.Element => {
-    if (isCommerce) {
+    if (eventInfo?.event_type.type === 'commute') {
       const position = {
         from: {
           lat: eventInfo?.location_from?.google_map_json?.lat,
@@ -167,7 +167,7 @@ const CalendarEventPopover = ({
   }, [eventInfo])
 
   const locationLabel = useCallback((): JSX.Element => {
-    if (isCommerce) {
+    if (eventInfo?.event_type.type === 'commute') {
       return <>
       <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
           <FontAwesomeIcon icon={faCircleDot} className="icon-content icon-circle-dot" color="#EBE8E8" />
@@ -185,7 +185,7 @@ const CalendarEventPopover = ({
       <div className='title-content'>{getPopOverLocationLabel(eventInfo.location)}</div>
     </Box>
     }
-  }, [eventInfo, isCommerce, getPopOverLocationLabel])
+  }, [eventInfo, getPopOverLocationLabel])
 
   const content = useCallback((): JSX.Element => {
     return <>
