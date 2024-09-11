@@ -1,4 +1,4 @@
-# docker-adramelech
+# Travel Itinerary App
 ## Project Enviromnet
 ### Overview
 ![environment image](https://user-images.githubusercontent.com/27280734/110324057-d1301a00-8058-11eb-81aa-97d3b0f775c2.png)
