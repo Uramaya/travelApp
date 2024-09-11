@@ -317,7 +317,7 @@ class EventService implements EventRepository
     private function getLocations ($locations)
     {
         if (count($locations)) {
-            $locations = $locations->map(function ($location) {
+            return $locations->map(function ($location) {
                 return (object)[
                     'id' => $location->id,
                     'google_map_json' => json_decode($location->google_map_json),

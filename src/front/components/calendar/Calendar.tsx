@@ -112,7 +112,7 @@ const Calendar = ({
         />
       },
     }
-  }), [modalEventInfo, events])
+  }), [events])
 
   const onEditPopover = useCallback((eventInfo: EventInfo | null = null): void => {
     // open the calendar event modal
@@ -168,6 +168,20 @@ const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => 
     />
   }, [openCalendarEventModal, modalEventInfo])
 
+  const calendarEventAddBtn = useCallback((): JSX.Element => {
+    return <CalendarEventAddBtn
+      openCalendarEventModal={openCalendarEventModal}
+      setOpenCalendarEventModal={setOpenCalendarEventModal}
+      setModalEventInfo={setModalEventInfo}
+      onOpenModal={onOpenModal}
+      onCloseModal={onCloseModal}
+      onSave={onSave}
+      allUsers={allUsers}
+      eventItem={eventItem}
+      events={events}
+    />
+  }, [openCalendarEventModal, allUsers, events, eventItem])
+
 
   return (
     <>
@@ -199,17 +213,7 @@ const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => 
         showAllEvents
       />
       {calendarEventModal()}
-      <CalendarEventAddBtn
-        openCalendarEventModal={openCalendarEventModal}
-        setOpenCalendarEventModal={setOpenCalendarEventModal}
-        setModalEventInfo={setModalEventInfo}
-        onOpenModal={onOpenModal}
-        onCloseModal={onCloseModal}
-        onSave={onSave}
-        allUsers={allUsers}
-        eventItem={eventItem}
-        events={events}
-      />
+      {calendarEventAddBtn()}
     </>
   )
 }

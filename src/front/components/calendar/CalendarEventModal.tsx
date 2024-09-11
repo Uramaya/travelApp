@@ -126,6 +126,7 @@ const CalendarEventModal = ({
       SelectChangeEvent<string> |
       SelectChangeEvent<number[]>,
     fromName: string): void => {
+      console.log("event.target.value", event.target.value)
     const eventInfo: EventInfo = { ...modalEventInfo }
     eventInfo[fromName] = event.target.value
     setModalEventInfo({ ...eventInfo })
@@ -224,7 +225,7 @@ const CalendarEventModal = ({
         </IconButton>
       </Box>
     }
-  }, [modalEventInfo, setModalEventInfo])
+  }, [modalEventInfo.id, setModalEventInfo])
 
   const dateFrom = useCallback((): JSX.Element => {
     if (modalEventInfo?.is_all_day) return <DatePicker
@@ -243,7 +244,7 @@ const CalendarEventModal = ({
       format='D MMM YYYY(ddd) H:mm'
       onAccept={(datetime) => { onChangeFormDate(datetime, 'start') }}
     />
-  }, [modalEventInfo, onChangeFormSwitch, setModalEventInfo])
+  }, [modalEventInfo.start, modalEventInfo.end, onChangeFormSwitch, setModalEventInfo])
 
   const dateTo = useCallback((): JSX.Element => {
     if (modalEventInfo?.is_all_day) return <DatePicker
@@ -263,7 +264,7 @@ const CalendarEventModal = ({
       format='D MMM YYYY(ddd) H:mm'
       onAccept={(datetime) => { onChangeFormDate(datetime, 'end') }}
     />
-  }, [modalEventInfo, onChangeFormSwitch, setModalEventInfo])
+  }, [modalEventInfo.start, modalEventInfo.end, onChangeFormSwitch, setModalEventInfo])
 
   // date time setting area
   const timeLabel = useCallback((): JSX.Element => {
@@ -311,18 +312,17 @@ const CalendarEventModal = ({
         <div className="title-content">In Turkey: 1 Jan 2024 (Mon) 22:00  -  2 Jan 2024 (Mon) 04:00</div>
       </Box>
     </Box>
-  }, [modalEventInfo, onChangeFormSwitch, setModalEventInfo])
+  }, [modalEventInfo.time_zone_name, onChangeForm])
 
   const mail = useCallback((): JSX.Element => {
     return <Box>
       <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
         <FontAwesomeIcon icon={faEnvelope} className="icon-content" color="#A2A2A2" />
         <FormControl sx={{ m: 1, width: '100%' }}>
-          <TextField
-            label="Add Mail Link"
-            className="mui-customize"
-            size="small"
+          <input
+            className="mui-customize input title-input"
             onChange={(e) => { onChangeForm(e, 'mail') }}
+            placeholder="Add Mail Link"
           />
         </FormControl>
       </Box>
@@ -332,7 +332,7 @@ const CalendarEventModal = ({
       </Box>
     </Box>
 
-  }, [modalEventInfo, setModalEventInfo])
+  }, [modalEventInfo.emails, onChangeForm, setModalEventInfo])
   const userIcon = useCallback((user: UserInfo): JSX.Element => {
     if (!user.icon_url) return <IconDefaultUser width="25px" height="25px" iconSize="14px" />
     return <Box
@@ -345,7 +345,7 @@ const CalendarEventModal = ({
       }}
       src={user.icon_url}
     />
-  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers])
+  }, [allModalUsers, allUsers, setAllModalUsers])
 
 
   const userItems = useCallback((): JSX.Element[] => {
@@ -360,7 +360,7 @@ const CalendarEventModal = ({
         </Box>
       </MenuItem>
     })
-  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers, onChangeFormSwitch, setModalEventInfo])
+  }, [allModalUsers, allUsers, setAllModalUsers, onChangeFormSwitch, setModalEventInfo])
 
   const userChip = useCallback((user: UserInfo | undefined): JSX.Element => {
     if (!user) return
@@ -383,7 +383,7 @@ const CalendarEventModal = ({
       onDelete={() => { onDeleteFormUsers(user.id) }}
       onMouseDown={(e) => e.stopPropagation()}
     />
-  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers, setModalEventInfo])
+  }, [allModalUsers, allUsers, setAllModalUsers, setModalEventInfo])
 
   const users = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="content-user" >
@@ -417,7 +417,7 @@ const CalendarEventModal = ({
         </FormControl>
       </Box>
     </Box>
-  }, [modalEventInfo, allModalUsers, allUsers, setAllModalUsers, setModalEventInfo])
+  }, [modalEventInfo.users, allModalUsers, allUsers, setAllModalUsers, setModalEventInfo])
 
   const photo = useCallback((): JSX.Element => {
     return <Box className="photo" >
@@ -454,7 +454,7 @@ const CalendarEventModal = ({
         </Box>
       </Box>
     </Box>
-  }, [modalEventInfo, onChangeFormSwitch, setModalEventInfo])
+  }, [setModalEventInfo])
 
   const closeBtn = useCallback((): JSX.Element => {
     return <div>
@@ -464,7 +464,7 @@ const CalendarEventModal = ({
         </IconButton>
       </div>
     </div>
-  }, [modalEventInfo, setModalEventInfo])
+  }, [onCloseModal])
 
   const saveBtn = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="save-btn-wrapper" >
@@ -474,21 +474,19 @@ const CalendarEventModal = ({
         </Button>
       </FormControl>
     </Box>
-  }, [modalEventInfo, setModalEventInfo])
+  }, [onSaveClick])
 
 
   const titleInput = useCallback((): JSX.Element => {
     return <FormControl sx={{ m: 1, width: '100%' }}>
-      <TextField
-        className="title-input"
-        label="Title"
-        variant="standard"
-        placeholder="Add title"
+      <input
+        className="mui-customize input title-input"
         value={modalEventInfo?.title}
         onChange={(e) => { onChangeForm(e, 'title') }}
+        placeholder="Add title"
       />
     </FormControl>
-  }, [modalEventInfo, setModalEventInfo, onChangeForm])
+  }, [modalEventInfo.title, onChangeForm])
 
   const googleMapBtn = useCallback((): JSX.Element => {
     if (isCommerce) {
@@ -519,7 +517,13 @@ const CalendarEventModal = ({
     </Box>
     }
 
-  }, [modalEventInfo, setModalEventInfo])
+  }, [
+    modalEventInfo.start,
+    modalEventInfo.location,
+    modalEventInfo.location_from,
+    modalEventInfo.location_to,
+    setModalEventInfo
+  ])
 
   const calendarEventTypeBtn = useCallback((): JSX.Element => {
     return <Box sx={{ display: 'flex', alignItems: 'center' }} className='title-icon-outer-wrapper'>
@@ -531,7 +535,7 @@ const CalendarEventModal = ({
       </Button>
     </Box>
   }, [
-    modalEventInfo,
+    modalEventInfo.event_type,
     setModalEventInfo,
     openEventTypeMenu,
     setOpenEventTypeMenu,
@@ -550,7 +554,7 @@ const CalendarEventModal = ({
       setTravelMode={setTravelMode}
     />
   }, [
-    modalEventInfo,
+    modalEventInfo.event_type,
     setModalEventInfo,
     openEventTypeMenu,
     setOpenEventTypeMenu,
@@ -594,7 +598,8 @@ const CalendarEventModal = ({
 
   const [isAutoComplete, setIsAutoComplete] =
     useState<boolean>(false)
-  const calendarEventsAdvanceMarkers = (): JSX.Element => {
+
+  const calendarEventsAdvanceMarkers = useCallback((): JSX.Element => {
     return <>{events.map((event) => {
       const position = {
         lat: event.location?.google_map_json?.lat,
@@ -616,9 +621,9 @@ const CalendarEventModal = ({
         </div>
       </AdvancedMarker>
     })}</>
-  }
+  }, [modalEventInfo.location, onClickMarker])
 
-  const advanceMarker = (): JSX.Element => {
+  const advanceMarker = useCallback((): JSX.Element => {
     if (!isAutoComplete && modalEventInfo) {
 
       const position = {
@@ -641,9 +646,9 @@ const CalendarEventModal = ({
         </div>
       </AdvancedMarker>
     }
-  }
+  }, [isAutoComplete, modalEventInfo.location, setModalEventInfo])
 
-  const onSelectTravelMode = (mode: google.maps.TravelMode) => {
+  const onSelectTravelMode = useCallback((mode: google.maps.TravelMode) => {
     setTravelMode(mode || window.google.maps.TravelMode.DRIVING)
     const commuteMenuTypes = calendarEventTypeMenuList.find(menu => menu.title === 'Commute')?.childMenus
     let eventTypeItem = commuteMenuTypes.find(typeItem => typeItem.icon === 'car-side')
@@ -669,7 +674,7 @@ const CalendarEventModal = ({
       }
       setModalEventInfo(updateInfo)
     }
-  }
+  }, [calendarEventTypeMenuList, setModalEventInfo])
 
   const travelModel = useCallback((): JSX.Element => {
     if (isCommerce) {
@@ -700,9 +705,9 @@ const CalendarEventModal = ({
       </IconButton>
     </Box>
     }
-  }, [modalEventInfo, setModalEventInfo])
+  }, [modalEventInfo, onSelectTravelMode])
 
-  const locationInput = (): JSX.Element => {
+  const locationInput = useCallback((): JSX.Element => {
     if (isCommerce) {
       return <>
         <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="" >
@@ -747,7 +752,54 @@ const CalendarEventModal = ({
         </FormControl>
       </Box>
     }
-  }
+  }, [
+    isCommerce,
+    modalEventInfo,
+    setSelectedPlace,
+    setModalEventInfo,
+    setIsAutoComplete
+  ])
+
+  const description = useCallback((): JSX.Element => {
+    return <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="content-user" >
+    <FontAwesomeIcon icon={faAlignLeft} className="icon-content" color="#A2A2A2" />
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} >
+      <FormControl sx={{ m: 1 }}>
+        <ReactQuill
+          theme="snow"
+          value={modalEventInfo.description}
+          onChange={onChangeFormDescription}
+          modules={modules}
+        />
+      </FormControl>
+    </Box>
+  </Box>
+  }, [modalEventInfo.description, modules])
+
+  const mapDirection = useCallback((): JSX.Element => {
+    return <MapDirection
+      selectedStartPlace={selectedStartPlace}
+      selectedEndPlace={selectedEndPlace}
+      isCommerce={isCommerce}
+      routeIndex={routeIndex}
+      setRouteIndex={setRouteIndex}
+      routes={routes}
+      setRoutes={setRoutes}
+      travelMode={travelMode}
+      modalEventInfo={modalEventInfo}
+      setModalEventInfo={setModalEventInfo}
+    />
+  }, [
+    modalEventInfo.location,
+    modalEventInfo.location_from,
+    modalEventInfo.location_to,
+    modalEventInfo.start,
+    travelMode,
+    routeIndex,
+    isCommerce,
+    selectedStartPlace,
+    selectedEndPlace,
+  ])
 
   if (openCalendarEventModal) return (
     <Box className='calendar-event-modal'>
@@ -767,18 +819,7 @@ const CalendarEventModal = ({
                 {advanceMarker()}
                 {calendarEventsAdvanceMarkers()}
                 <AdvancedMarker ref={markerRef} position={null} />
-                <MapDirection
-                  selectedStartPlace={selectedStartPlace}
-                  selectedEndPlace={selectedEndPlace}
-                  isCommerce={isCommerce}
-                  routeIndex={routeIndex}
-                  setRouteIndex={setRouteIndex}
-                  routes={routes}
-                  setRoutes={setRoutes}
-                  travelMode={travelMode}
-                  modalEventInfo={modalEventInfo}
-                  setModalEventInfo={setModalEventInfo}
-                />
+                {mapDirection()}
               </Map>
               <MapControl position={ControlPosition.LEFT_TOP}>
                 <div className="autocomplete-control">
@@ -813,19 +854,7 @@ const CalendarEventModal = ({
                       </Box>
 
                       {/* Description Area */}
-                      <Box sx={{ display: 'flex', width: '100%', alignItems: 'baseline' }} className="content-user" >
-                        <FontAwesomeIcon icon={faAlignLeft} className="icon-content" color="#A2A2A2" />
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', flexDirection: 'column' }} >
-                          <FormControl sx={{ m: 1 }}>
-                            <ReactQuill
-                              theme="snow"
-                              value={modalEventInfo.description}
-                              onChange={onChangeFormDescription}
-                              modules={modules}
-                            />
-                          </FormControl>
-                        </Box>
-                      </Box>
+                      {description()}
 
                       {/* Mail Area */}
                       {mail()}
