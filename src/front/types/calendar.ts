@@ -19,8 +19,10 @@ export type EventListItem =  {
     watch: number
     like: number
     locations: LocationInfo[]
+    time_zone_name: string
     users: UserInfo[]
     images: ImageInfo[]
+    description: string
 }
 
 export type ImageInfo =  {
@@ -31,8 +33,7 @@ export type ImageInfo =  {
 
 export type LocationInfo =  {
     id: number
-    google_map_url: string
-    google_map_json: LocationsComponent[]
+    google_map_json: LocationsComponent
 }
 
 export type EventInfo =  {
@@ -50,12 +51,13 @@ export type EventInfo =  {
     location_to: LocationInfo
     event_type: EventTypeInfo
     users: UserInfo[]
+    authors: UserInfo[]
     images: ImageInfo[]
-    timeZoneName: string
     description: string
     emails: EmailInfo[]
     pdfs: PdfInfo[]
     index?: number
+    event_id: number
 }
 
 export type MarkerInfo =  {
@@ -95,9 +97,11 @@ export type UserInfo =  {
 }
 
 export type LocationsComponent = {
-    long_name: string
-    short_name: string
-    types: LocationType[]
+    lat: number | null
+    lng: number | null
+    name: string | null
+    formatted_address: string | null
+    travel_mode?: google.maps.TravelMode
 }
 
 export type LocationType = 'political' | 'street_number' | 'route' | 'locality' | 'administrative_area_level_2' | 'administrative_area_level_1' | 'country' | 'postal_code'
@@ -153,6 +157,20 @@ export type CalendarProps =  {
     popoverOpen: boolean
     onClickPopoverBtn: any
     onClosePopover: () => void
+    eventItem: EventListItem
+    onDeletePopover: (id: number) => void
+    calendarEventTypeMenuList: EventTypeInfo[]
+    onDeleteModal: (id: number) => void
+    isCommerce: boolean
+    setIsCommerce: (status: boolean) => void
 }
 
 
+
+export type ConfirmModalObj =  {
+    modalTitle: string
+    modalContent: string
+    saveBtnTitle: string
+    type: string
+    data: any
+}

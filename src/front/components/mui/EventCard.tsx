@@ -9,7 +9,7 @@ import { CardActionArea } from '@mui/material'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationDot, faCalendar, faEye, faHeart } from "@fortawesome/free-solid-svg-icons"
 import { faHeart as faHeartOutline } from "@fortawesome/free-regular-svg-icons"
-import { numDigits, getCalendarEventPopoverTimeLabel, getUSerInfoById } from '@/utils/utils'
+import { numDigits, getCalendarEventPopoverTimeLabel, getUserInfoById } from '@/utils/utils'
 import { All_USERS } from '@/const'
 import Chip from '@mui/material/Chip'
 import Avatar from '@mui/material/Avatar'

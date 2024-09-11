@@ -19,8 +19,8 @@ class CreateCalendarEventsTable extends Migration
             $table->string('title', 70)->default('');
             $table->integer('index')->default(1);
             $table->string('time_zone_name', 50);
-            $table->date('start')->default(Carbon::now()->setTimezone('utc'));
-            $table->date('end')->default(Carbon::now()->setTimezone('utc')->addHours(1));
+            $table->timestamp('start')->default(Carbon::now()->setTimezone('utc'));
+            $table->timestamp('end')->default(Carbon::now()->setTimezone('utc')->addHours(1));
             $table->tinyInteger('is_all_day')->default(0);
             $table->integer('watch')->default(0);
             $table->integer('like')->default(0);

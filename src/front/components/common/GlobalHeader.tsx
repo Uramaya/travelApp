@@ -15,7 +15,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons"
 import IconButton from '@mui/material/IconButton'
 
-const GlobalHeader = ({ eventItem, updateEventItem }: { eventItem?: EventListItem, updateEventItem?: (eventItem: EventListItem) => void }) => {
+const GlobalHeader = ({ 
+    eventItem,
+    updateEventItem,
+    onCreateEvent,
+    isHomePage
+}: { 
+    eventItem?: EventListItem,
+    updateEventItem?: (eventItem: EventListItem) => void,
+    onCreateEvent?: () => void,
+    isHomePage: boolean
+}) => {
     const [isEditEventTitle, setIsEditEventTitle] = useState<boolean>(false)
     const [eventTitle, setEventTitle] = useState<string>(eventItem?.title || '')
 
@@ -23,21 +33,29 @@ const GlobalHeader = ({ eventItem, updateEventItem }: { eventItem?: EventListIte
         setIsEditEventTitle(true)
     }, [isEditEventTitle, setIsEditEventTitle])
 
+    useEffect(() => {
+        setEventTitle(eventItem?.title || '')
+    }, [eventItem])
+
     const onChangeTitle = useCallback((
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
-            updateEventItem({
-            ...eventItem,
-            title: event.target.value,
-        })
         setEventTitle(event.target.value)
-    }, [eventItem, eventTitle, setEventTitle, updateEventItem, setIsEditEventTitle])
+    }, [eventItem, eventTitle, setEventTitle, isEditEventTitle, setIsEditEventTitle])
+
+    const onUpdateTitle = useCallback((): void => {
+        updateEventItem({
+            ...eventItem,
+            title: eventTitle,
+        })
+        // setEventTitle(event.target.value)
+    }, [eventItem, eventTitle, setEventTitle, updateEventItem, isEditEventTitle, setIsEditEventTitle])
 
     const onClickAwayEventTitle = useCallback((): void => {
         setIsEditEventTitle(false)
     }, [eventItem, eventTitle, setEventTitle, updateEventItem, setIsEditEventTitle])
 
     const headerLogo = useCallback((): JSX.Element => {
-        if (eventItem && !isEditEventTitle) return <Button
+        if (!isEditEventTitle) return <Button
             onClick={onClickEventTitle}
             className='global-header-title'
             sx={{
@@ -47,34 +65,47 @@ const GlobalHeader = ({ eventItem, updateEventItem }: { eventItem?: EventListIte
                 },
             }}
         >
-            {eventItem.title}
+            {eventTitle}
         </Button>
-        else if (eventItem && isEditEventTitle) return <ClickAwayListener onClickAway={onClickAwayEventTitle}>
+        else return <ClickAwayListener onClickAway={onClickAwayEventTitle}>
             <FormControl sx={{ m: 1 }}>
                 <TextField
                     className="title-input"
                     label="Title"
                     variant="standard"
                     placeholder="Add title"
-                    value={eventItem.title}
+                    value={eventTitle}
                     onChange={(e) => { onChangeTitle(e) }}
+                    onBlur={(e) => { onUpdateTitle(e) }}
                 />
             </FormControl>
         </ClickAwayListener>
-    }, [eventItem, isEditEventTitle, setIsEditEventTitle])
+    }, [eventTitle, setEventTitle, isEditEventTitle, setIsEditEventTitle])
+
+    const addTipBtn = useCallback((): JSX.Element => {
+        if (isHomePage) return <AddTripBtn onCreateEvent={onCreateEvent} />
+    }, [isHomePage, onCreateEvent])
+
+    const searchPlanInput = useCallback((): JSX.Element => {
+        if (isHomePage) return <SearchPlanInput />
+    }, [isHomePage])
+
+    const returnBtn = useCallback((): JSX.Element => {
+        if (!isHomePage) return <IconButton className="btn-back" href='/home' >
+            <FontAwesomeIcon icon={faChevronLeft} className="icon-back" color="#676565" aria-label="previous" />
+        </IconButton>
+    }, [isHomePage])
 
     return (
         <div className='global-header'>
             <Box sx={{ display: 'flex', width: '100%', height: '50px', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start' }} gap={1}>
-                    <IconButton className="btn-back" href='/home' >
-                        <FontAwesomeIcon icon={faChevronLeft} className="icon-back" color="#676565" aria-label="previous" />
-                    </IconButton>
+                    {returnBtn()}
                     {headerLogo()}
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }} gap={1}>
-                    <AddTripBtn />
-                    <SearchPlanInput />
+                    {addTipBtn()}
+                    {searchPlanInput()}
                     <GlobalHeaderUser />
                 </Box>
             </Box>

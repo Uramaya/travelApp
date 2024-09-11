@@ -1,12 +1,11 @@
 import { useState, useCallback, ReactNode, useRef, useEffect } from 'react'
 import Popover from '@mui/material/Popover'
 import Button from '@mui/material/Button'
-import CalendarEventModal from '@/components/calendar/CalendarEventModal'
 import '@/styles/calendar/CalendarEventAddBtn.scss'
-import { INIT_CALENDAR_MODAL_EVENT_INFO } from '@/const'
-import { EventInfo, CalendarView, UserInfo } from '@/types'
+import { EventInfo, CalendarView, UserInfo, EventListItem } from '@/types'
 import { faPlus } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { INIT_CALENDAR_MODAL_EVENT_INFO } from '@/const'
 
 const CalendarEventAddBtn = ({
     openCalendarEventModal,
@@ -16,6 +15,8 @@ const CalendarEventAddBtn = ({
     allUsers,
     onOpenModal,
     onCloseModal,
+    eventItem,
+    events,
 }: {
     openCalendarEventModal: boolean,
     setOpenCalendarEventModal: React.Dispatch<React.SetStateAction<boolean>>,
@@ -24,16 +25,23 @@ const CalendarEventAddBtn = ({
     allUsers: UserInfo[],
     onOpenModal: (eventInfo?: EventInfo) => void,
     onCloseModal: () => void,
+    eventItem: EventListItem,
+    events: EventInfo[],
 }) => {
     const onClick = useCallback(() => {
-        setOpenCalendarEventModal(true)
-    }, [openCalendarEventModal, setOpenCalendarEventModal])
+        const eventInitInfo = {
+            ...INIT_CALENDAR_MODAL_EVENT_INFO,
+            event_id: eventItem.id,
+            index: events.length + 1,
+        }
+        onOpenModal(eventInitInfo)
+    }, [openCalendarEventModal, setOpenCalendarEventModal, eventItem])
 
     const onClose = useCallback(() => {
-        setOpenCalendarEventModal(false)
-    }, [openCalendarEventModal, setOpenCalendarEventModal])
+        onCloseModal()
+    }, [openCalendarEventModal, setOpenCalendarEventModal, eventItem])
 
-    return (
+    if (!openCalendarEventModal) return (
         <div className='calendar-event-add-btn'>
             <Button
                 variant="text"
@@ -47,16 +55,6 @@ const CalendarEventAddBtn = ({
                     </div>
                 </div>
             </Button>
-            <CalendarEventModal
-                modalEventInfo={INIT_CALENDAR_MODAL_EVENT_INFO}
-                openCalendarEventModal={openCalendarEventModal}
-                setOpenCalendarEventModal={setOpenCalendarEventModal}
-                setModalEventInfo={setModalEventInfo}
-                onOpenModal={onOpenModal}
-                onCloseModal={onCloseModal}
-                onSave={onSave}
-                allUsers={allUsers}
-            />
         </div>
     )
 }

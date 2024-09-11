@@ -14,6 +14,5 @@ class EmailsTableSeeder extends Seeder
     public function run()
     {
         factory(App\Email::class, 80)->create();
-        // Email::factory(10)->create();
     }
 }

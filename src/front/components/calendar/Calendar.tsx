@@ -53,7 +53,12 @@ const Calendar = ({
   popoverOpen,
   onClickPopoverBtn,
   onClosePopover,
-
+  eventItem,
+  onDeletePopover,
+  calendarEventTypeMenuList,
+  onDeleteModal,
+  isCommerce,
+  setIsCommerce,
 }: CalendarProps) => {
   const { formats } = useMemo(
     () => ({
@@ -76,6 +81,7 @@ const Calendar = ({
           onEditPopover={onEditPopover}
           onCopyPopover={onCopyPopover}
           onDeletePopover={onDeletePopover}
+          isCommerce={isCommerce}
         />
       },
     },
@@ -90,6 +96,7 @@ const Calendar = ({
             onEditPopover={onEditPopover}
             onCopyPopover={onCopyPopover}
             onDeletePopover={onDeletePopover}
+            isCommerce={isCommerce}
           />
       },
     },
@@ -101,27 +108,28 @@ const Calendar = ({
           onEditPopover={onEditPopover}
           onCopyPopover={onCopyPopover}
           onDeletePopover={onDeletePopover}
+          isCommerce={isCommerce}
         />
       },
     }
-  }), [])
+  }), [events])
 
-
-  const onDeletePopover = (eventInfo: EventInfo | null = null) => {
-
-  }
-
-  const onEditPopover = (eventInfo: EventInfo | null = null) => {
+  const onEditPopover = useCallback((eventInfo: EventInfo | null = null): void => {
     // open the calendar event modal
     onClosePopover()
     onOpenModal(eventInfo)
-  }
+  }, [events])
 
-  const onCopyPopover = (eventInfo: EventInfo | null = null) => {
+  
+const onCopyPopover = useCallback((eventInfo: EventInfo | null = null): void => {
     // open the calendar event modal
     onClosePopover()
-    onOpenModal(eventInfo)
-  }
+    onOpenModal({
+      ...eventInfo,
+      id: 0,
+      title: `${eventInfo.title}(2)`
+    })
+  }, [events])
 
   // select calendar slot(cell)
   const onSelectSlot = (slotInfo: SlotInfo) => {
@@ -141,6 +149,38 @@ const Calendar = ({
   // when select the event, toggle the popup
   const onSelectEvent = useCallback((eventInfo: EventInfo) => {
   }, [])
+
+  const calendarEventModal = useCallback((): JSX.Element => {
+    return <CalendarEventModal
+      modalEventInfo={modalEventInfo}
+      openCalendarEventModal={openCalendarEventModal}
+      setOpenCalendarEventModal={setOpenCalendarEventModal}
+      setModalEventInfo={setModalEventInfo}
+      onOpenModal={onOpenModal}
+      onCloseModal={onCloseModal}
+      onSave={onSave}
+      allUsers={allUsers}
+      calendarEventTypeMenuList={calendarEventTypeMenuList}
+      onDeleteModal={onDeleteModal}
+      events={events}
+      isCommerce={isCommerce}
+      setIsCommerce={setIsCommerce}
+    />
+  }, [openCalendarEventModal, modalEventInfo])
+
+  const calendarEventAddBtn = useCallback((): JSX.Element => {
+    return <CalendarEventAddBtn
+      openCalendarEventModal={openCalendarEventModal}
+      setOpenCalendarEventModal={setOpenCalendarEventModal}
+      setModalEventInfo={setModalEventInfo}
+      onOpenModal={onOpenModal}
+      onCloseModal={onCloseModal}
+      onSave={onSave}
+      allUsers={allUsers}
+      eventItem={eventItem}
+      events={events}
+    />
+  }, [openCalendarEventModal, allUsers, events, eventItem])
 
 
   return (
@@ -172,25 +212,8 @@ const Calendar = ({
         onSelectEvent={onSelectEvent}
         showAllEvents
       />
-      <CalendarEventModal
-        modalEventInfo={modalEventInfo}
-        openCalendarEventModal={openCalendarEventModal}
-        setOpenCalendarEventModal={setOpenCalendarEventModal}
-        setModalEventInfo={setModalEventInfo}
-        onOpenModal={onOpenModal}
-        onCloseModal={onCloseModal}
-        onSave={onSave}
-        allUsers={allUsers}
-      />
-      <CalendarEventAddBtn
-        openCalendarEventModal={openCalendarEventModal}
-        setOpenCalendarEventModal={setOpenCalendarEventModal}
-        setModalEventInfo={setModalEventInfo}
-        onOpenModal={onOpenModal}
-        onCloseModal={onCloseModal}
-        onSave={onSave}
-        allUsers={allUsers}
-      />
+      {calendarEventModal()}
+      {calendarEventAddBtn()}
     </>
   )
 }

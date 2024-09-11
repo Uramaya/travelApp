@@ -3,7 +3,7 @@ import { EventInfo, UserInfo } from '@/types'
 import '@/styles/calendar/CalendarEventPopover.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHotel, faXmark, faLocationPin, faClock, faLocationDot, faUsers, faCopy, faPen, faTrashCan, faCircleDot, faMapLocationDot, faEllipsis } from "@fortawesome/free-solid-svg-icons"
-import { numDigits, getCalendarEventPopoverTimeLabel, getUSerInfoById } from '@/utils/utils'
+import { numDigits, getCalendarEventPopoverTimeLabel, getUserInfoById } from '@/utils/utils'
 import { All_USERS } from '@/const'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
@@ -15,6 +15,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { getPopOverLocationLabel } from '@/utils/utils'
+import GoogleMapsLink from "@/components/googleMap/GoogleMapsLink"
+import GoogleMapsLinkRoute from "@/components/googleMap/GoogleMapsLinkRoute"
 
 const CalendarEventPopover = ({ 
   eventInfo,
@@ -22,12 +24,14 @@ const CalendarEventPopover = ({
   onCopyPopover,
   onDeletePopover,
   onClosePopover,
+  isCommerce,
 }: { 
   eventInfo: EventInfo,
   onEditPopover: any,
   onCopyPopover: any,
   onDeletePopover: any,
-  onClosePopover: any
+  onClosePopover: any,
+  isCommerce: boolean,
 }) => {
   library.add(fas, fab)
 
@@ -42,7 +46,7 @@ const CalendarEventPopover = ({
   }
 
   const onDelete = (): void => {
-    onDeletePopover(eventInfo)
+    onDeletePopover(eventInfo.id)
   }
 
   // dynamic class name of the event-number
@@ -80,10 +84,6 @@ const CalendarEventPopover = ({
       <div className='title-content'>{getCalendarEventPopoverTimeLabel(eventInfo.end, eventInfo.is_all_day)}</div>
     </div>
   }, [eventInfo])
-
-  const getModalUserInfo = (userId: number): UserInfo | undefined => {
-    return getUSerInfoById(userId, All_USERS)
-  }
 
   const userChip = useCallback((user: UserInfo): JSX.Element => {
     if (!user) {
@@ -135,6 +135,58 @@ const CalendarEventPopover = ({
     </Box>
   }, [eventInfo])
 
+  const googleMapBtn = useCallback((): JSX.Element => {
+    if (eventInfo?.event_type.type === 'commute') {
+      const position = {
+        from: {
+          lat: eventInfo?.location_from?.google_map_json?.lat,
+          lng: eventInfo?.location_from?.google_map_json?.lng,
+        },
+        to: {
+          lat: eventInfo?.location_to?.google_map_json?.lat,
+          lng: eventInfo?.location_to?.google_map_json?.lng,
+        },
+      }
+      return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
+      <GoogleMapsLinkRoute
+        position={position}
+        travelMode={eventInfo?.location_from?.google_map_json.travel_mode  || window.google.maps.TravelMode.DRIVING}
+        departureTime={eventInfo?.start}
+      />
+    </Box>
+    } else {
+      return <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
+      <GoogleMapsLink
+        lat={eventInfo?.location?.google_map_json?.lat || null}
+        lng={eventInfo?.location?.google_map_json?.lng || null}
+        departureTime={eventInfo?.start}
+      />
+    </Box>
+    }
+
+  }, [eventInfo])
+
+  const locationLabel = useCallback((): JSX.Element => {
+    if (eventInfo?.event_type.type === 'commute') {
+      return <>
+      <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
+          <FontAwesomeIcon icon={faCircleDot} className="icon-content icon-circle-dot" color="#EBE8E8" />
+          <div className='title-content'>{getPopOverLocationLabel(eventInfo.location_from)}</div>
+        </Box>
+        <FontAwesomeIcon icon={faEllipsis} className="icon-content icon-ellipses icon-route-ellipses" color="#A2A2A2" />
+        <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
+          <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
+          <div className='title-content'>{getPopOverLocationLabel(eventInfo.location_to)}</div>
+        </Box>
+      </>
+    } else {
+      return <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
+      <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
+      <div className='title-content'>{getPopOverLocationLabel(eventInfo.location)}</div>
+    </Box>
+    }
+  }, [eventInfo, getPopOverLocationLabel])
+
   const content = useCallback((): JSX.Element => {
     return <>
       {/* time */}
@@ -145,18 +197,10 @@ const CalendarEventPopover = ({
 
       {/* location */}
       <Box>
-        <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }} className="" >
-          <FontAwesomeIcon icon={faLocationDot} className="icon-content" color="#A2A2A2" />
-          <div className='title-content'>{getPopOverLocationLabel(eventInfo.location)}</div>
-        </Box>
+        {locationLabel()}
         {/* location button */}
         <Box sx={{ mt: '10px', display: 'flex', width: '100%', justifyContent: 'flex-end' }} className="" >
-          <Button className='map-location-btn mui-customize' variant="contained" size="small">
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', alignItems: 'center' }} className="" >
-              <FontAwesomeIcon icon={faMapLocationDot} className="icon-map-location" color="#A2A2A2" />
-              <div className='title-map-location'>Open Google Map</div>
-            </Box>
-          </Button>
+        {googleMapBtn()}
         </Box>
       </Box>
 

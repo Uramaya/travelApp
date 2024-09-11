@@ -2,7 +2,8 @@
 
 namespace App\Repositories;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\EventRequest;
+use App\Http\Requests\EventTitleRequest;
 
 interface EventRepository
 {  
@@ -12,23 +13,14 @@ interface EventRepository
      * @return array
      *
      */
-    public function getOngoingEvents ();
+    public function getEvents ();
 
     /**
-     * get the recent event list
-     * @param 
+     * get user event list
      * @return array
      *
      */
-    public function getRecentEvents ();
-
-    /**
-     * get the explore event list
-     * @param 
-     * @return array
-     *
-     */
-    public function getExploreEvents ();
+    public function getCurrentUserAllEvents ();
 
     /**
      * get the explore event list
@@ -37,4 +29,28 @@ interface EventRepository
      *
      */
     public function getEventDetail ($eventId);
+
+    /**
+     * save event
+     * @param EventRequest $request
+     * @return array|object
+     *
+     */
+    public function saveEvent (EventRequest $request);
+
+    /**
+     * save event
+     * @param EventTitleRequest $request
+     * @return array|object
+     *
+     */
+    public function saveEventTitle (EventTitleRequest $request);
+
+    /**
+     * save event
+     * @param int $eventId
+     * @return array|object
+     *
+     */
+    public function deleteEvent (int $eventId);
 }

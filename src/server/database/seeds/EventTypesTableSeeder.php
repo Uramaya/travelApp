@@ -40,7 +40,7 @@ class EventTypesTableSeeder extends Seeder
         ]);
         EventType::create([
             'title' => 'Airbnb',
-            'icon'  => "['fab', 'airbnb']",
+            'icon'  => "fa-brands fa-airbnb",
             'type'  => 'stay',
             'color'  => '#39635E',
             'background_color'  => '#E9F5F5',

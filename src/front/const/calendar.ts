@@ -16,24 +16,56 @@ export const INIT_CALENDAR_MODAL_EVENT_INFO: EventInfo = {
   title: '',
   start: new Date(moment().format('YYYY-M-DD HH:mm:ss')),
   end: new Date(moment().add(1, 'h').format('YYYY-M-DD HH:mm:ss')),
-  allDay: false,
+  is_all_day: 0,
   index: 10,
-  userIds: [1,2],
-  eventType: {
+  users: [],
+  authors: [],
+  event_type: {
     id: 1,
     title: 'Stay',
     icon: 'hotel',
     type: 'stay',
     color: '#39635E',
-    backgroundColor: 'E9F5F5',
+    background_color: 'E9F5F5',
   },
-  location: '',
-  commute: null,
-  googleMapUrl: null,
+  location: {
+    id: 0,
+    google_map_json: {
+      lat: null,
+      lng: null,
+      name: null,
+      formatted_address: null,
+    }
+  },
+  location_from: {
+    id: 0,
+    google_map_json: {
+      lat: null,
+      lng: null,
+      name: null,
+      formatted_address: null,
+      travel_mode: null,
+    }
+  },
+  location_to: {
+    id: 0,
+    google_map_json: {
+      lat: null,
+      lng: null,
+      name: null,
+      formatted_address: null,
+      travel_mode: null,
+    }
+  },
   images: [],
-  timeZoneName: userTimeZone, // Guessing user zone
+  time_zone_name: userTimeZone, // Guessing user zone
   description: '',
-  mail: '',
+  emails: [],
+  pdfs: [],
+  marker: null,
+  watch: 0,
+  like: 0,
+  event_id: 0,
 }
 
 // Quill toolbar options

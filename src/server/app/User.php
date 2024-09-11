@@ -42,27 +42,15 @@ class User extends Model
         'email_verified_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
-    
-    // events created by the author
-    public function author_events()
-    {
-        return $this->belongsToMany('App\Event')->withPivot('author_id')->withTimestamps();
-    }
 
     // events created by the user
-    public function user_events()
+    public function events()
     {
         return $this->belongsToMany('App\Event')->withTimestamps();
     }
 
-    // calendar events created by the author
-    public function author_calendar_events()
-    {
-        return $this->belongsToMany('App\CalendarEvent')->withPivot('author_id')->withTimestamps();
-    }
-
     // calendar events created by the user
-    public function user_calendar_events()
+    public function calendar_events()
     {
         return $this->belongsToMany('App\CalendarEvent')->withTimestamps();
     }

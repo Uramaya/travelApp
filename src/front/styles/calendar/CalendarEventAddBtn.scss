@@ -2,6 +2,9 @@
 $CALENDAR_EVENT_Add_BTN_BG_COLOR: #FFFFFF;
 // ---------------------------
 .calendar-event-add-btn {
+    .MuiButtonBase-root.MuiButton-root {
+        z-index: 99999;
+    }
     .icon-plus-btn {
         .icon-wrapper {
             position: fixed;

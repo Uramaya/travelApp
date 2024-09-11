@@ -7,10 +7,18 @@ use App\Services\LanguageService;
 
 class LanguageController extends Controller
 {   
+    protected $authService;
+
+    public function __construct(
+        LanguageService $languageService
+    )
+    {
+        $this->languageService = $languageService;
+    }
+    
     public function index () 
     {
-        $languageService = new LanguageService();
-        $languages =  $languageService->getLanguages();
+        $languages =  $this->languageService->getLanguages();
         return response()->json($languages, 200);
     }
 }
