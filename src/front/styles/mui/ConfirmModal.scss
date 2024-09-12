@@ -1,0 +1,45 @@
+// variables------------------
+$BUTTON_CANCEL_BG_COLOR: #e7e7e7;
+$BUTTON_CANCEL_FONT_COLOR: #7d7d7d;
+$BUTTON_SAVE_BG_COLOR: #e7e7e7;
+$BUTTON_SAVE_FONT_COLOR: #7d7d7d;
+$BUTTON_DELETE_BG_COLOR: #f46969;
+$BUTTON_DELETE_FONT_COLOR: #ffffff;
+$CONFIRM_MODAL_TITLE_FONT_COLOR: #4c4c4c;
+
+// ---------------------------
+
+
+// mui button customize------
+.mui-customize.confirm-modal {
+    & .MuiPaper-root.MuiDialog-paper {
+        border-radius: 12px;
+        padding: 18px 0px;
+    }
+
+    & .MuiButtonBase-root.MuiButton-root.MuiButton-colorPrimary {
+        border: none;
+        padding: 10px;
+        border-radius: 25px;
+        &.cancel-btn {
+           background-color: $BUTTON_CANCEL_BG_COLOR; 
+           color: $BUTTON_CANCEL_FONT_COLOR;
+        }
+        &.save-btn {
+            background-color: $BUTTON_SAVE_BG_COLOR; 
+            color: $BUTTON_SAVE_FONT_COLOR;
+        }
+        &.save-btn.delete {
+            background-color: $BUTTON_DELETE_BG_COLOR; 
+            color: $BUTTON_DELETE_FONT_COLOR;
+        }
+    }
+    & .MuiDialogTitle-root {
+        font-size: 20px;
+        color: $CONFIRM_MODAL_TITLE_FONT_COLOR;
+    }
+    & .MuiDialogActions-root {
+        justify-content: center;
+    }
+}
+// ---------------------------

@@ -1,0 +1,409 @@
+// variables------------------
+$CALENDAR_EVENT_MODAL_BG_COLOR: #ffffff;
+$CALENDAR_EVENT_MODAL_FONT_COLOR: #39635E;
+$CALENDAR_EVENT_MODAL_ICON_WRAPPER_COLOR: #FFFFFF;
+$CALENDAR_EVENT_MODAL_ICON_LOCATION_PIN_COLOR: #D84949;
+$CALENDAR_EVENT_MODAL_ICON_LOCATION_PIN_FONT_COLOR: #FFFFFF;
+$CALENDAR_EVENT_MODAL_BORDER_COLOR: #39635E;
+$CALENDAR_EVENT_MODAL_X_MARK_FONT_COLOR: #7e7c7c;
+$CALENDAR_EVENT_CONTENT_FONT_COLOR: #B4B3B3;
+$CALENDAR_EVENT_PHOTO_BG_COLOR: #F6F5F5;
+$CALENDAR_EVENT_PHOTO_HOVER_FONT_COLOR: #69B6E5;
+$CALENDAR_EVENT_PHOTO_HOVER_BG_COLOR: #eef8fb;
+$CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR: #F6F5F5;
+$CALENDAR_EVENT_MODAL_BLACK_BG_COLOR: rgba(0, 0, 0, 0.3);
+$CALENDAR_EVENT_MODAL_USER_SELECT_FONT_COLOR: #676565;
+$CALENDAR_EVENT_MODAL_USER_SELECT_ITEM_BG_COLOR: #FFFFFF;
+$CALENDAR_EVENT_MODAL_TRAVEL_MODE_BG_COLOR: #F6F5F5;
+$CALENDAR_EVENT_MODAL_TRAVEL_MODE_ICON_COLOR: #A2A2A2;
+$CALENDAR_EVENT_MODAL_TRAVEL_MODE_ACTIVE_BG_COLOR: #E8FAFF;
+$CALENDAR_EVENT_MODAL_TRAVEL_MODE_ACTIVE_ICON_COLOR: #3E9DD6;
+$CALENDAR_EVENT_MODAL_ICON_CIRCLE_DOT_BG_COLOR: #A2A2A2;
+// ---------------------------
+
+.calendar-event-modal {
+    position: fixed;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    background: $CALENDAR_EVENT_MODAL_BLACK_BG_COLOR;
+    left: 0;
+    & .calendar-event-modal-content {
+        background-color: $CALENDAR_EVENT_MODAL_BG_COLOR;
+        border-radius: 20px;
+        width: 100%;
+        margin: 30px;
+        display: flex;
+        padding: 0px;
+        height: 85vh;
+        z-index: 99999;
+        overflow: hidden;
+        .google-map-area > div {
+            width: 60% !important;
+            height: 100%;
+            position: relative;
+            z-index: 0;
+            left: 40%;
+        }
+    }
+
+    & .MuiPopover-paper {
+        overflow: visible;
+    }
+
+    & .content {
+        padding-right: 20px;
+        width: 100%;
+    }
+
+    & .content-outer-wrapper {
+        padding: 15px 5px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 20px;
+        height: 60vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    & .title-icon-outer-wrapper {
+        border-radius: 30px;
+        margin-right: -15px;
+        margin-left: -15px;
+        &:hover {
+            background-color: $CALENDAR_EVENT_TITLE_WRAPPER_HOVER_BG_COLOR;
+            cursor: pointer;
+        }
+    }
+
+    & .title-icon-wrapper {
+        border-radius: 100%;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 42px;
+        min-width: 42px;
+        background: $CALENDAR_EVENT_MODAL_ICON_WRAPPER_COLOR;
+        box-shadow: rgba(0, 0, 0, 0.15) 3px 2.4px 6.5px;
+    }
+
+    & .icon {
+        font-size: 18px;
+    }
+
+    & .title-wrapper {
+        display: flex;
+        border-radius: 6px;
+        padding: 1px;
+        align-items: center;
+        width: 100%;
+        color: $CALENDAR_EVENT_MODAL_FONT_COLOR;
+    }
+
+    & .title {
+        font-size: 20px;
+        font-weight: 600;
+        padding: 0 0 0 10px;
+        flex-basis: calc(100% - 50px);
+        text-align: left;
+        text-wrap: wrap;
+    }
+
+    & .time-label {
+        color: $CALENDAR_EVENT_MODAL_FONT_COLOR;
+        text-align: left;
+        padding: 0 5px;
+    }
+
+    & .icon-wrapper-location-pin {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    & .icon-location-pin {
+        width: 38px;
+        height: 38px;
+        color: $CALENDAR_EVENT_MODAL_ICON_LOCATION_PIN_COLOR;
+        position: relative;
+        left: 1px;
+
+        &.none {
+            color: transparent;
+            // left: 24px;
+        }
+
+        &.digit1 {
+            // left: 24px;
+        }
+
+        &.digit2 {
+            // left: 2px;
+        }
+
+        &.digit3 {
+            // left: 33px;
+        }
+    }
+
+    & .event-number {
+        font-size: 14px;
+        font-weight: 500;
+        position: relative;
+        right: 23px;
+        bottom: 1px;
+        color: $CALENDAR_EVENT_MODAL_ICON_LOCATION_PIN_FONT_COLOR;
+
+        &.none {
+            right: 22px;
+            visibility: hidden;
+        }
+
+        &.digit1 {
+            right: 22px;
+        }
+
+        &.digit2 {
+            right: 26px;
+        }
+
+        &.digit3 {
+            right: 27px;
+            font-size: 10px;
+        }
+    }
+
+    & .icon-wrapper-x-mark {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        right: 50px;
+        top: 45px;
+    }
+
+    & .icon-x-mark {
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        color: $CALENDAR_EVENT_MODAL_X_MARK_FONT_COLOR;
+    }
+
+    & .content-wrapper {
+        display: flex;
+        align-items: start;
+    }
+
+    & .icon-wrapper-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    & .icon-content {
+        width: 19px;
+        height: 19px;
+    }
+
+    & .title-content-wrapper {
+        padding: 1px;
+        width: 100%;
+        padding-left: 10px;
+    }
+
+    .icon-chevron-down {
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    & .title-content-wrapper.title-user-content-wrapper {
+        padding-left: 5px;
+    }
+
+    & .title-content {
+        font-size: 14px;
+        font-weight: 400;
+        padding: 0 0 0 10px;
+        text-align: left;
+        color: $CALENDAR_EVENT_CONTENT_FONT_COLOR;
+        text-wrap: wrap;
+    }
+
+    & .tool-bar-wrapper {
+        display: flex;
+        column-gap: 3px;
+        justify-content: flex-end;
+    }
+
+    & .tool-bar-icon-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    & .icon-tool-bar {
+        width: 18px;
+        height: 18px;
+    }
+
+    & .title-map-location {
+        margin-left: 7px;
+    }
+
+    & .content-time-label {
+    }
+
+    & .content-user {
+        row-gap: 10px;
+    }
+
+    & .icon-x-mark-btn {
+        width: 20px;
+        height: 20px;
+    }
+
+    .google-map {
+        min-width: 100px;
+    }
+
+    .google-map-wrapper {
+        padding: 10px 10px 10px 0;
+    }
+
+    .modal-select-box {
+        margin-right: 16px;
+    }
+
+    textarea {
+        margin-right: 16px;
+        width: auto;
+    }
+
+    .map-location-btn {
+        margin-right: 8px;
+    }
+
+    .modal-select-box-timezone {
+        margin-right: 20px;
+    }
+
+    .time-zone-datetime-explain .title-content {
+        font-weight: 500;
+    }
+
+    .title-input {
+        margin-left: 15px;
+    }
+
+    .save-btn-wrapper {
+        position: absolute;
+        background-color: white;
+        top: calc(100% - 60px);
+        z-index: 200;
+        width: 95%;
+        left: 0;
+    }
+
+    .photo-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 10px 0 6px;
+    }
+
+    .photo-list {
+        row-gap: 10px;
+        column-gap: 10px;
+    }
+
+    .photo-item {
+        border-radius: 10px;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            transition: all 0.8s 0s ease;
+        }
+    }
+
+    .photo-item-add {
+        border-radius: 10px;
+        background-color: $CALENDAR_EVENT_PHOTO_BG_COLOR;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            // border: 1px solid $CALENDAR_EVENT_PHOTO_BORDER_COLOR;
+            background-color: $CALENDAR_EVENT_PHOTO_HOVER_BG_COLOR;
+            transition: all 0.8s 0s ease;
+
+            path {
+                fill: $CALENDAR_EVENT_PHOTO_HOVER_FONT_COLOR;
+            }
+        }
+    }
+
+    .text-explain {
+        font-size: 14px;
+        font-weight: 500;
+        padding: 0 0 0 5px;
+        text-align: left;
+        color: $CALENDAR_EVENT_CONTENT_FONT_COLOR;
+        text-wrap: wrap;
+    }
+    .user-select-box {
+        padding: 5px 0;
+    }
+
+    .photo {
+        margin-bottom: 30px;
+    }
+
+}
+
+.title-content.title-user-content {
+    padding: 0 0 0 15px;
+    color: $CALENDAR_EVENT_MODAL_USER_SELECT_FONT_COLOR;
+    font-size: 14px;
+}
+
+#modal-users-select {
+    .title-content-wrapper.title-user-content-wrapper {
+        background-color: $CALENDAR_EVENT_MODAL_USER_SELECT_ITEM_BG_COLOR;
+        border-radius: 20px;
+        padding: 5px 10px;
+    }
+}
+
+.travel-mode-wrapper {
+    padding-left: 24px;
+}
+
+.travel-mode-icon-btn.MuiButtonBase-root.MuiIconButton-root {
+    background-color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_BG_COLOR;
+    border-radius: 100%;
+    width: 34px;
+    height: 34px;
+    &.active {
+        background-color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_ACTIVE_BG_COLOR;
+    }
+
+    .icon-travel-mode {
+        width: 16px;
+        height: 16px;
+        color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_ICON_COLOR;
+        &.active {
+            background-color: $CALENDAR_EVENT_MODAL_TRAVEL_MODE_ACTIVE_ICON_COLOR;
+        }
+    }
+}
+
+.icon-circle-dot {
+    background-color: $CALENDAR_EVENT_MODAL_ICON_CIRCLE_DOT_BG_COLOR;
+    border-radius: 100%;
+}
+
+.icon-ellipses {
+    transform: rotate(90deg);
+}

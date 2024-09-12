@@ -1,0 +1,18 @@
+// variables------------------
+$CALENDAR_WEEK_HEADER_WEEKDAY_COLOR: #868686;
+$CALENDAR_WEEK_HEADER_DAY_COLOR: #000000;
+// ---------------------------
+
+.calendar-week {
+    &-weekday {
+        color: $CALENDAR_WEEK_HEADER_WEEKDAY_COLOR;
+        font-size: 12px;
+        font-weight: 100;
+    }
+    &-day {
+        color: $CALENDAR_WEEK_HEADER_DAY_COLOR;
+        font-weight: 600;
+        font-size: 15px;
+        padding-top: 2px;
+    }
+}

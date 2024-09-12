@@ -6,8 +6,9 @@ fi
 rm -rf ./src/front/.* 2>&1 > /dev/null
 rm -rf ./src/front/* 2>&1 > /dev/null 
 
-docker-compose run node npx create-next-app /var/www/front
+# docker-compose run node npx create-next-app /var/www/front
+docker-compose run node npm install next@13.4.7 react@latest react-dom@latest  /var/www/front
 docker-compose run node npm --cwd /var/www/front run dev
 
-touch ./src/front/.gitkeep
+# touch ./src/front/.gitkeep
 # Gitのサブモジュールをインストールしたい

@@ -1,0 +1,17 @@
+.my-home {
+    .home-title {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .event-card-list {
+        padding: 8px 10px 20px;
+    }
+
+    .google-map-area {
+        height: 500px;
+        > div > div {
+            border-radius: 12px;
+        }
+    }
+}

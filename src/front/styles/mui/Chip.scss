@@ -1,0 +1,19 @@
+// variables------------------
+$CHIP_BG_COLOR: #FFFFFF;
+$CHIP_FONT_COLOR: #878686;
+$CHIP_DELETE_ICON_BG_COLOR: #EBE8E8;
+$CHIP_DELETE_ICON_FONT_COLOR: #A2A2A2;
+// ---------------------------
+
+
+// mui button customize------
+.mui-customize {
+    &.MuiChip-root.MuiChip-filled {
+        background-color: $CHIP_BG_COLOR;
+        color: $CHIP_FONT_COLOR;
+    }
+    .MuiChip-deleteIcon {
+        color: $CHIP_DELETE_ICON_BG_COLOR;
+    }
+}
+// ---------------------------

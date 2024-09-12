@@ -1,0 +1,41 @@
+// variables------------------
+$QUILL_BG_COLOR: #F6F5F5;
+$QUILL_TOOLBAR_BG_COLOR: #fbfafa;
+// ---------------------------
+
+.quill {
+    border-radius: 5px;
+}
+
+.ql-toolbar.ql-snow {
+    border-radius: 5px 5px 0 0;
+    border: 0 !important;
+    background-color: $QUILL_TOOLBAR_BG_COLOR;
+}
+
+.ql-editor {
+    border-radius: 0 0 5px 5px;
+    background-color: $QUILL_BG_COLOR;
+    min-height: 150px;
+}
+
+.ql-container.ql-snow {
+    border: 0 !important;
+    background-color: $QUILL_BG_COLOR;
+    border-radius: 0 0 5px 5px;
+}
+
+.ql-editor p,
+.ql-editor ol,
+.ql-editor ul,
+.ql-editor pre,
+.ql-editor blockquote,
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6 {
+    word-wrap: break-word;
+    word-break: break-all;
+}
