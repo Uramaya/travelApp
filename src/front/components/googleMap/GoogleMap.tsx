@@ -37,9 +37,7 @@ const GoogleMapArea = ({
     const [markerRef, marker] = useAdvancedMarkerRef()
 
     const onClickMarker = (e: google.maps.MapMouseEvent, eventInfo: EventInfo): void => {
-        console.log('onClickMarker', e)
-        console.log('onClickMarker info', eventInfo)
-      }
+    }
 
     const calendarEventsAdvanceMarkers = (): JSX.Element => {
         return <>{events.map((event) => {

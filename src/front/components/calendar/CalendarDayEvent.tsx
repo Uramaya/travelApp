@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faLocationPin } from "@fortawesome/free-solid-svg-icons"
 import '@/styles/calendar/CalendarDayEvent.scss'

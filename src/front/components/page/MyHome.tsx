@@ -2,22 +2,13 @@
 import { useEffect, useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, useAppSelector } from "@/stores/store"
-import { setEvents,addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
-import { getEvents, getCurrentUserAllEvents, createEvent, updateEventsById, deleteEventsById } from "@/app/api/events"
+import { setEvents } from "@/stores/features/event"
+import { getEvents, getCurrentUserAllEvents, createEvent } from "@/app/api/events"
 import { EventInfo } from '@/types'
-import { useRouter } from 'next/router'
-import Calendar from "@/components/calendar/Calendar"
-import GlobalToolBar from "@/components/common/GlobalToolBar"
 import GoogleMap from "@/components/googleMap/GoogleMap"
-import Button from '@mui/material/Button'
-import useCalendarEventList from '@/hooks/calendarEventListHook'
-import useCalendar from '@/hooks/calendarHook'
-import useCalendarEventPopoverHook from '@/hooks/calendarEventPopoverHook'
 import EventCard from '@/components/mui/EventCard'
 import { INIT_EVENT_INFO } from '@/const'
-import FormControl from '@mui/material/FormControl'
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import '@/styles/MyHome.scss'
 import AddTripBtn from '@/components/common/AddTripBtn'
 import GlobalHeader from "@/components/common/GlobalHeader"

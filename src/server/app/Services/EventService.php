@@ -252,10 +252,7 @@ class EventService implements EventRepository
         $userEvents = $this->getCurrentUserEvents();
         $authorEvents = $this->getCurrentAuthorEvents();
         $userEventsList = $userEvents->get()->map(function ($event) {
-            $location = null;
-            if ($event['location_id']) {
-                $location = Location::where('id', '=', (int)$event['location_id'])->first();
-            }
+            $location = $event->locations()->first();
             $event['location'] = (object)[
                 'id' => $location['id'],
                 'google_map_json' => json_decode($location['google_map_json']),
@@ -263,10 +260,7 @@ class EventService implements EventRepository
             return $event;
         })->toArray();
         $authorEventsList = $authorEvents->get()->map(function ($event) {
-            $location = null;
-            if ($event['location_id']) {
-                $location = Location::where('id', '=', (int)$event['location_id'])->first();
-            }
+            $location = $event->locations()->first();
             $event['location'] = (object)[
                 'id' => $location['id'],
                 'google_map_json' => json_decode($location['google_map_json']),

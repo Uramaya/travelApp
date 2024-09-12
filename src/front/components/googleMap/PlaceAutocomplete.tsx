@@ -67,7 +67,6 @@ const PlaceAutocomplete = ({
           id: modalEventInfo.location.id || 0,
           google_map_json: googleMapJson,
         }
-        console.log("modalInfo", modalInfo)
         setModalEventInfo({
           ...modalInfo
         })

@@ -1,13 +1,13 @@
 'use client'
-import { useMemo, useCallback, useEffect, useState, useRef } from 'react'
-import { Calendar as BigCalendar, momentLocalizer, EventProps, Views, SlotInfo, Navigate } from 'react-big-calendar'
+import { useMemo, useCallback } from 'react'
+import { Calendar as BigCalendar, momentLocalizer, EventProps, Views, SlotInfo } from 'react-big-calendar'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 
 import '@/styles/calendar/Calendar.scss'
 
-import { CalendarView, EventInfo, CalendarProps } from '@/types'
+import { EventInfo, CalendarProps } from '@/types'
 
 import CalendarToolBar from '@/components/calendar/CalendarToolBar'
 import CalendarDayEvent from '@/components/calendar/CalendarDayEvent'
@@ -28,13 +28,10 @@ const Calendar = ({
   events,
   height,
   width,
-  screenWidth,
-  screenHeight,
   setDate,
   setView,
   onNavigate,
   onView,
-  onTodayClick,
   onNextClick,
   onPrevClick,
   openCalendarEventModal,
@@ -43,14 +40,8 @@ const Calendar = ({
   setModalEventInfo,
   onOpenModal,
   onCloseModal,
-  onClickAddPhoto,
-  onUploadPhoto,
   onSave,
   allUsers,
-  popoverId,
-  popoverAnchorEl,
-  setPopoverAnchorEl,
-  popoverOpen,
   onClickPopoverBtn,
   onClosePopover,
   eventItem,

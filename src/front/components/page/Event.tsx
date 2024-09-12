@@ -1,18 +1,17 @@
 "use client"
 import { useEffect, useCallback, useState } from 'react'
-import { useDispatch, createSelectorHook } from 'react-redux'
-import { useAppSelector, useAppDispatch } from '@/stores/hooks'
-import { setCalendarEvents, addCalendarEvents, updateCalendarEvents, deleteCalendarEvents } from "@/stores/features/calendar"
+import { useDispatch } from 'react-redux'
+import { useAppSelector } from '@/stores/hooks'
+import { setCalendarEvents } from "@/stores/features/calendar"
 import { getCalenderEvents, createOrUpdateCalenderEvents, deleteCalenderEventsById } from "@/app/api/calendarEvents"
-import { getEvents, getEventById, createEvent, updateEventsById, updateEventTitleById, deleteEventsById } from "@/app/api/events"
-import { setEvents, addEvents, updateEvents, deleteEvents } from "@/stores/features/event"
+import { getEvents, getEventById, updateEventsById, updateEventTitleById, deleteEventsById } from "@/app/api/events"
+import { setEvents } from "@/stores/features/event"
 import { RootState } from '@/stores/store'
 import { AppDispatch } from "@/stores/store"
 import Calendar from "@/components/calendar/Calendar"
 import GlobalToolBar from "@/components/common/GlobalToolBar"
 import ConfirmModal from "@/components/common/ConfirmModal"
 import GoogleMap from "@/components/googleMap/GoogleMap"
-import Button from '@mui/material/Button'
 import useCalendar from '@/hooks/calendarHook'
 import useCalendarEventList from '@/hooks/calendarEventListHook'
 import useCalendarEventModal from '@/hooks/calendarEventModalHook'
@@ -54,7 +53,6 @@ const Event = ({ id }: { id: string }) => {
         onCloseModal,
         onClickAddPhoto,
         onUploadPhoto,
-        // onSave,
         isCommerce,
         setIsCommerce,
     } = useCalendarEventModal(INIT_CALENDAR_MODAL_EVENT_INFO)
@@ -235,7 +233,7 @@ const Event = ({ id }: { id: string }) => {
 
     const googleMap = () => {
         return <div className='event-google-map'>
-            {/* <GoogleMap events={calendarEvents}/> */}
+            <GoogleMap events={calendarEvents}/>
         </div>
     }
 

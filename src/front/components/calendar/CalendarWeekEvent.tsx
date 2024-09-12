@@ -32,10 +32,6 @@ const CalendarWeekEvent = ({
         else return 'none'
     }
 
-    // useEffect(() => {
-    //     setLabel(getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end }))
-    // }, [eventInfo])
-
     // create dynamic time label jsx element(hh:mm A - hh:mm A)
     const timeLabel = useCallback((): JSX.Element => {
         if (label && !eventInfo.is_all_day) return <div className='time-label'>{getCalendarEventTimeLabel({ start: eventInfo.start, end: eventInfo.end })}</div>

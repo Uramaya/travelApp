@@ -10,9 +10,6 @@ import { INIT_CALENDAR_MODAL_EVENT_INFO } from '@/const'
 const CalendarEventAddBtn = ({
     openCalendarEventModal,
     setOpenCalendarEventModal,
-    setModalEventInfo,
-    onSave,
-    allUsers,
     onOpenModal,
     onCloseModal,
     eventItem,
@@ -35,10 +32,6 @@ const CalendarEventAddBtn = ({
             index: events.length + 1,
         }
         onOpenModal(eventInitInfo)
-    }, [openCalendarEventModal, setOpenCalendarEventModal, eventItem])
-
-    const onClose = useCallback(() => {
-        onCloseModal()
     }, [openCalendarEventModal, setOpenCalendarEventModal, eventItem])
 
     if (!openCalendarEventModal) return (

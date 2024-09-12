@@ -1,6 +1,5 @@
-import { useMemo, useCallback, useEffect, useState } from 'react'
-import { EventList, EventListItem } from '@/types'
-import { EVENT_DETAIL } from '@/const/calendarEventList'
+import { useState } from 'react'
+import { EventListItem } from '@/types'
 
 // the calendar event modal control hook
 const useCalendarEventList = () => {
