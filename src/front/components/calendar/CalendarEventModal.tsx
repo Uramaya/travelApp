@@ -1,28 +1,22 @@
-import { useCallback, useState, useRef, useEffect } from "react"
-import { EventInfo, EventInfoKeys, UserInfo, EventTypeInfo, LocationsComponent } from '@/types'
+import { useCallback, useState, useEffect } from "react"
+import { EventInfo, UserInfo, EventTypeInfo } from '@/types'
 import '@/styles/calendar/CalendarEventModal.scss'
 import '@/styles/Quill.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXmark, faLocationPin, faClock, faLocationDot, faUsers, faAlignLeft, faCircleDot, faMapLocationDot, faEnvelope, faLightbulb, faTrashCan, faCopy, faPlus, faCar, faTrain, faWalking , faBicycle, faEllipsis } from "@fortawesome/free-solid-svg-icons"
-import { numDigits, getCalendarEventPopoverTimeLabel, getUserInfoById } from '@/utils/utils'
+import { faXmark, faLocationPin, faLocationDot, faUsers, faAlignLeft, faCircleDot, faEnvelope, faLightbulb, faTrashCan, faCopy, faPlus, faCar, faTrain, faWalking , faBicycle, faEllipsis } from "@fortawesome/free-solid-svg-icons"
+import { numDigits } from '@/utils/utils'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
 import IconDefaultUser from '@/components/icon/IconDefaultUser'
 import Switch from '@/components/mui/Switch'
-import Textarea from '@/components/mui/Textarea'
 import FormControl from '@mui/material/FormControl'
-import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-import { All_USERS, GMT_OPTIONS, toolbarOptions } from '@/const'
-import { getCountryFlagSVGByTimeZoneName, getCalendarEventDateTimeModalLabel } from '@/utils/utils'
+import { GMT_OPTIONS, toolbarOptions } from '@/const'
+import { getCountryFlagSVGByTimeZoneName } from '@/utils/utils'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import IconChevronDownForMuiSelect from '@/components/icon/IconChevronDownForMuiSelect'
-import GoogleMapAutoComplete from "@/components/googleMap/GoogleMapAutoComplete"
-import Menu from '@mui/material/Menu'
-import Popover from '@mui/material/Popover'
 import CalendarEventTypeMenu from '@/components/calendar/CalendarEventTypeMenu'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -33,7 +27,6 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import Chip from '@mui/material/Chip'
 import Avatar from '@mui/material/Avatar'
-import Stack from '@mui/material/Stack'
 import dayjs, { Dayjs } from 'dayjs'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
@@ -45,33 +38,19 @@ import GoogleMapsLinkRoute from "@/components/googleMap/GoogleMapsLinkRoute"
 import {
   APIProvider,
   Map,
-  Marker,
   AdvancedMarker,
-  Pin,
-  InfoWindow,
   useAdvancedMarkerRef,
-  useMap,
-  useMapsLibrary,
   ControlPosition,
   MapControl,
-  // GoogleMap,
-  // useLoadScript,
 } from '@vis.gl/react-google-maps'
-import {
-  Autocomplete,
-  GoogleMap,
-  useLoadScript,
-} from '@react-google-maps/api'
 import '@/styles/googleMap/GoogleMap.scss'
 
 const CalendarEventModal = ({
   modalEventInfo,
   openCalendarEventModal,
-  setOpenCalendarEventModal,
   setModalEventInfo,
   onSave,
   allUsers,
-  onOpenModal,
   onCloseModal,
   calendarEventTypeMenuList,
   onDeleteModal,
@@ -81,11 +60,9 @@ const CalendarEventModal = ({
 }: {
   modalEventInfo: EventInfo,
   openCalendarEventModal: boolean,
-  setOpenCalendarEventModal: React.Dispatch<React.SetStateAction<boolean>>,
   setModalEventInfo: React.Dispatch<React.SetStateAction<EventInfo | null>>,
   onSave: () => void,
   allUsers: UserInfo[]
-  onOpenModal: (eventInfo?: EventInfo) => void,
   onCloseModal: () => void,
   calendarEventTypeMenuList: EventTypeInfo[],
   onDeleteModal: (id: number) => void,
@@ -191,10 +168,6 @@ const CalendarEventModal = ({
 
   const onClickEventTypeBtn = useCallback(() => {
     setOpenEventTypeMenu(true)
-  }, [openEventTypeMenu, setOpenEventTypeMenu])
-
-  const onCloseEventTypeMenu = useCallback(() => {
-    setOpenEventTypeMenu(false)
   }, [openEventTypeMenu, setOpenEventTypeMenu])
 
   // dynamic class name of the event-number

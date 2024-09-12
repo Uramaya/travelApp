@@ -1,5 +1,5 @@
 import {useMap, useMapsLibrary} from '@vis.gl/react-google-maps'
-import React, {Dispatch, SetStateAction, useEffect, useState} from 'react'
+import {Dispatch, SetStateAction, useEffect, useState} from 'react'
 import { EventInfo } from '@/types'
 
 interface MapDirectionProps {
@@ -18,9 +18,7 @@ interface MapDirectionProps {
 const MapDirection = ({
     selectedStartPlace,
     selectedEndPlace,
-    isCommerce,
     routeIndex,
-    setRouteIndex,
     routes,
     setRoutes,
     travelMode,
@@ -31,7 +29,7 @@ const MapDirection = ({
     const routesLibrary = useMapsLibrary("routes")
     const [directionService, setDirectionService] = useState<google.maps.DirectionsService>()
     const [directionRenderer, setDirectionRenderer] = useState<google.maps.DirectionsRenderer>()
-    const selectedRoute = routes[routeIndex]
+    // const selectedRoute = routes[routeIndex]
 
     useEffect(() => {
       if (!routesLibrary || !map) return

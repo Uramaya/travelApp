@@ -1,13 +1,9 @@
-import { JSXElementConstructor, useEffect, useCallback, useState } from 'react'
-import Box from '@mui/material/Box'
 import '@/styles/mui/switch.scss'
 import { styled } from '@mui/material/styles'
 import Switch, { SwitchProps } from '@mui/material/Switch'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import { colors } from '@mui/material'
 const SWITCH_INACTIVE_BG_COLOR = '#A2A2A2'
 const SWITCH_ACTIVE_BG_COLOR = '#E8FAFF'
-const SWITCH_LABEL_FONT_COLOR = '#B4B3B3'
 const IOSSwitch = styled((props: SwitchProps) => (
     <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
 ))(({ theme }) => ({

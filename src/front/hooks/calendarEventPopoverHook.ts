@@ -1,6 +1,4 @@
-import { useMemo, useCallback, useEffect, useState } from 'react'
-import { EventInfo, CalendarView, CalendarInfo } from '@/types'
-import moment from 'moment'
+import { useCallback, useState } from 'react'
 
 // the calendar event modal control hook
 const useCalendarEventPopoverHook = () => {

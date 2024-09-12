@@ -36,8 +36,6 @@ const GoogleMapAutoComplete = ({
     const [location, setLocation] = useState(null);
 
     const onClickMarker = (e: google.maps.MapMouseEvent, info: string): void => {
-        console.log('onClickMarker', e)
-        console.log('onClickMarker info', info)
     }
 
     const [selectedPlace, setSelectedPlace] =
@@ -55,17 +53,6 @@ const GoogleMapAutoComplete = ({
                 mapId={process.env.NEXT_PUBLIC_MAP_ID}
                 disableDefaultUI={true}
             >
-                {/* <AdvancedMarker
-                    position={position}
-                    title='Tokyo Tower'
-                    onClick={(e) => { onClickMarker(e, "custom info") }}
-                    ref={markerRef}
-                >
-                    <div className='google-map-pin'>
-                        <FontAwesomeIcon className='google-map-pin-icon' icon={faLocationPin} color="#D84949" />
-                        <div className='google-map-pin-num'>1</div>
-                    </div>
-                </AdvancedMarker> */}
                 <AdvancedMarker ref={markerRef} position={null} />
             </Map>
             <MapControl position={ControlPosition.LEFT_TOP}>

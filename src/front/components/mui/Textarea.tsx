@@ -1,5 +1,3 @@
-import { JSXElementConstructor, useEffect, useCallback, useState } from 'react'
-import Box from '@mui/material/Box'
 import '@/styles/mui/switch.scss'
 import { styled } from '@mui/material/styles'
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize'

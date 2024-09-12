@@ -1,7 +1,6 @@
 "use client"
-import { JSXElementConstructor, useEffect, useCallback, useState } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faLeftLong, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import Box from '@mui/material/Box'
 import '@/styles/GlobalHeader.scss'
 import FormControl from '@mui/material/FormControl'
