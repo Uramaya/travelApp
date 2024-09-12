@@ -79,6 +79,4 @@ travelapp-node-1         travelapp-node          "docker-entrypoint.s…"   node
 travelapp-php-1          travelapp-php           "docker-php-entrypoi…"   php          2 months ago   Up 2 minutes   9000/tcp
 travelapp-phpmyadmin-1   phpmyadmin/phpmyadmin   "/docker-entrypoint.…"   phpmyadmin   2 months ago   Up 2 minutes   0.0.0.0:18080->80/tcp
 ```
-### Clean install Laravel and Next.js application
-If your src/server or src/front directory is empty except for .gitkeep file, you can install laravel or next.js application.
-Notice that you have already set up those application which is managed by another repository, you should not do this opparation because this destroys existing project settings.
+
