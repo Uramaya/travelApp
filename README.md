@@ -3,6 +3,12 @@
 ## Video
 [![Video Title](https://img.youtube.com/vi/gXgfhjLOjI0/maxresdefault.jpg)](https://www.youtube.com/watch?v=gXgfhjLOjI0)
 
+## UIUX
+[Figma](https://www.figma.com/design/oXaC92QqYabU3INLa2dUFf/TravelApp-UI?node-id=0-1&t=KpvH7zeYNe7g9LAG-1)
+
+## ER Diagram
+[Figma](https://www.figma.com/design/WSt2KCZpmwcoXe4g6eVHpu/ER-Diagram?node-id=0-1&t=9XFi54P8nGBOGn7k-1)
+
 ## Skill
 - Front-end: Next.js / React.js
 - Css library: Mui
